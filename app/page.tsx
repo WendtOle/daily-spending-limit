@@ -25,7 +25,6 @@ export default function Home() {
             type="button"
             className="rounded-lg text-sm px-5 border border-gray-300 disabled:border-gray-100 disabled:text-gray-200"
             onClick={() => setShowAdvanced((cur) => !cur)}
-            disabled={startBudget !== 0 || budgetOffset !== 0}
           >
             {showAdvanced ? "Hide advanced" : "Advanced"}
           </button>
