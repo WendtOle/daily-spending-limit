@@ -3,7 +3,7 @@ import { lastDayOfMonth } from "./lastDayOfMonth";
 
 interface ResultsProps {
   currentBudget: number;
-  startBudget: number;
+  startBudget: number | undefined;
   budgetOffset: number;
 }
 
@@ -13,11 +13,16 @@ export default function Results({
   budgetOffset,
 }: ResultsProps) {
   const actualCurrentBudget = currentBudget - budgetOffset;
-  const actualStartBudget = startBudget - budgetOffset;
-  const idealDSL = actualStartBudget / lastDayOfMonth();
+  const actualStartBudget = startBudget
+    ? startBudget - budgetOffset
+    : undefined;
+  const idealDSL = actualStartBudget
+    ? actualStartBudget / lastDayOfMonth()
+    : undefined;
   const days = dayToEndOfMonth();
-  const daysToGiveOutNothingToReturnToIdeal =
-    days - actualCurrentBudget / idealDSL;
+  const daysToGiveOutNothingToReturnToIdeal = idealDSL
+    ? days - actualCurrentBudget / idealDSL
+    : undefined;
 
   if (actualCurrentBudget < 0) {
     return null;
@@ -38,25 +43,28 @@ export default function Results({
           <p>current DSL: </p>
           <p>{Math.floor(actualCurrentBudget / days)} €/d</p>
         </div>
-        <div className="flex justify-between">
-          <p>ideal DSL: </p>
-          <p>{Math.floor(idealDSL)} €/d</p>{" "}
-        </div>
+        {idealDSL && (
+          <div className="flex justify-between">
+            <p>ideal DSL: </p>
+            <p>{Math.floor(idealDSL)} €/d</p>{" "}
+          </div>
+        )}
       </div>
 
-      {daysToGiveOutNothingToReturnToIdeal > 0 && (
-        <div className="pt-4">
-          <p className="text-center text-orange-700">
-            You have spend more than the ideal DSL!
-          </p>
-          <p>To reclaim the ideal DSL:</p>
-          <ul className="ml-8 list-disc">
-            <li>
-              {Math.ceil(daysToGiveOutNothingToReturnToIdeal)} d & DSL= 0 €/d
-            </li>
-          </ul>
-        </div>
-      )}
+      {daysToGiveOutNothingToReturnToIdeal &&
+        daysToGiveOutNothingToReturnToIdeal > 0 && (
+          <div className="pt-4">
+            <p className="text-center text-orange-700">
+              You have spend more than the ideal DSL!
+            </p>
+            <p>To reclaim the ideal DSL:</p>
+            <ul className="ml-8 list-disc">
+              <li>
+                {Math.ceil(daysToGiveOutNothingToReturnToIdeal)} d & DSL= 0 €/d
+              </li>
+            </ul>
+          </div>
+        )}
     </div>
   );
 }

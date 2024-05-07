@@ -5,12 +5,10 @@ import { getDate } from "./getDate";
 import Results from "./Results";
 
 export default function Home() {
-  const [startBudget, setStartBudget] = useState<number>(0);
+  const [startBudget, setStartBudget] = useState<number | undefined>();
 
-  const [currentBudget, setCurrentBudget] = useState<number | undefined>(
-    undefined
-  );
-  const [budgetOffset, setBudgetOffset] = useState<number>(0);
+  const [currentBudget, setCurrentBudget] = useState<number | undefined>();
+  const [budgetOffset, setBudgetOffset] = useState<number | undefined>();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
   useEffect(() => {
@@ -79,7 +77,7 @@ export default function Home() {
       <Results
         currentBudget={currentBudget ?? 0}
         startBudget={startBudget}
-        budgetOffset={budgetOffset}
+        budgetOffset={budgetOffset ?? 0}
       />
     </main>
   );
