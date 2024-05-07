@@ -6,7 +6,6 @@ import Results from "./Results";
 
 export default function Home() {
   const [startBudget, setStartBudget] = useState<number | undefined>();
-
   const [currentBudget, setCurrentBudget] = useState<number | undefined>();
   const [budgetOffset, setBudgetOffset] = useState<number | undefined>();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
@@ -30,13 +29,20 @@ export default function Home() {
     setStartBudget(value);
     localStorage.setItem("startBudget", value.toString());
   };
-  const handleCurrentBudgetChange = (value: number) => {
-    setCurrentBudget(value);
-    localStorage.setItem("currentBudget", value.toString());
-  };
   const handleBudgetOffsetChange = (value: number) => {
     setBudgetOffset(value);
     localStorage.setItem("budgetOffset", value.toString());
+  };
+
+  const handleCurrentBudgetChange = (value: number) => {
+    const rawHistory = localStorage.getItem("history");
+    const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
+    localStorage.setItem(
+      "history",
+      JSON.stringify({ ...history, [getDate()]: currentBudget })
+    );
+    setCurrentBudget(value);
+    localStorage.setItem("currentBudget", value.toString());
   };
 
   return (
