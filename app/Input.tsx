@@ -1,6 +1,6 @@
 interface InputProps {
   label: string;
-  value: number;
+  value: number | undefined;
   setValue: (newValue: number) => void;
 }
 export default function Input({ label, value, setValue }: InputProps) {

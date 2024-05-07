@@ -5,10 +5,31 @@ import { getDate } from "./getDate";
 import Results from "./Results";
 
 export default function Home() {
-  const [startBudget, setStartBudget] = useState<number>(1200);
-  const [currentBudget, setCurrentBudget] = useState<number | undefined>(1005);
-  const [budgetOffset, setBudgetOffset] = useState<number>(500);
+  const [startBudget, setStartBudget] = useState<number>(
+    +(localStorage.getItem("startBudget") || 0)
+  );
+
+  const localStorageCurrentBudget = localStorage.getItem("currentBudget");
+  const [currentBudget, setCurrentBudget] = useState<number | undefined>(
+    localStorageCurrentBudget ? +localStorageCurrentBudget : undefined
+  );
+  const [budgetOffset, setBudgetOffset] = useState<number>(
+    +(localStorage.getItem("budgetOffset") || 0)
+  );
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+
+  const handleStartBudgetChange = (value: number) => {
+    setStartBudget(value);
+    localStorage.setItem("startBudget", value.toString());
+  };
+  const handleCurrentBudgetChange = (value: number) => {
+    setCurrentBudget(value);
+    localStorage.setItem("currentBudget", value.toString());
+  };
+  const handleBudgetOffsetChange = (value: number) => {
+    setBudgetOffset(value);
+    localStorage.setItem("budgetOffset", value.toString());
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center p-12">
@@ -18,7 +39,7 @@ export default function Home() {
         <Input
           label="Budget"
           value={currentBudget ?? 0}
-          setValue={setCurrentBudget}
+          setValue={handleCurrentBudgetChange}
         />
         <div className="flex items-center w-full m-2">
           <button
@@ -34,12 +55,12 @@ export default function Home() {
             <Input
               label="Budget offset"
               value={budgetOffset}
-              setValue={setBudgetOffset}
+              setValue={handleBudgetOffsetChange}
             />
             <Input
               label="Start budget"
               value={startBudget}
-              setValue={setStartBudget}
+              setValue={handleStartBudgetChange}
             />
           </>
         )}
