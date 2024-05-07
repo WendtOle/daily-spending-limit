@@ -1,22 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "./Input";
 import { getDate } from "./getDate";
 import Results from "./Results";
 
 export default function Home() {
-  const [startBudget, setStartBudget] = useState<number>(
-    +(localStorage.getItem("startBudget") || 0)
-  );
+  const [startBudget, setStartBudget] = useState<number>(0);
 
-  const localStorageCurrentBudget = localStorage.getItem("currentBudget");
   const [currentBudget, setCurrentBudget] = useState<number | undefined>(
-    localStorageCurrentBudget ? +localStorageCurrentBudget : undefined
+    undefined
   );
-  const [budgetOffset, setBudgetOffset] = useState<number>(
-    +(localStorage.getItem("budgetOffset") || 0)
-  );
+  const [budgetOffset, setBudgetOffset] = useState<number>(0);
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+
+  useEffect(() => {
+    const localStorageCurrentBudget = localStorage.getItem("currentBudget");
+    if (localStorageCurrentBudget) {
+      setCurrentBudget(+localStorageCurrentBudget);
+    }
+    const localStorageStartBudget = localStorage.getItem("startBudget");
+    if (localStorageStartBudget) {
+      setStartBudget(+localStorageStartBudget);
+    }
+    const localStorageBudgetOffset = localStorage.getItem("budgetOffset");
+    if (localStorageBudgetOffset) {
+      setBudgetOffset(+localStorageBudgetOffset);
+    }
+  }, []);
 
   const handleStartBudgetChange = (value: number) => {
     setStartBudget(value);
