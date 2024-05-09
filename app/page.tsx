@@ -47,23 +47,16 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-12">
-      <h1 className="text-3xl text-center">Daily spending limit (DSL)</h1>
+      <h1 className="text-3xl text-center uppercase tracking-tighter">
+        Daily spending limit (DSL)
+      </h1>
       <h2 className="text-2xl mt-2">{getDate()}</h2>
       <div className="mt-4">
         <Input
-          label="Budget"
+          label="Current budget"
           value={currentBudget ?? 0}
           setValue={handleCurrentBudgetChange}
         />
-        <div className="flex items-center w-full m-2">
-          <button
-            type="button"
-            className="rounded-lg text-sm px-5 border border-gray-300 disabled:border-gray-100 disabled:text-gray-200"
-            onClick={() => setShowAdvanced((cur) => !cur)}
-          >
-            {showAdvanced ? "Hide advanced" : "Advanced"}
-          </button>
-        </div>
         {showAdvanced && (
           <>
             <Input
@@ -78,6 +71,13 @@ export default function Home() {
             />
           </>
         )}
+        <button
+          type="button"
+          className="w-full mt-4 p-1 rounded-lg text-sm px-5 border border-gray-300 disabled:border-gray-100 disabled:text-gray-200 text-base"
+          onClick={() => setShowAdvanced((cur) => !cur)}
+        >
+          {showAdvanced ? "Hide advanced" : "Show advanced"}
+        </button>
       </div>
 
       <Results
