@@ -6,10 +6,14 @@ import {
   Tooltip,
   PointElement,
   LineElement,
+  LayoutPosition,
+  Legend,
+  Align,
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { lastDayOfMonth } from "./lastDayOfMonth";
+import { dayToEndOfMonth } from "./dayToEndOfMonth";
 
 // Register ChartJS components using ChartJS.register
 ChartJS.register(
@@ -17,7 +21,8 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  Tooltip
+  Tooltip,
+  Legend
 );
 
 export default function MarketChart() {
@@ -37,6 +42,32 @@ export default function MarketChart() {
     setBudgetOffset(budgetOffset ? +budgetOffset : undefined);
   }, []);
 
+  const { latest, latestValue } = labels.reduce(
+    (acc, label) => {
+      const key = Object.keys(history).find((key) => key === label.toString());
+      if (!key) return acc;
+      const keyAsNumber = +key;
+      const value = history[keyAsNumber];
+      if (keyAsNumber > acc.latest) {
+        return { latest: keyAsNumber, latestValue: value };
+      }
+      return acc;
+    },
+    { latest: -1, latestValue: undefined } as {
+      latest: number;
+      latestValue: number | undefined;
+    }
+  );
+
+  const getEndProjection = () => {
+    if (latest === -1 || latestValue === undefined) return;
+    if (startBudget === undefined) return;
+
+    const spend = startBudget - latestValue;
+    const actualDSL = Math.floor(spend / latest);
+    return startBudget - lastDayOfMonth() * actualDSL;
+  };
+
   const data = {
     labels: labels,
     datasets: [
@@ -49,9 +80,10 @@ export default function MarketChart() {
           return history[key] ?? null;
         }),
         label: "Actual data points",
+        borderColor: "blue",
       },
       {
-        data: labels.map((label, i) => {
+        data: labels.map((_, i) => {
           if (startBudget === undefined || budgetOffset === undefined) {
             return null;
           }
@@ -62,6 +94,23 @@ export default function MarketChart() {
             return budgetOffset;
           }
         }),
+        label: "Ideal DSL",
+        borderColor: "green",
+      },
+      {
+        data: labels.map((_, i) => {
+          if (startBudget === undefined) {
+            return null;
+          }
+          if (i === 0) {
+            return startBudget;
+          }
+          if (i === labels.length - 1) {
+            return getEndProjection();
+          }
+        }),
+        label: "Current DSL",
+        borderColor: "red",
       },
     ],
   };
@@ -72,10 +121,21 @@ export default function MarketChart() {
       y: { min: 0, ticks: { stepSize: 100 } },
     },
     spanGaps: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: "bottom" as LayoutPosition,
+      },
+    },
+    layout: {
+      padding: 0,
+    },
+    responsive: true,
+    maintainAspectRatio: false,
   };
 
   return (
-    <div>
+    <div className="w-full h-72">
       <Line data={data} options={options} />
     </div>
   );

@@ -4,6 +4,7 @@ import Input from "./Input";
 import { getDate } from "./getDate";
 import Results from "./Results";
 import MarketChart from "./Chart";
+import { dayToEndOfMonth } from "./dayToEndOfMonth";
 
 export default function Home() {
   const [startBudget, setStartBudget] = useState<number | undefined>();
@@ -40,7 +41,7 @@ export default function Home() {
     const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
     const toPersist = JSON.stringify({
       ...history,
-      [getDate()]: value,
+      [new Date().getDate()]: value,
     });
     localStorage.setItem("history", toPersist);
     console.log(toPersist);
