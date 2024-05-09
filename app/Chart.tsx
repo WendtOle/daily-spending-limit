@@ -8,64 +8,43 @@ import {
   LineElement,
   LayoutPosition,
   Legend,
-  Align,
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { lastDayOfMonth } from "./lastDayOfMonth";
-import { dayToEndOfMonth } from "./dayToEndOfMonth";
+import Annotation from "chartjs-plugin-annotation";
 
-// Register ChartJS components using ChartJS.register
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
   Tooltip,
-  Legend
+  Legend,
+  Annotation
 );
 
-export default function MarketChart() {
-  const [history, setHistory] = useState<Record<string, number>>({});
-  const [startBudget, setStartBudget] = useState<number | undefined>();
-  const [budgetOffset, setBudgetOffset] = useState<number | undefined>();
+interface ChartProps {
+  current: number;
+  start: number | undefined;
+  offset: number | undefined;
+  history: Record<string, number>;
+}
 
+export default function MarketChart({
+  current,
+  start,
+  offset,
+  history,
+}: ChartProps) {
   const labels = Array.from(Array(lastDayOfMonth() + 2).keys());
 
-  useEffect(() => {
-    const rawHistory = localStorage.getItem("history");
-    const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
-    setHistory(history);
-    const startBudget = localStorage.getItem("startBudget");
-    setStartBudget(startBudget ? +startBudget : undefined);
-    const budgetOffset = localStorage.getItem("budgetOffset");
-    setBudgetOffset(budgetOffset ? +budgetOffset : undefined);
-  }, []);
-
-  const { latest, latestValue } = labels.reduce(
-    (acc, label) => {
-      const key = Object.keys(history).find((key) => key === label.toString());
-      if (!key) return acc;
-      const keyAsNumber = +key;
-      const value = history[keyAsNumber];
-      if (keyAsNumber > acc.latest) {
-        return { latest: keyAsNumber, latestValue: value };
-      }
-      return acc;
-    },
-    { latest: -1, latestValue: undefined } as {
-      latest: number;
-      latestValue: number | undefined;
-    }
-  );
-
   const getEndProjection = () => {
-    if (latest === -1 || latestValue === undefined) return;
-    if (startBudget === undefined) return;
-
-    const spend = startBudget - latestValue;
-    const actualDSL = Math.floor(spend / latest);
-    return startBudget - lastDayOfMonth() * actualDSL;
+    if (start === undefined) return;
+    const today = new Date().getDate();
+    const spend = start - current;
+    const actualDSL = spend / today;
+    return start - lastDayOfMonth() * actualDSL;
   };
 
   const data = {
@@ -84,26 +63,11 @@ export default function MarketChart() {
       },
       {
         data: labels.map((_, i) => {
-          if (startBudget === undefined || budgetOffset === undefined) {
+          if (start === undefined) {
             return null;
           }
           if (i === 0) {
-            return startBudget;
-          }
-          if (i === labels.length - 1) {
-            return budgetOffset;
-          }
-        }),
-        label: "Ideal DSL",
-        borderColor: "green",
-      },
-      {
-        data: labels.map((_, i) => {
-          if (startBudget === undefined) {
-            return null;
-          }
-          if (i === 0) {
-            return startBudget;
+            return start;
           }
           if (i === labels.length - 1) {
             return getEndProjection();
@@ -111,6 +75,7 @@ export default function MarketChart() {
         }),
         label: "Current DSL",
         borderColor: "red",
+        borderWidth: 2,
       },
     ],
   };
@@ -123,8 +88,25 @@ export default function MarketChart() {
     spanGaps: true,
     plugins: {
       legend: {
-        display: true,
+        display: false,
         position: "bottom" as LayoutPosition,
+      },
+      annotation: {
+        annotations: [
+          {
+            id: "a-line-1",
+            type: "line" as any,
+            mode: "horizontal" as any,
+            scaleID: "y",
+            value: offset,
+            borderColor: "green",
+            borderWidth: 1,
+            label: {
+              content: "Budget offset",
+              enabled: true,
+            },
+          },
+        ],
       },
     },
     layout: {
