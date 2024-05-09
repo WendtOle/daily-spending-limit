@@ -53,7 +53,6 @@ export default function Chart({ current, start, offset, history }: ChartProps) {
   const averageDSL =
     individualDSLs.reduce((acc, dsl) => acc + (dsl as number), 0) /
     individualDSLs.length;
-  console.log({ individualDSLs, averageDSL, history, actualDSL });
 
   const getEndProjection = (dsl?: number) => {
     if (!start || !dsl || dsl < 0) return;
