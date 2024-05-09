@@ -9,6 +9,7 @@ export default function Home() {
   const [currentBudget, setCurrentBudget] = useState<number | undefined>();
   const [budgetOffset, setBudgetOffset] = useState<number | undefined>();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+  const [history, setHistory] = useState<Record<number, number>>({});
 
   useEffect(() => {
     const localStorageCurrentBudget = localStorage.getItem("currentBudget");
@@ -23,6 +24,9 @@ export default function Home() {
     if (localStorageBudgetOffset) {
       setBudgetOffset(+localStorageBudgetOffset);
     }
+    const rawHistory = localStorage.getItem("history");
+    const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
+    setHistory(history);
   }, []);
 
   const handleStartBudgetChange = (value: number) => {
@@ -37,10 +41,13 @@ export default function Home() {
   const handleCurrentBudgetChange = (value: number) => {
     const rawHistory = localStorage.getItem("history");
     const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
-    localStorage.setItem(
-      "history",
-      JSON.stringify({ ...history, [getDate()]: currentBudget })
-    );
+    const updatedHistory = {
+      ...history,
+      [new Date().getDate()]: value,
+    };
+    const toPersist = JSON.stringify(updatedHistory);
+    setHistory(updatedHistory);
+    localStorage.setItem("history", toPersist);
     setCurrentBudget(value);
     localStorage.setItem("currentBudget", value.toString());
   };
