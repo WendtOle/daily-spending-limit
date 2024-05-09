@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Input from "./Input";
 import { getDate } from "./getDate";
 import Results from "./Results";
+import Chart from "./Chart";
 
 export default function Home() {
   const [startBudget, setStartBudget] = useState<number | undefined>();
@@ -92,6 +93,14 @@ export default function Home() {
         startBudget={startBudget}
         budgetOffset={budgetOffset ?? 0}
       />
+      {currentBudget && (
+        <Chart
+          start={startBudget}
+          offset={budgetOffset}
+          current={currentBudget}
+          history={history}
+        />
+      )}
     </main>
   );
 }
