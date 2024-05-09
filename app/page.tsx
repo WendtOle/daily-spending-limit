@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Input from "./Input";
 import { getDate } from "./getDate";
 import Results from "./Results";
+import MarketChart from "./Chart";
 
 export default function Home() {
   const [startBudget, setStartBudget] = useState<number | undefined>();
@@ -37,10 +38,12 @@ export default function Home() {
   const handleCurrentBudgetChange = (value: number) => {
     const rawHistory = localStorage.getItem("history");
     const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
-    localStorage.setItem(
-      "history",
-      JSON.stringify({ ...history, [getDate()]: currentBudget })
-    );
+    const toPersist = JSON.stringify({
+      ...history,
+      [getDate()]: value,
+    });
+    localStorage.setItem("history", toPersist);
+    console.log(toPersist);
     setCurrentBudget(value);
     localStorage.setItem("currentBudget", value.toString());
   };
@@ -85,6 +88,7 @@ export default function Home() {
         startBudget={startBudget}
         budgetOffset={budgetOffset ?? 0}
       />
+      <MarketChart />
     </main>
   );
 }
