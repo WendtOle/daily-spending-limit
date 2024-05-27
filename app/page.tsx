@@ -10,6 +10,7 @@ import {
   writeNewHistoryEntry,
 } from "./localstorage";
 import { History } from "./types";
+import { FaCog } from "react-icons/fa";
 
 export default function Home() {
   const [startBudget, setStartBudget] = useState<number | undefined>();
@@ -44,7 +45,10 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-12">
+    <main className="flex min-h-screen flex-col items-center p-12 relative">
+      <div className="absolute right-0 top-0 m-2 sm:m-4">
+        <FaCog fontSize={20} />
+      </div>
       <h1 className="text-3xl text-center uppercase tracking-tighter">
         Daily spending limit (DSL)
       </h1>
