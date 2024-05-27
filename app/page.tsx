@@ -4,7 +4,11 @@ import Input from "./Input";
 import { getDate } from "./getDate";
 import Results from "./Results";
 import Chart from "./Chart";
-import { LocalStorageKey, readFromLocalStorage } from "./localstorage";
+import {
+  LocalStorageKey,
+  readFromLocalStorage,
+  writeNewHistoryEntry,
+} from "./localstorage";
 
 export default function Home() {
   const [startBudget, setStartBudget] = useState<number | undefined>();
@@ -32,15 +36,8 @@ export default function Home() {
   };
 
   const handleCurrentBudgetChange = (value: number) => {
-    const rawHistory = localStorage.getItem(LocalStorageKey.HISTORY);
-    const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
-    const updatedHistory = {
-      ...history,
-      [new Date().getDate()]: value,
-    };
-    const toPersist = JSON.stringify(updatedHistory);
+    const updatedHistory = writeNewHistoryEntry(value);
     setHistory(updatedHistory);
-    localStorage.setItem(LocalStorageKey.HISTORY, toPersist);
     setCurrentBudget(value);
     localStorage.setItem(LocalStorageKey.CURRENT_BUDGET, value.toString());
   };

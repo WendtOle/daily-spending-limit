@@ -29,3 +29,14 @@ export const readFromLocalStorage = (): {
     history,
   };
 };
+
+export const writeNewHistoryEntry = (value: number) => {
+  const rawHistory = localStorage.getItem(LocalStorageKey.HISTORY);
+  const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
+  const updatedHistory = {
+    ...history,
+    [new Date().getDate()]: value,
+  };
+  localStorage.setItem(LocalStorageKey.HISTORY, JSON.stringify(updatedHistory));
+  return updatedHistory;
+};
