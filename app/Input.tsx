@@ -8,7 +8,7 @@ export default function Input({ label, value, setValue }: InputProps) {
     <div className="flex flex-col mt-3">
       <label
         htmlFor={label}
-        className="block mb-2 font-medium text-gray-900 dark:text-white"
+        className="block mb-2 font-medium text-gray-900"
       >
         {label}
       </label>
