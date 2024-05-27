@@ -4,7 +4,7 @@ import Input from "./Input";
 import { getDate } from "./getDate";
 import Results from "./Results";
 import Chart from "./Chart";
-import { LocalStorageKey } from "./localstorage";
+import { LocalStorageKey, readFromLocalStorage } from "./localstorage";
 
 export default function Home() {
   const [startBudget, setStartBudget] = useState<number | undefined>();
@@ -14,20 +14,11 @@ export default function Home() {
   const [history, setHistory] = useState<Record<number, number>>({});
 
   useEffect(() => {
-    const localStorageCurrentBudget = localStorage.getItem(LocalStorageKey.CURRENT_BUDGET);
-    if (localStorageCurrentBudget) {
-      setCurrentBudget(+localStorageCurrentBudget);
-    }
-    const localStorageStartBudget = localStorage.getItem(LocalStorageKey.START_BUDGET);
-    if (localStorageStartBudget) {
-      setStartBudget(+localStorageStartBudget);
-    }
-    const localStorageBudgetOffset = localStorage.getItem(LocalStorageKey.BUDGET_OFFSET);
-    if (localStorageBudgetOffset) {
-      setBudgetOffset(+localStorageBudgetOffset);
-    }
-    const rawHistory = localStorage.getItem(LocalStorageKey.HISTORY);
-    const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
+    const { currentBudget, startBudget, budgetOffset, history } =
+      readFromLocalStorage();
+    setStartBudget(startBudget);
+    setCurrentBudget(currentBudget);
+    setBudgetOffset(budgetOffset);
     setHistory(history);
   }, []);
 
