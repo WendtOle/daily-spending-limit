@@ -1,17 +1,26 @@
 import { dayToEndOfMonth } from "./dayToEndOfMonth";
 import { lastDayOfMonth } from "./lastDayOfMonth";
+import { useEffect, useState } from "react";
+import { readFromLocalStorage } from "./localstorage";
 
 interface ResultsProps {
   currentBudget: number;
-  startBudget: number | undefined;
-  budgetOffset: number;
 }
 
-export default function Results({
-  currentBudget,
-  startBudget,
-  budgetOffset,
-}: ResultsProps) {
+export default function Results({ currentBudget }: ResultsProps) {
+  const [budgetOffset, setBudgetOffset] = useState<number>(0);
+  const [startBudget, setStartBudget] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    const update = () => {
+      const { budgetOffset, startBudget } = readFromLocalStorage();
+      setStartBudget(startBudget);
+      setBudgetOffset(budgetOffset ?? 0);
+    };
+    update();
+    window.addEventListener("storage", update);
+  }, []);
+
   const actualCurrentBudget = currentBudget - budgetOffset;
   const actualStartBudget = startBudget
     ? startBudget - budgetOffset

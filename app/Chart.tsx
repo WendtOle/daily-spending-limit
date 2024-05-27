@@ -12,6 +12,9 @@ import {
 import { Line } from "react-chartjs-2";
 import { lastDayOfMonth } from "./lastDayOfMonth";
 import Annotation from "chartjs-plugin-annotation";
+import { useEffect } from "react";
+import { readFromLocalStorage } from "./localstorage";
+import { useState } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -25,12 +28,21 @@ ChartJS.register(
 
 interface ChartProps {
   current: number;
-  start: number | undefined;
-  offset: number | undefined;
   history: Record<string, number>;
 }
 
-export default function Chart({ current, start, offset, history }: ChartProps) {
+export default function Chart({ current, history }: ChartProps) {
+  const [start, setStartBudget] = useState<number | undefined>(undefined);
+  const [offset, setBudgetOffset] = useState<number | undefined>(undefined);
+  useEffect(() => {
+    const update = () => {
+      const {startBudget, budgetOffset} = readFromLocalStorage();
+      setStartBudget(startBudget);
+      setBudgetOffset(budgetOffset);
+    }
+    update();
+    window.addEventListener("storage", update);
+  }, [])
   if (Object.keys(history).length < 2 && !start && !offset) {
     return null;
   }
