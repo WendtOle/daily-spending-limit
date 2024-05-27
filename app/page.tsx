@@ -9,13 +9,14 @@ import {
   readFromLocalStorage,
   writeNewHistoryEntry,
 } from "./localstorage";
+import { History } from "./types";
 
 export default function Home() {
   const [startBudget, setStartBudget] = useState<number | undefined>();
   const [currentBudget, setCurrentBudget] = useState<number | undefined>();
   const [budgetOffset, setBudgetOffset] = useState<number | undefined>();
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
-  const [history, setHistory] = useState<Record<number, number>>({});
+  const [history, setHistory] = useState<History>({});
 
   useEffect(() => {
     const { currentBudget, startBudget, budgetOffset, history } =
@@ -87,7 +88,7 @@ export default function Home() {
           start={startBudget}
           offset={budgetOffset}
           current={currentBudget}
-          history={history}
+          history={history[new Date().getMonth()]}
         />
       )}
     </main>

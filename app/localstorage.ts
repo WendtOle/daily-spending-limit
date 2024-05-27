@@ -1,3 +1,5 @@
+import { History } from "./types";
+
 export enum LocalStorageKey {
   HISTORY = "history",
   CURRENT_BUDGET = "currentBudget",
@@ -9,7 +11,7 @@ export const readFromLocalStorage = (): {
   currentBudget: number | undefined;
   startBudget: number | undefined;
   budgetOffset: number | undefined;
-  history: Record<number, number>;
+  history: History;
 } => {
   const nullableCurrentBudget = localStorage.getItem(
     LocalStorageKey.CURRENT_BUDGET
@@ -21,7 +23,7 @@ export const readFromLocalStorage = (): {
     LocalStorageKey.BUDGET_OFFSET
   );
   const rawHistory = localStorage.getItem(LocalStorageKey.HISTORY);
-  const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
+  const history: History = JSON.parse(rawHistory ?? "{}");
   return {
     currentBudget: nullableCurrentBudget ? +nullableCurrentBudget : undefined,
     startBudget: nullableStartBudget ? +nullableStartBudget : undefined,
@@ -30,12 +32,13 @@ export const readFromLocalStorage = (): {
   };
 };
 
-export const writeNewHistoryEntry = (value: number) => {
+export const writeNewHistoryEntry = (value: number): History => {
   const rawHistory = localStorage.getItem(LocalStorageKey.HISTORY);
-  const history: Record<string, number> = JSON.parse(rawHistory ?? "{}");
+  const history: History = JSON.parse(rawHistory ?? "{}");
+  const month = new Date().getMonth();
   const updatedHistory = {
     ...history,
-    [new Date().getDate()]: value,
+    [month]: { ...history[month], [new Date().getDate()]: value },
   };
   localStorage.setItem(LocalStorageKey.HISTORY, JSON.stringify(updatedHistory));
   return updatedHistory;
