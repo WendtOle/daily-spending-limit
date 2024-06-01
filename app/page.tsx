@@ -55,7 +55,7 @@ export default function Home() {
       {currentBudget && (
         <Chart
           current={currentBudget}
-          history={history[new Date().getMonth()]}
+          history={history[new Date().getMonth()] ?? {}}
         />
       )}
     </main>
