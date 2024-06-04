@@ -5,6 +5,7 @@ export enum LocalStorageKey {
   CURRENT_BUDGET = "currentBudget",
   BUDGET_OFFSET = "budgetOffset",
   START_BUDGET = "startBudget",
+  THIRD_MONTH_MODE = "thirdMonthMode",
 }
 
 export const readFromLocalStorage = (): {
@@ -12,6 +13,7 @@ export const readFromLocalStorage = (): {
   startBudget: number | undefined;
   budgetOffset: number | undefined;
   history: History;
+  thirdMonthMode: boolean;
 } => {
   const nullableCurrentBudget = localStorage.getItem(
     LocalStorageKey.CURRENT_BUDGET
@@ -24,11 +26,16 @@ export const readFromLocalStorage = (): {
   );
   const rawHistory = localStorage.getItem(LocalStorageKey.HISTORY);
   const history: History = JSON.parse(rawHistory ?? "{}");
+  const nullableThirdMonthMode = localStorage.getItem(
+    LocalStorageKey.THIRD_MONTH_MODE
+  );
+
   return {
     currentBudget: nullableCurrentBudget ? +nullableCurrentBudget : undefined,
     startBudget: nullableStartBudget ? +nullableStartBudget : undefined,
     budgetOffset: nullableBudgetOffset ? +nullableBudgetOffset : undefined,
     history,
+    thirdMonthMode: nullableThirdMonthMode === "true",
   };
 };
 
