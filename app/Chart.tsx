@@ -62,7 +62,7 @@ export default function Chart({ current, history }: ChartProps) {
       return getDSL(+key, start - value);
     })
     .filter(notUndefined);
-  const averageDSL =
+  const averageDSL = individualDSLs.length === 0 ? undefined :
     individualDSLs.reduce((acc, dsl) => acc + (dsl as number), 0) /
     individualDSLs.length;
 
@@ -106,7 +106,7 @@ export default function Chart({ current, history }: ChartProps) {
 
       {
         data: labels.map((_, i) => {
-          if (start === undefined || start === 0) {
+          if (start === undefined || start === 0 || averageDSL === undefined) {
             return null;
           }
           if (i === 0) {
