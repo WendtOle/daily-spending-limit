@@ -1,6 +1,6 @@
-import { lastDayOfMonth } from "./lastDayOfMonth";
+import { lastDayOfPeriod } from "./lastDayOfMonth";
 
-export const dayToEndOfMonth = () => {
+export const dayToEndOfPeriod = (thirdMonthMode: boolean) => {
   const today = new Date();
-  return lastDayOfMonth() - today.getDate();
+  return lastDayOfPeriod(thirdMonthMode) - today.getDate();
 };

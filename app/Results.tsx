@@ -1,5 +1,5 @@
-import { dayToEndOfMonth } from "./dayToEndOfMonth";
-import { lastDayOfMonth } from "./lastDayOfMonth";
+import { dayToEndOfPeriod } from "./dayToEndOfMonth";
+import { lastDayOfPeriod } from "./lastDayOfMonth";
 import { useEffect, useState } from "react";
 import { readFromLocalStorage } from "./localstorage";
 import { FaInfoCircle } from "react-icons/fa";
@@ -14,12 +14,15 @@ interface ResultsProps {
 export default function Results({ currentBudget }: ResultsProps) {
   const [budgetOffset, setBudgetOffset] = useState<number>(0);
   const [startBudget, setStartBudget] = useState<number | undefined>(undefined);
+  const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
 
   useEffect(() => {
     const update = () => {
-      const { budgetOffset, startBudget } = readFromLocalStorage();
+      const { budgetOffset, startBudget, thirdMonthMode } =
+        readFromLocalStorage();
       setStartBudget(startBudget);
       setBudgetOffset(budgetOffset ?? 0);
+      setThirdMonthMode(thirdMonthMode);
     };
     update();
     window.addEventListener("storage", update);
@@ -30,9 +33,9 @@ export default function Results({ currentBudget }: ResultsProps) {
     ? startBudget - budgetOffset
     : undefined;
   const idealDSL = actualStartBudget
-    ? actualStartBudget / lastDayOfMonth()
+    ? actualStartBudget / lastDayOfPeriod(thirdMonthMode)
     : undefined;
-  const days = dayToEndOfMonth();
+  const days = dayToEndOfPeriod(thirdMonthMode);
   const daysToGiveOutNothingToReturnToIdeal = idealDSL
     ? days - actualCurrentBudget / idealDSL
     : undefined;

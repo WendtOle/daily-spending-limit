@@ -10,7 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { lastDayOfMonth } from "./lastDayOfMonth";
+import { lastDayOfPeriod } from "./lastDayOfMonth";
 import Annotation from "chartjs-plugin-annotation";
 import { useEffect } from "react";
 import { readFromLocalStorage } from "./localstorage";
@@ -32,21 +32,24 @@ interface ChartProps {
 }
 
 export default function Chart({ current, history }: ChartProps) {
-  const [start, setStartBudget] = useState<number | undefined>(undefined);
-  const [offset, setBudgetOffset] = useState<number | undefined>(undefined);
+  const [start, setStartBudget] = useState<number | undefined>(undefined);
+  const [offset, setBudgetOffset] = useState<number | undefined>(undefined);
+  const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
   useEffect(() => {
     const update = () => {
-      const {startBudget, budgetOffset} = readFromLocalStorage();
+      const { startBudget, budgetOffset, thirdMonthMode } =
+        readFromLocalStorage();
       setStartBudget(startBudget);
       setBudgetOffset(budgetOffset);
-    }
+      setThirdMonthMode(thirdMonthMode);
+    };
     update();
     window.addEventListener("storage", update);
-  }, [])
+  }, []);
   if (Object.keys(history).length < 2 && !start && !offset) {
     return null;
   }
-  const labels = Array.from(Array(lastDayOfMonth() + 2).keys());
+  const labels = Array.from(Array(lastDayOfPeriod(thirdMonthMode) + 2).keys());
 
   const today = new Date().getDate();
   const getDSL = (day: number, spend: number) => spend / day;
@@ -62,13 +65,15 @@ export default function Chart({ current, history }: ChartProps) {
       return getDSL(+key, start - value);
     })
     .filter(notUndefined);
-  const averageDSL = individualDSLs.length === 0 ? undefined :
-    individualDSLs.reduce((acc, dsl) => acc + (dsl as number), 0) /
-    individualDSLs.length;
+  const averageDSL =
+    individualDSLs.length === 0
+      ? undefined
+      : individualDSLs.reduce((acc, dsl) => acc + (dsl as number), 0) /
+        individualDSLs.length;
 
   const getEndProjection = (dsl?: number) => {
     if (!start || !dsl || dsl < 0) return;
-    return start - lastDayOfMonth() * dsl;
+    return start - lastDayOfPeriod(thirdMonthMode) * dsl;
   };
 
   const data = {
@@ -106,7 +111,7 @@ export default function Chart({ current, history }: ChartProps) {
 
       {
         data: labels.map((_, i) => {
-          if (start === undefined || start === 0 || averageDSL === undefined) {
+          if (start === undefined || start === 0 || averageDSL === undefined) {
             return null;
           }
           if (i === 0) {
