@@ -2,7 +2,11 @@ import { dayToEndOfMonth } from "./dayToEndOfMonth";
 import { lastDayOfMonth } from "./lastDayOfMonth";
 import { useEffect, useState } from "react";
 import { readFromLocalStorage } from "./localstorage";
-
+import { FaInfoCircle } from "react-icons/fa";
+import {
+  BudgetOffsetInformationPopup,
+  INFO_POPUP_ID,
+} from "./BudgetOffsetInformationPopup";
 interface ResultsProps {
   currentBudget: number;
 }
@@ -39,10 +43,21 @@ export default function Results({ currentBudget }: ResultsProps) {
 
   return (
     <div className="m-2 mt-8 w-4/5">
+      <BudgetOffsetInformationPopup offset={budgetOffset} />
       <div>
         <div className="flex justify-between">
           <p>Money left: </p>
-          <p>{actualCurrentBudget} €</p>
+          <div className="flex flex-row items-center space-x-2">
+            <p>{actualCurrentBudget} €</p>
+            {budgetOffset && (
+              <button
+                // @ts-ignore
+                popovertarget={INFO_POPUP_ID}
+              >
+                <FaInfoCircle fontSize={16} />
+              </button>
+            )}
+          </div>
         </div>
         <div className="flex justify-between">
           <p>Days left: </p>
