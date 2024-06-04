@@ -1,5 +1,3 @@
-import { FaInfoCircle } from "react-icons/fa";
-
 export const INFO_POPUP_ID = "info-popup";
 
 export const BudgetOffsetInformationPopup = ({
