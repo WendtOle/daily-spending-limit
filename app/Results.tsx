@@ -74,10 +74,12 @@ export default function Results({ currentBudget }: ResultsProps) {
             <p>{Math.floor(idealDSL)} €/d</p>{" "}
           </div>
         )}
-        <div className="flex justify-between">
-          <p>you should target DSL: </p>
-          <p>{Math.floor(actualCurrentBudget / days)} €/d</p>
-        </div>
+        {days !== 0 && (
+          <div className="flex justify-between">
+            <p>you should target DSL: </p>
+            <p>{Math.floor(actualCurrentBudget / days)} €/d</p>
+          </div>
+        )}
         {actualCurrentDSL && (
           <div className="flex justify-between">
             <p>actual until now DSL: </p>
