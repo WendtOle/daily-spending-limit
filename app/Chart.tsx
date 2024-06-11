@@ -10,7 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { lastDayOfPeriod } from "./lastDayOfMonth";
+import { getPeriod } from "./lastDayOfMonth";
 import Annotation from "chartjs-plugin-annotation";
 import { useEffect } from "react";
 import { readFromLocalStorage } from "./localstorage";
@@ -54,7 +54,10 @@ export default function Chart({ current }: ChartProps) {
   if (Object.keys(history).length < 2 && !start && !offset) {
     return null;
   }
-  const labels = Array.from(Array(lastDayOfPeriod(thirdMonthMode) + 2).keys());
+  const { start: startPeriod, end: endPeriod } = getPeriod(thirdMonthMode);
+  const labels = Array.from(Array(endPeriod - startPeriod + 2).keys()).map(
+    (i) => i + startPeriod
+  );
 
   const today = new Date().getDate();
   const getDSL = (day: number, spend: number) => spend / day;
@@ -78,7 +81,7 @@ export default function Chart({ current }: ChartProps) {
 
   const getEndProjection = (dsl?: number) => {
     if (!start || !dsl || dsl < 0) return;
-    return start - lastDayOfPeriod(thirdMonthMode) * dsl;
+    return start - endPeriod * dsl;
   };
 
   const data = {

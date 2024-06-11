@@ -1,5 +1,5 @@
 import { dayToEndOfPeriod } from "./dayToEndOfMonth";
-import { lastDayOfPeriod } from "./lastDayOfMonth";
+import { getPeriod } from "./lastDayOfMonth";
 import { useEffect, useState } from "react";
 import { readFromLocalStorage } from "./localstorage";
 import { FaInfoCircle } from "react-icons/fa";
@@ -33,17 +33,19 @@ export default function Results({ currentBudget }: ResultsProps) {
     ? startBudget - budgetOffset
     : undefined;
 
+  const { start, end } = getPeriod(thirdMonthMode);
+
   const daysLeft = dayToEndOfPeriod(thirdMonthMode);
-  const periodLength = thirdMonthMode ? 10 : lastDayOfPeriod(false);
+  const periodLength = end - start;
   const daysDone = periodLength - daysLeft;
 
   const idealDSL = actualStartBudget
-    ? actualStartBudget / periodLength
+    ? Math.floor(actualStartBudget / periodLength)
     : undefined;
-
+  const youShouldTargetDSL = Math.floor(actualCurrentBudget / daysLeft);
   const actualCurrentDSL =
     actualStartBudget && actualStartBudget !== actualCurrentBudget
-      ? (actualStartBudget - actualCurrentBudget) / daysDone
+      ? (actualStartBudget - actualCurrentBudget) / Math.max(daysDone, 1)
       : undefined;
   if (actualCurrentBudget < 0) {
     return null;
@@ -75,16 +77,16 @@ export default function Results({ currentBudget }: ResultsProps) {
         {idealDSL && (
           <div className="flex justify-between">
             <p>ideal DSL: </p>
-            <p>{Math.floor(idealDSL)} €/d</p>{" "}
+            <p>{idealDSL} €/d</p>{" "}
           </div>
         )}
-        {daysLeft !== 0 && (
+        {daysLeft !== 0 && idealDSL && youShouldTargetDSL < idealDSL && (
           <div className="flex justify-between">
             <p>you should target DSL: </p>
-            <p>{Math.floor(actualCurrentBudget / daysLeft)} €/d</p>
+            <p>{youShouldTargetDSL} €/d</p>
           </div>
         )}
-        {actualCurrentDSL && (
+        {actualCurrentDSL && actualCurrentDSL > 0 && (
           <div className="flex justify-between">
             <p>actual until now DSL: </p>
             <p>{Math.floor(actualCurrentDSL)} €/d</p>
