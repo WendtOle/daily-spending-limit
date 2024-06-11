@@ -28,20 +28,25 @@ ChartJS.register(
 
 interface ChartProps {
   current: number;
-  history: Record<string, number>;
 }
 
-export default function Chart({ current, history }: ChartProps) {
+export default function Chart({ current }: ChartProps) {
   const [start, setStartBudget] = useState<number | undefined>(undefined);
   const [offset, setBudgetOffset] = useState<number | undefined>(undefined);
   const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
+  const [history, setHistory] = useState<Record<string, number>>({});
   useEffect(() => {
     const update = () => {
-      const { startBudget, budgetOffset, thirdMonthMode } =
-        readFromLocalStorage();
+      const {
+        startBudget,
+        budgetOffset,
+        thirdMonthMode,
+        history: fullHistory,
+      } = readFromLocalStorage();
       setStartBudget(startBudget);
       setBudgetOffset(budgetOffset);
       setThirdMonthMode(thirdMonthMode);
+      setHistory(fullHistory[new Date().getMonth()] ?? {});
     };
     update();
     window.addEventListener("storage", update);

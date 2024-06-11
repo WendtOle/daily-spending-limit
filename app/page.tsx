@@ -9,23 +9,19 @@ import {
   readFromLocalStorage,
   writeNewHistoryEntry,
 } from "./localstorage";
-import { History } from "./types";
 import { FaCog } from "react-icons/fa";
 import { SETTINGS_MODAL_ID, SettingsModal } from "./SettingsModal";
 
 export default function Home() {
   const [currentBudget, setCurrentBudget] = useState<number | undefined>();
-  const [history, setHistory] = useState<History>({});
 
   useEffect(() => {
-    const { currentBudget, history } = readFromLocalStorage();
+    const { currentBudget } = readFromLocalStorage();
     setCurrentBudget(currentBudget);
-    setHistory(history);
   }, []);
 
   const handleCurrentBudgetChange = (value: number) => {
-    const updatedHistory = writeNewHistoryEntry(value);
-    setHistory(updatedHistory);
+    writeNewHistoryEntry(value);
     setCurrentBudget(value);
     localStorage.setItem(LocalStorageKey.CURRENT_BUDGET, value.toString());
   };
@@ -52,12 +48,7 @@ export default function Home() {
         />
       </div>
       <Results currentBudget={currentBudget ?? 0} />
-      {currentBudget && (
-        <Chart
-          current={currentBudget}
-          history={history[new Date().getMonth()] ?? {}}
-        />
-      )}
+      {currentBudget && <Chart current={currentBudget} />}
     </main>
   );
 }
