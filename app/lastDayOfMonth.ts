@@ -1,9 +1,10 @@
 export const lastDayOfPeriod = (thirdMonthMode: boolean) => {
+  const day = new Date().getDate();
   if (thirdMonthMode) {
-    if (new Date().getDay() < 10) {
+    if (day < 10) {
       return 10;
     }
-    if (new Date().getDay() < 20) {
+    if (day < 20) {
       return 20;
     }
   }
