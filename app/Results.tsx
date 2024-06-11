@@ -32,15 +32,19 @@ export default function Results({ currentBudget }: ResultsProps) {
   const actualStartBudget = startBudget
     ? startBudget - budgetOffset
     : undefined;
-  const idealDSL = actualStartBudget
-    ? actualStartBudget / lastDayOfPeriod(thirdMonthMode)
-    : undefined;
-  const days = dayToEndOfPeriod(thirdMonthMode);
 
-  const actualCurrentDSL = actualStartBudget
-    ? (actualStartBudget - actualCurrentBudget) /
-      (lastDayOfPeriod(thirdMonthMode) - days)
+  const daysLeft = dayToEndOfPeriod(thirdMonthMode);
+  const periodLength = thirdMonthMode ? 10 : lastDayOfPeriod(false);
+  const daysDone = periodLength - daysLeft;
+
+  const idealDSL = actualStartBudget
+    ? actualStartBudget / periodLength
     : undefined;
+
+  const actualCurrentDSL =
+    actualStartBudget && actualStartBudget !== actualCurrentBudget
+      ? (actualStartBudget - actualCurrentBudget) / daysDone
+      : undefined;
   if (actualCurrentBudget < 0) {
     return null;
   }
@@ -65,7 +69,7 @@ export default function Results({ currentBudget }: ResultsProps) {
         </div>
         <div className="flex justify-between">
           <p>Days left: </p>
-          <p>{days} d</p>
+          <p>{daysLeft} d</p>
         </div>
 
         {idealDSL && (
@@ -74,10 +78,10 @@ export default function Results({ currentBudget }: ResultsProps) {
             <p>{Math.floor(idealDSL)} €/d</p>{" "}
           </div>
         )}
-        {days !== 0 && (
+        {daysLeft !== 0 && (
           <div className="flex justify-between">
             <p>you should target DSL: </p>
-            <p>{Math.floor(actualCurrentBudget / days)} €/d</p>
+            <p>{Math.floor(actualCurrentBudget / daysLeft)} €/d</p>
           </div>
         )}
         {actualCurrentDSL && (
