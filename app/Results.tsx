@@ -55,7 +55,7 @@ export default function Results({ currentBudget }: ResultsProps) {
   }
 
   return (
-    <div className="m-2 mt-8 w-4/5">
+    <div className="m-2 mt-8 w-11/12 sm:w-80">
       <BudgetOffsetInformationPopup offset={budgetOffset} />
       <div>
         {actualCurrentDSL && actualSpendUntilNow && (
