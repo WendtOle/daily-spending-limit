@@ -60,35 +60,15 @@ export default function Chart({ current }: ChartProps) {
   );
 
   const today = new Date().getDate();
-  const getDSL = (day: number, spend: number) => spend / day;
-  const actualDSL = start ? getDSL(today, start - current) : undefined;
-  function notUndefined<T>(value: T | undefined): value is T {
-    return value !== undefined;
-  }
-  const individualDSLs = Object.entries(history)
-    .map(([key, value]) => {
-      if (!start) {
-        return undefined;
-      }
-      return getDSL(+key, start - value);
-    })
-    .filter(notUndefined);
-  const averageDSL =
-    individualDSLs.length === 0
-      ? undefined
-      : individualDSLs.reduce((acc, dsl) => acc + (dsl as number), 0) /
-        individualDSLs.length;
-
-  const getEndProjection = (dsl?: number) => {
-    if (!start || !dsl || dsl < 0) return;
-    return start - endPeriod * dsl;
-  };
 
   const data = {
     labels: labels,
     datasets: [
       {
         data: labels.map((label) => {
+          if (label === today) {
+            return current;
+          }
           const key = Object.keys(history).find(
             (key) => key.split(".")[0] === label.toString()
           );
@@ -107,30 +87,12 @@ export default function Chart({ current }: ChartProps) {
           if (i === 0) {
             return start;
           }
-          if (i === labels.length - 1) {
-            return getEndProjection(actualDSL);
+          if (i === labels.length - 2) {
+            return offset || 0;
           }
         }),
-        label: "Current DSL",
-        borderColor: "red",
-        borderWidth: 2,
-        display: false,
-      },
-
-      {
-        data: labels.map((_, i) => {
-          if (start === undefined || start === 0 || averageDSL === undefined) {
-            return null;
-          }
-          if (i === 0) {
-            return start;
-          }
-          if (i === labels.length - 1) {
-            return getEndProjection(averageDSL);
-          }
-        }),
-        label: "Average DSL",
-        borderColor: "orange",
+        label: "ideal DSL",
+        borderColor: "green",
         borderWidth: 2,
         display: false,
       },
@@ -145,7 +107,7 @@ export default function Chart({ current }: ChartProps) {
     spanGaps: true,
     plugins: {
       legend: {
-        display: true,
+        display: false,
         position: "bottom" as LayoutPosition,
       },
       annotation: {
