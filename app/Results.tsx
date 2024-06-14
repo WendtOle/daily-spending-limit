@@ -43,10 +43,13 @@ export default function Results({ currentBudget }: ResultsProps) {
     ? Math.floor(actualStartBudget / periodLength)
     : undefined;
   const youShouldTargetDSL = Math.floor(actualCurrentBudget / daysLeft);
-  const actualCurrentDSL =
+  const actualSpendUntilNow =
     actualStartBudget && actualStartBudget !== actualCurrentBudget
-      ? (actualStartBudget - actualCurrentBudget) / Math.max(daysDone, 1)
+      ? actualStartBudget - actualCurrentBudget
       : undefined;
+  const actualCurrentDSL = actualSpendUntilNow
+    ? actualSpendUntilNow / Math.max(daysDone, 1)
+    : undefined;
   if (actualCurrentBudget < 0) {
     return null;
   }
@@ -55,6 +58,14 @@ export default function Results({ currentBudget }: ResultsProps) {
     <div className="m-2 mt-8 w-4/5">
       <BudgetOffsetInformationPopup offset={budgetOffset} />
       <div>
+        {actualCurrentDSL && actualSpendUntilNow && (
+          <div className="flex justify-between">
+            <p>You have spent: </p>
+            <p>
+              {actualSpendUntilNow}€ ({Math.floor(actualCurrentDSL)}€/d)
+            </p>
+          </div>
+        )}
         <div className="flex justify-between">
           <p>Money left: </p>
           <div className="flex flex-row items-center space-x-2">
@@ -76,20 +87,14 @@ export default function Results({ currentBudget }: ResultsProps) {
 
         {idealDSL && (
           <div className="flex justify-between">
-            <p>ideal DSL: </p>
-            <p>{idealDSL} €/d</p>{" "}
+            <p>Ideally you could spend: </p>
+            <p>{idealDSL}€/d</p>{" "}
           </div>
         )}
         {daysLeft !== 0 && idealDSL && youShouldTargetDSL < idealDSL && (
           <div className="flex justify-between">
-            <p>you should target DSL: </p>
-            <p>{youShouldTargetDSL} €/d</p>
-          </div>
-        )}
-        {actualCurrentDSL && actualCurrentDSL > 0 && (
-          <div className="flex justify-between">
-            <p>actual until now DSL: </p>
-            <p>{Math.floor(actualCurrentDSL)} €/d</p>
+            <p>You should target: </p>
+            <p>{youShouldTargetDSL}€/d</p>
           </div>
         )}
       </div>
