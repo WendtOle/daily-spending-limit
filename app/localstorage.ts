@@ -8,10 +8,16 @@ export enum LocalStorageKey {
   THIRD_MONTH_MODE = "thirdMonthMode",
 }
 
+const DEFAULT_VALLUES = {
+  currentBudget: 758,
+  startBudget: 1000,
+  budgetOffset: 0,
+};
+
 export const readFromLocalStorage = (): {
-  currentBudget: number | undefined;
-  startBudget: number | undefined;
-  budgetOffset: number | undefined;
+  currentBudget: number;
+  startBudget: number;
+  budgetOffset: number;
   history: History;
   thirdMonthMode: boolean;
 } => {
@@ -31,9 +37,15 @@ export const readFromLocalStorage = (): {
   );
 
   return {
-    currentBudget: nullableCurrentBudget ? +nullableCurrentBudget : undefined,
-    startBudget: nullableStartBudget ? +nullableStartBudget : undefined,
-    budgetOffset: nullableBudgetOffset ? +nullableBudgetOffset : undefined,
+    currentBudget: nullableCurrentBudget
+      ? +nullableCurrentBudget
+      : DEFAULT_VALLUES.currentBudget,
+    startBudget: nullableStartBudget
+      ? +nullableStartBudget
+      : DEFAULT_VALLUES.startBudget,
+    budgetOffset: nullableBudgetOffset
+      ? +nullableBudgetOffset
+      : DEFAULT_VALLUES.budgetOffset,
     history,
     thirdMonthMode: nullableThirdMonthMode === "true",
   };
