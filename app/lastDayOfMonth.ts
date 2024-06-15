@@ -12,7 +12,7 @@ export const getPeriod = (
   }
   const today = new Date();
   return {
-    start: 20,
+    start: thirdMonthMode ? 20 : 0,
     end: new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate(),
   };
 };
