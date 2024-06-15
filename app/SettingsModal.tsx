@@ -34,12 +34,14 @@ export const SettingsModal = () => {
 
   return (
     <div
-      className="p-8 shadow-xl modal rounded"
+      className="p-8 pt-6 shadow-xl modal rounded space-y-6"
       id={SETTINGS_MODAL_ID}
       // @ts-ignore
       popover="auto"
     >
-      <h1 className="text-xl">Settings</h1>
+      <h1 className="text-xl text-center uppercase tracking-tighter">
+        Settings
+      </h1>
       <Input
         label="Budget offset"
         value={budgetOffset}
@@ -50,13 +52,22 @@ export const SettingsModal = () => {
         value={startBudget}
         setValue={handleStartBudgetChange}
       />
-      <div className="flex flex-col items-start space-y-1 mt-2">
-        <label className="font-medium text-gray-900">Third-month-mode</label>
-        <input
-          type="checkbox"
-          checked={thirdMonthMode}
-          onChange={(e) => handleThridMonthModeChange(e.target.checked)}
-        />
+      <div>
+        <div className="flex flex-row items-center">
+          <input
+            className="w-6 h-6"
+            type="checkbox"
+            checked={thirdMonthMode}
+            onChange={(e) => handleThridMonthModeChange(e.target.checked)}
+          />
+          <label className="font-medium text-gray-900 ml-2">Focus mode</label>
+        </div>
+        <div className="w-56 text-sm mt-2 ml-4">
+          The focus mode helps to gain control over your daily spending by
+          reducing the observed time period to 10 days. <br /> Obviously you
+          should adjust the value for <i>budget offset</i> and{" "}
+          <i>start budget</i> accordingly.
+        </div>
       </div>
     </div>
   );
