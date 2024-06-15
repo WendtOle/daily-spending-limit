@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { readFromLocalStorage } from "./localstorage";
 import { useState } from "react";
 import { CustomBarChart } from "./CustomBarChart";
+import { DSLChart } from "./DSLChart";
 
 interface ChartProps {
   current: number;
@@ -45,15 +46,63 @@ export default function Chart({ current }: ChartProps) {
     return <CustomBarChart left={moneySpent} right={moneyLeft} unit="€" />;
   };
 
-  return (
-    <div className="w-96 space-y-3">
-      <CustomBarChart
-        left={donePeriod}
-        right={leftPeriod}
-        unit="days"
-        legendTop
+  const getDSLChart = ({
+    currentBudget,
+    budgetOffset,
+    startBudget,
+    daysDone,
+    daysLeft,
+    periodLength,
+  }: {
+    currentBudget: number;
+    budgetOffset: number;
+    startBudget?: number;
+    daysLeft: number;
+    daysDone: number;
+    periodLength: number;
+  }) => {
+    if (!startBudget) {
+      return null;
+    }
+    const actualCurrentBudget = currentBudget - budgetOffset;
+    const actualStartBudget = startBudget - budgetOffset;
+    const idealDSL = Math.floor(actualStartBudget / periodLength);
+    const youShouldTargetDSL = Math.floor(actualCurrentBudget / daysLeft);
+    const actualSpendUntilNow =
+      actualStartBudget !== actualCurrentBudget
+        ? actualStartBudget - actualCurrentBudget
+        : undefined;
+    const actualCurrentDSL = actualSpendUntilNow
+      ? actualSpendUntilNow / Math.max(daysDone, 1)
+      : 0;
+    return (
+      <DSLChart
+        idealDSL={idealDSL}
+        targetDSL={youShouldTargetDSL > idealDSL ? 0 : youShouldTargetDSL}
+        actualDSL={actualCurrentDSL}
       />
-      {getMoneyBarChar()}
+    );
+  };
+
+  return (
+    <div className="w-96">
+      <div className="space-y-2 my-8">
+        <CustomBarChart
+          left={donePeriod}
+          right={leftPeriod}
+          unit="days"
+          legendTop
+        />
+        {getMoneyBarChar()}
+      </div>
+      {getDSLChart({
+        currentBudget: current,
+        budgetOffset: nullableOffset ?? 0,
+        startBudget: start,
+        daysDone: donePeriod,
+        daysLeft: leftPeriod,
+        periodLength: length,
+      })}
     </div>
   );
 }
