@@ -8,13 +8,18 @@ import {
   writeNewHistoryEntry,
 } from "./localstorage";
 import { SETTINGS_MODAL_ID, SettingsModal } from "./SettingsModal";
+import { WelcomeModal } from "./WelcomeModal";
 
 export default function Home() {
   const [currentBudget, setCurrentBudget] = useState<number | undefined>();
 
   useEffect(() => {
-    const { currentBudget } = readFromLocalStorage();
+    const { currentBudget, dismissedWelcomeModal } = readFromLocalStorage();
     setCurrentBudget(currentBudget);
+    if (!dismissedWelcomeModal) {
+      // @ts-ignore
+      document.getElementById("welcome-modal-id")?.showPopover();
+    }
   }, []);
 
   const handleCurrentBudgetChange = (value: number) => {
@@ -45,6 +50,7 @@ export default function Home() {
 
       {currentBudget && <Chart current={currentBudget} />}
       <SettingsModal />
+      <WelcomeModal />
     </main>
   );
 }
