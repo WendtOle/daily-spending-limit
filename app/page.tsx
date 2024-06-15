@@ -1,14 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Input from "./Input";
-import { getDate } from "./getDate";
 import Chart from "./Chart";
 import {
   LocalStorageKey,
   readFromLocalStorage,
   writeNewHistoryEntry,
 } from "./localstorage";
-import { FaCog } from "react-icons/fa";
 import { SETTINGS_MODAL_ID, SettingsModal } from "./SettingsModal";
 
 export default function Home() {
