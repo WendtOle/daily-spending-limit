@@ -49,6 +49,12 @@ export const DSLChart = ({
           </div>
         ))}
       </div>
+      <div className="bg-red-100" />
+      <div className="bg-red-200" />
+      <div className="bg-red-300" />
+      <div className="bg-green-100" />
+      <div className="bg-green-200" />
+      <div className="bg-green-300" />
     </div>
   );
 };

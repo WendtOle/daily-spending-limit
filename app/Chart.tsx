@@ -73,7 +73,7 @@ export default function Chart({ current }: ChartProps) {
         ? actualStartBudget - actualCurrentBudget
         : undefined;
     const actualCurrentDSL = actualSpendUntilNow
-      ? actualSpendUntilNow / Math.max(daysDone, 1)
+      ? Math.floor(actualSpendUntilNow / Math.max(daysDone, 1))
       : 0;
     return (
       <DSLChart
