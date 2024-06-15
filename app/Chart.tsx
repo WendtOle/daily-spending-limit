@@ -43,7 +43,9 @@ export default function Chart({ current }: ChartProps) {
     const offset = nullableOffset ?? 0;
     const moneySpent = start - current;
     const moneyLeft = start - moneySpent - offset;
-    return <CustomBarChart left={moneySpent} right={moneyLeft} unit="€" />;
+    return (
+      <CustomBarChart left={moneySpent} right={moneyLeft} unit="€" legendTop />
+    );
   };
 
   const getDSLChart = ({
@@ -87,13 +89,8 @@ export default function Chart({ current }: ChartProps) {
   return (
     <div className="w-80 sm:w-96">
       <div className="space-y-2 my-8">
-        <CustomBarChart
-          left={donePeriod}
-          right={leftPeriod}
-          unit="days"
-          legendTop
-        />
         {getMoneyBarChar()}
+        <CustomBarChart left={donePeriod} right={leftPeriod} unit="days" />
       </div>
       {getDSLChart({
         currentBudget: current,
