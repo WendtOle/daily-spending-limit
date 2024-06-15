@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import Input from "./Input";
 import { getDate } from "./getDate";
-import Results from "./Results";
 import Chart from "./Chart";
 import {
   LocalStorageKey,
@@ -47,7 +46,6 @@ export default function Home() {
           setValue={handleCurrentBudgetChange}
         />
       </div>
-      <Results currentBudget={currentBudget ?? 0} />
       {currentBudget && <Chart current={currentBudget} />}
     </main>
   );
