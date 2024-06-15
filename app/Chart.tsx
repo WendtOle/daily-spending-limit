@@ -137,7 +137,7 @@ export default function Chart({ current }: ChartProps) {
   };
 
   return (
-    <div className="w-full h-72">
+    <div className="w-full sm:w-[500px] h-72">
       <Line data={data} options={options} />
     </div>
   );
