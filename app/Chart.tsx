@@ -85,7 +85,7 @@ export default function Chart({ current }: ChartProps) {
   };
 
   return (
-    <div className="w-96">
+    <div className="w-80 sm:w-96">
       <div className="space-y-2 my-8">
         <CustomBarChart
           left={donePeriod}
