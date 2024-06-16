@@ -27,10 +27,10 @@ export const CustomBarChart = ({
     <div className={`flex ${order}`}>
       <div className="h-12 w-full relative flex items-center rounded-md">
         <div
-          className={`rounded-md ${roundedOuter} bg-yellow-100 w-full h-full absolute shadow-lg`}
+          className={`rounded-md ${roundedOuter} bg-yellow-100 w-full h-full absolute`}
         />
         <div
-          className={`rounded-md ${roundedInner} ${color} h-full absolute y-0 `}
+          className={`rounded-md ${roundedInner} ${color} h-full absolute y-0 shadow-lg`}
           style={{ width: `${percentage}%` }}
         />
       </div>
@@ -43,9 +43,7 @@ export const CustomBarChart = ({
         </div>
         <div className={`flex ${order} items-end`}>
           <div className={`w-1 h-4 bg-yellow-100`} />
-          <div className={`px-2 py-1 bg-yellow-100 w-fit shadow-lg`}>
-            {labelLeft}
-          </div>
+          <div className={`px-2 py-1 bg-yellow-100 w-fit`}>{labelLeft}</div>
         </div>
       </div>
     </div>

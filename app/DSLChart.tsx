@@ -52,6 +52,7 @@ export const DSLChart = ({
     alignment: string;
     bottom?: boolean;
   }) => {
+    const shadow = bottom ? "" : "shadow-lg";
     return (
       <div
         className={`flex ${alignment} ${
@@ -59,11 +60,11 @@ export const DSLChart = ({
         }`}
       >
         <div
-          className={`px-2 py-1 shadow-lg flex flex-col items-center ${color}  z-50`}
+          className={`px-2 py-1 ${shadow} flex flex-col items-center ${color} z-50`}
         >
           <span>{label}</span>
         </div>
-        <div className={`w-1 h-4 ${color} shadow-lg z-50`} />
+        <div className={`w-1 h-4 ${color} ${shadow} z-50`} />
       </div>
     );
   };
@@ -86,10 +87,10 @@ export const DSLChart = ({
       {topLabel}
       <div className="h-12 w-full relative flex items-center rounded-md">
         <div
-          className={`rounded-md ${minor} h-full w-full absolute y-0 ${minorRounding} shadow-lg`}
+          className={`rounded-md ${minor} h-full w-full absolute y-0 ${minorRounding}`}
         />
         <div
-          className={`rounded-md ${accent} h-full absolute y-0 ${accentRounding}`}
+          className={`rounded-md ${accent} h-full absolute y-0 ${accentRounding} shadow-lg`}
           style={{
             width: `${(data[smallerDSL].value / data[biggerDSL].value) * 100}%`,
           }}
