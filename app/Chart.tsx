@@ -90,7 +90,12 @@ export default function Chart({ current }: ChartProps) {
     <div className="w-80 sm:w-96">
       <div className="space-y-2 my-8">
         {getMoneyBarChar()}
-        <CustomBarChart left={donePeriod} right={leftPeriod} unit="days" />
+        <CustomBarChart
+          left={donePeriod}
+          right={leftPeriod}
+          unit="days"
+          variant="second"
+        />
       </div>
       {getDSLChart({
         currentBudget: current,
