@@ -58,10 +58,12 @@ export const DSLChart = ({
           bottom ? "flex-col-reverse" : "flex-col"
         }`}
       >
-        <div className={`px-2 py-1 shadow flex flex-col items-center ${color}`}>
+        <div
+          className={`px-2 py-1 shadow-lg flex flex-col items-center ${color}  z-50`}
+        >
           <span>{label}</span>
         </div>
-        <div className={`w-1 h-4 ${color}`} />
+        <div className={`w-1 h-4 ${color} shadow-lg z-50`} />
       </div>
     );
   };
@@ -84,7 +86,7 @@ export const DSLChart = ({
       {topLabel}
       <div className="h-12 w-full relative flex items-center rounded-md">
         <div
-          className={`rounded-md ${minor} h-full w-full absolute y-0 ${minorRounding}`}
+          className={`rounded-md ${minor} h-full w-full absolute y-0 ${minorRounding} shadow-lg`}
         />
         <div
           className={`rounded-md ${accent} h-full absolute y-0 ${accentRounding}`}
