@@ -80,7 +80,7 @@ export default function Chart({ current }: ChartProps) {
     return (
       <DSLChart
         idealDSL={idealDSL}
-        targetDSL={youShouldTargetDSL > idealDSL ? 0 : youShouldTargetDSL}
+        targetDSL={youShouldTargetDSL}
         actualDSL={actualCurrentDSL}
       />
     );
