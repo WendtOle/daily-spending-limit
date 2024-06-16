@@ -48,6 +48,8 @@ export default function Chart({ current }: ChartProps) {
     );
   };
 
+  const customRound = (value: number) => parseFloat(value.toFixed(1));
+
   const getDSLChart = ({
     currentBudget,
     budgetOffset,
@@ -68,14 +70,14 @@ export default function Chart({ current }: ChartProps) {
     }
     const actualCurrentBudget = currentBudget - budgetOffset;
     const actualStartBudget = startBudget - budgetOffset;
-    const idealDSL = Math.floor(actualStartBudget / periodLength);
-    const youShouldTargetDSL = Math.floor(actualCurrentBudget / daysLeft);
+    const idealDSL = customRound(actualStartBudget / periodLength);
+    const youShouldTargetDSL = customRound(actualCurrentBudget / daysLeft);
     const actualSpendUntilNow =
       actualStartBudget !== actualCurrentBudget
         ? actualStartBudget - actualCurrentBudget
         : undefined;
     const actualCurrentDSL = actualSpendUntilNow
-      ? Math.floor(actualSpendUntilNow / Math.max(daysDone, 1))
+      ? customRound(actualSpendUntilNow / Math.max(daysDone, 1))
       : 0;
     return (
       <DSLChart
