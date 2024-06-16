@@ -1,7 +1,7 @@
 interface CustomBarChartProps {
   left: number;
   right: number;
-  unit?: string;
+  unit?: "days" | "€";
   legendTop?: boolean;
   variant?: "first" | "second";
 }
@@ -15,37 +15,38 @@ export const CustomBarChart = ({
 }: CustomBarChartProps) => {
   const total = left + right;
   const percentage = Math.min((left / total) * 100, 100);
-  const color = variant === "second" ? "bg-yellow-200" : "bg-yellow-300";
+  const color = variant === "second" ? "bg-yellow-300" : "bg-yellow-400";
+  const rounded = legendTop
+    ? "rounded-t-none rounded-b-md"
+    : "rounded-b-none rounded-t-md";
   const order = legendTop ? "flex-col-reverse" : "flex-col";
-  const labelPlacement =
-    percentage > 50
-      ? {
-          alignment: "items-end",
-          order: "justify-start",
-          width: percentage - 1,
-        }
-      : {
-          alignment: "items-start",
-          order: "justify-end",
-          width: 100 - percentage + 2,
-        };
-  const label = `${right}/${total} ${unit ? `${unit} ` : ""}left`;
+  const labelLeft = `${right}/${total} ${unit ? `${unit} ` : ""}left`;
+  const labelDone = `${left} ${unit ? `${unit} ` : ""}${
+    unit === "€" ? "spent" : "passed"
+  }`;
   return (
     <div className={`flex ${order}`}>
       <div className="h-12 w-full relative flex items-center rounded-md">
-        <div className="rounded-md bg-yellow-50 w-full h-full absolute shadow-lg" />
         <div
-          className={`rounded-md ${color} h-full absolute y-0 `}
+          className={`rounded-md ${rounded} bg-yellow-100 w-full h-full absolute shadow-lg`}
+        />
+        <div
+          className={`rounded-md ${rounded} ${color} h-full absolute y-0 `}
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <div className={`flex ${labelPlacement.order} z-10`}>
-        <div
-          className={`flex ${order} ${labelPlacement.alignment}`}
-          style={{ width: `${labelPlacement.width}%` }}
-        >
-          <div className={`w-1 h-4 ${color} shadow-lg`} />
-          <div className={`px-2 py-1 ${color} w-fit shadow-lg`}>{label}</div>
+      <div className="flex justify-between z-50">
+        <div className={`flex ${order} items-start`}>
+          <div className={`w-1 h-4 ${color}`} />
+          <div className={`px-2 py-1 ${color} w-fit shadow-lg`}>
+            {labelDone}
+          </div>
+        </div>
+        <div className={`flex ${order} items-end`}>
+          <div className={`w-1 h-4 bg-yellow-100`} />
+          <div className={`px-2 py-1 bg-yellow-100 w-fit shadow-lg`}>
+            {labelLeft}
+          </div>
         </div>
       </div>
     </div>
