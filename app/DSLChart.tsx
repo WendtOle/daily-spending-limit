@@ -71,13 +71,19 @@ export const DSLChart = ({
 
   const topLabel = getLabel({
     color: topLabelColor,
-    label: `Target spending: ${data[targetSpending].value} €/d`,
+    label:
+      mode === "tense"
+        ? `You should only spend: ${data[targetSpending].value} €/d`
+        : `You can spend: ${data[DSL.IDEAL].value} €/d`,
     alignment: topLabelAlignment,
   });
 
   const bottomLabel = getLabel({
     color: bottomLabelColor,
-    label: `You actual spent: ${data[DSL.ACTUAL].value} €/d`,
+    label:
+      mode === "tense"
+        ? `You have spent: ${data[DSL.ACTUAL].value} €/d`
+        : `You have only spent: ${data[DSL.ACTUAL].value} €/d`,
     alignment: bottomLabelAlignment,
     bottom: true,
   });
