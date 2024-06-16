@@ -16,9 +16,8 @@ export const CustomBarChart = ({
   const total = left + right;
   const percentage = Math.min((left / total) * 100, 100);
   const color = variant === "second" ? "bg-yellow-300" : "bg-yellow-400";
-  const rounded = legendTop
-    ? "rounded-t-none rounded-b-md"
-    : "rounded-b-none rounded-t-md";
+  const roundedOuter = legendTop ? "rounded-tr-none" : "rounded-br-none";
+  const roundedInner = legendTop ? "rounded-tl-none" : "rounded-bl-none";
   const order = legendTop ? "flex-col-reverse" : "flex-col";
   const labelLeft = `${right}/${total} ${unit ? `${unit} ` : ""}left`;
   const labelDone = `${left} ${unit ? `${unit} ` : ""}${
@@ -28,10 +27,10 @@ export const CustomBarChart = ({
     <div className={`flex ${order}`}>
       <div className="h-12 w-full relative flex items-center rounded-md">
         <div
-          className={`rounded-md ${rounded} bg-yellow-100 w-full h-full absolute shadow-lg`}
+          className={`rounded-md ${roundedOuter} bg-yellow-100 w-full h-full absolute shadow-lg`}
         />
         <div
-          className={`rounded-md ${rounded} ${color} h-full absolute y-0 `}
+          className={`rounded-md ${roundedInner} ${color} h-full absolute y-0 `}
           style={{ width: `${percentage}%` }}
         />
       </div>
