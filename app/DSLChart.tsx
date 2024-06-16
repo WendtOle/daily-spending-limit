@@ -18,17 +18,16 @@ export const DSLChart = ({
   const maxValue = Math.max(...sortedValues.map((v) => v.value));
   const valuesToPlot = sortedValues.map((v) => (v.value / maxValue) * 100);
 
-  const color = actualDSL > idealDSL ? "red" : "green";
+  const colorPalette =
+    actualDSL > idealDSL
+      ? ["bg-red-100", "bg-red-200", "bg-red-300"]
+      : ["bg-green-100", "bg-green-200", "bg-green-300"];
 
   return (
     <div className={`flex  flex-col`}>
       <div className="h-12 w-full relative flex items-center rounded-md">
         {valuesToPlot.map((value, index) => {
-          const bgColor =
-            valuesToPlot.length === 3
-              ? `bg-${color}-${(index + 1) * 100}`
-              : `bg-${color}-${index === 0 ? 100 : 300}`;
-
+          const bgColor = colorPalette[index];
           return (
             <div
               key={index}
@@ -39,10 +38,10 @@ export const DSLChart = ({
         })}
       </div>
       <div className="flex justify-between flex-row-reverse">
-        {sortedValues.map(({ label, value }) => (
+        {sortedValues.map(({ label, value }, index) => (
           <div
             key={label}
-            className={`rounded px-2 py-1 mt-2 shadow flex flex-col items-center`}
+            className={`rounded px-2 py-1 mt-2 shadow flex flex-col items-center ${colorPalette[index]}`}
           >
             <span>{value}€/d</span>
             <span>{label}</span>
