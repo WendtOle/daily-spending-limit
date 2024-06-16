@@ -11,7 +11,7 @@ export const WelcomeModal = () => {
 
   return (
     <div
-      className="p-8 pt-6 shadow-xl modal rounded space-y-6"
+      className="p-8 pt-6 shadow-xl modal rounded space-y-6  w-96"
       id={WELCOME_MODAL_ID}
       // @ts-ignore
       popover="auto"
@@ -19,7 +19,7 @@ export const WelcomeModal = () => {
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Welcome
       </h1>
-      <div className="text-base">
+      <div className="text-base ">
         Welcome to the <i>Daily spending limit</i> application, or short{" "}
         <i>DSL</i>. This application helps you to keep track of your daily
         spending and helps you reach your financial goals.
