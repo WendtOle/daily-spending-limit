@@ -41,16 +41,47 @@ export const DSLChart = ({
       ? ["rounded-tl-none", "rounded-br-none"]
       : ["rounded-bl-none", "rounded-tr-none"];
 
+  const getLabel = ({
+    color,
+    label,
+    alignment,
+    bottom,
+  }: {
+    label: string;
+    color: string;
+    alignment: string;
+    bottom?: boolean;
+  }) => {
+    return (
+      <div
+        className={`flex ${alignment} ${
+          bottom ? "flex-col-reverse" : "flex-col"
+        }`}
+      >
+        <div className={`px-2 py-1 shadow flex flex-col items-center ${color}`}>
+          <span>{label}</span>
+        </div>
+        <div className={`w-1 h-4 ${color}`} />
+      </div>
+    );
+  };
+
+  const topLabel = getLabel({
+    color: topLabelColor,
+    label: `Target spending: ${data[targetSpending].value} €/d`,
+    alignment: topLabelAlignment,
+  });
+
+  const bottomLabel = getLabel({
+    color: bottomLabelColor,
+    label: `You actual spent: ${data[DSL.ACTUAL].value} €/d`,
+    alignment: bottomLabelAlignment,
+    bottom: true,
+  });
+
   return (
     <div className={`flex  flex-col`}>
-      <div className={`flex ${topLabelAlignment} flex-col`}>
-        <div
-          className={`px-2 py-1 shadow flex flex-col items-center ${topLabelColor}`}
-        >
-          <span>Target spending: {data[targetSpending].value} €/d</span>
-        </div>
-        <div className={`w-1 h-4 ${topLabelColor}`} />
-      </div>
+      {topLabel}
       <div className="h-12 w-full relative flex items-center rounded-md">
         <div
           className={`rounded-md ${minor} h-full w-full absolute y-0 ${minorRounding}`}
@@ -62,14 +93,7 @@ export const DSLChart = ({
           }}
         />
       </div>
-      <div className={`flex ${bottomLabelAlignment} flex-col`}>
-        <div className={`w-1 h-4 ${bottomLabelColor}`} />
-        <div
-          className={`px-2 py-1 shadow flex flex-col items-center ${bottomLabelColor}`}
-        >
-          <span>You actual spent: {data[DSL.ACTUAL].value} €/d</span>
-        </div>
-      </div>
+      {bottomLabel}
     </div>
   );
 };
