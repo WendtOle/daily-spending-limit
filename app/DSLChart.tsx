@@ -28,8 +28,8 @@ export const DSLChart = ({
       : [targetSpending, DSL.ACTUAL];
 
   const mode = targetSpending === DSL.IDEAL ? "relaxed" : "tense";
-  const accent = mode === "tense" ? "bg-red-400" : "bg-green-300";
-  const minor = mode === "tense" ? "bg-red-100" : "bg-green-200";
+  const accent = mode === "tense" ? "bg-red-400" : "bg-green-400";
+  const minor = mode === "tense" ? "bg-red-100" : "bg-green-100";
   const [topLabelColor, bottomLabelColor] =
     mode === "tense" ? [accent, minor] : [minor, accent];
   const [topLabelAlignment, bottomLabelAlignment] =
