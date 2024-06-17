@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
 import Input from "./Input";
-import { LocalStorageKey, readFromLocalStorage } from "./localstorage";
+import {
+  LocalStorageKey,
+  readFromLocalStorage,
+  writeNewHistoryEntry,
+} from "./localstorage";
 export const SETTINGS_MODAL_ID = "settings-modal-id";
 
 export const SettingsModal = () => {
+  const [accountBalance, setAccountBalance] = useState<number>(0);
   const [startBudget, setStartBudget] = useState<number>(0);
   const [budgetOffset, setBudgetOffset] = useState<number>(0);
   const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
 
   useEffect(() => {
-    const { startBudget, budgetOffset, thirdMonthMode } =
+    const { startBudget, budgetOffset, thirdMonthMode, currentBudget } =
       readFromLocalStorage();
     setStartBudget(startBudget ?? 0);
     setBudgetOffset(budgetOffset ?? 0);
     setThirdMonthMode(thirdMonthMode);
+    setAccountBalance(currentBudget);
   }, []);
 
   const handleStartBudgetChange = (value: number) => {
@@ -31,6 +37,12 @@ export const SettingsModal = () => {
     localStorage.setItem(LocalStorageKey.THIRD_MONTH_MODE, value.toString());
     window.dispatchEvent(new StorageEvent("storage"));
   };
+  const handleCurrentBudgetChange = (value: number) => {
+    writeNewHistoryEntry(value);
+    setAccountBalance(value);
+    localStorage.setItem(LocalStorageKey.CURRENT_BUDGET, value.toString());
+    window.dispatchEvent(new StorageEvent("storage"));
+  };
 
   return (
     <div
@@ -42,6 +54,11 @@ export const SettingsModal = () => {
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Settings
       </h1>
+      <Input
+        label="Account balance"
+        value={accountBalance}
+        setValue={handleCurrentBudgetChange}
+      />
       <Input
         label="Budget offset"
         value={budgetOffset}
