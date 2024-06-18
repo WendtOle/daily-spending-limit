@@ -1,3 +1,6 @@
+import { getPeriod } from "./lastDayOfMonth";
+import { useLocalstorageValues } from "./useLocalstorageValues";
+
 interface CustomBarChartProps {
   idealDSL: number;
   actualDSL: number;
@@ -10,11 +13,40 @@ enum DSL {
   ACTUAL = "actual",
 }
 
-export const DSLChart = ({
-  idealDSL,
-  actualDSL,
-  targetDSL,
-}: CustomBarChartProps) => {
+export const DSLChart = () => {
+  const {
+    startBudget,
+    currentBudget,
+    offset: budgetOffset,
+    thirdMonthMode,
+  } = useLocalstorageValues();
+  if (!startBudget || !currentBudget) {
+    return null;
+  }
+
+  const { start: startPeriod, end: endPeriod } = getPeriod(thirdMonthMode);
+  const today = new Date().getDate();
+  const periodLength = endPeriod - startPeriod;
+  const leftPeriod = endPeriod - today;
+  const donePeriod = periodLength - leftPeriod;
+
+  const customRound = (value: number) => parseFloat(value.toFixed(1));
+
+  const actualCurrentBudget = currentBudget - budgetOffset;
+  const actualStartBudget = startBudget - budgetOffset;
+  const idealDSL = customRound(actualStartBudget / periodLength);
+  const youShouldTargetDSL = customRound(actualCurrentBudget / leftPeriod);
+  const actualSpendUntilNow =
+    actualStartBudget !== actualCurrentBudget
+      ? actualStartBudget - actualCurrentBudget
+      : undefined;
+  const actualCurrentDSL = actualSpendUntilNow
+    ? customRound(actualSpendUntilNow / Math.max(donePeriod, 1))
+    : 0;
+
+  const targetDSL = youShouldTargetDSL;
+  const actualDSL = actualCurrentDSL;
+
   const data = {
     [DSL.IDEAL]: { value: idealDSL, color: "bg-red-200" },
     [DSL.TARGET]: { value: targetDSL, color: "bg-red-300" },
@@ -89,20 +121,24 @@ export const DSLChart = ({
   });
 
   return (
-    <div className={`flex  flex-col`}>
-      {topLabel}
-      <div className="h-12 w-full relative flex items-center rounded-md">
-        <div
-          className={`rounded-md ${minor} h-full w-full absolute y-0 ${minorRounding}`}
-        />
-        <div
-          className={`rounded-md ${accent} h-full absolute y-0 ${accentRounding} shadow-lg`}
-          style={{
-            width: `${(data[smallerDSL].value / data[biggerDSL].value) * 100}%`,
-          }}
-        />
+    <div className="w-80 sm:w-96">
+      <div className={`flex  flex-col`}>
+        {topLabel}
+        <div className="h-12 w-full relative flex items-center rounded-md">
+          <div
+            className={`rounded-md ${minor} h-full w-full absolute y-0 ${minorRounding}`}
+          />
+          <div
+            className={`rounded-md ${accent} h-full absolute y-0 ${accentRounding} shadow-lg`}
+            style={{
+              width: `${
+                (data[smallerDSL].value / data[biggerDSL].value) * 100
+              }%`,
+            }}
+          />
+        </div>
+        {bottomLabel}
       </div>
-      {bottomLabel}
     </div>
   );
 };

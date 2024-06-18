@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Chart from "./Chart";
 import { readFromLocalStorage } from "./localstorage";
 import { SettingsModal } from "./SettingsModal";
 import { WelcomeModal } from "./WelcomeModal";
 import { BudgetChart } from "./BudgetChart";
+import { DSLChart } from "./DSLChart";
 
 export default function Home() {
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function Home() {
       </h1>
       <BudgetChart />
       <Chart />
+      <DSLChart />
       <SettingsModal />
       <WelcomeModal />
     </main>

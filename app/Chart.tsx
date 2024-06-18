@@ -1,7 +1,6 @@
 "use client";
 import { getPeriod } from "./lastDayOfMonth";
 import { CustomBarChart } from "./CustomBarChart";
-import { DSLChart } from "./DSLChart";
 import { useLocalstorageValues } from "./useLocalstorageValues";
 
 export default function Chart() {
@@ -32,46 +31,6 @@ export default function Chart() {
     );
   };
 
-  const customRound = (value: number) => parseFloat(value.toFixed(1));
-
-  const getDSLChart = ({
-    currentBudget,
-    budgetOffset,
-    startBudget,
-    daysDone,
-    daysLeft,
-    periodLength,
-  }: {
-    currentBudget: number;
-    budgetOffset: number;
-    startBudget?: number;
-    daysLeft: number;
-    daysDone: number;
-    periodLength: number;
-  }) => {
-    if (!startBudget) {
-      return null;
-    }
-    const actualCurrentBudget = currentBudget - budgetOffset;
-    const actualStartBudget = startBudget - budgetOffset;
-    const idealDSL = customRound(actualStartBudget / periodLength);
-    const youShouldTargetDSL = customRound(actualCurrentBudget / daysLeft);
-    const actualSpendUntilNow =
-      actualStartBudget !== actualCurrentBudget
-        ? actualStartBudget - actualCurrentBudget
-        : undefined;
-    const actualCurrentDSL = actualSpendUntilNow
-      ? customRound(actualSpendUntilNow / Math.max(daysDone, 1))
-      : 0;
-    return (
-      <DSLChart
-        idealDSL={idealDSL}
-        targetDSL={youShouldTargetDSL}
-        actualDSL={actualCurrentDSL}
-      />
-    );
-  };
-
   return (
     <div className="w-80 sm:w-96">
       <div className="space-y-2 my-8">
@@ -83,14 +42,6 @@ export default function Chart() {
           variant="second"
         />
       </div>
-      {getDSLChart({
-        currentBudget: current,
-        budgetOffset: offset,
-        startBudget: start,
-        daysDone: donePeriod,
-        daysLeft: leftPeriod,
-        periodLength: length,
-      })}
     </div>
   );
 }
