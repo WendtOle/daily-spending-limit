@@ -76,5 +76,6 @@ export const useLocalstorageValues = () => {
     setThirdMonthMode: handleThridMonthModeChange,
     futureExpenses: futureExpenses ?? 0,
     setFutureExpenses: handleFutureExpensesChange,
+    history,
   };
 };

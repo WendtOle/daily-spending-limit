@@ -10,6 +10,7 @@ export default function Chart() {
     thirdMonthMode,
     currentBudget: current,
     futureExpenses,
+    history,
   } = useLocalstorageValues();
 
   if ((Object.keys(history).length < 2 && !start) || !current) {
