@@ -44,8 +44,8 @@ export const BudgetChart = () => {
           <div className={`w-1 h-4 bg-blue-100 z-50`} />
         </div>
       </div>
-      <div className="h-16 w-full flex items-center rounded-md rounded-tl-none rounded-md bg-blue-100 h-full w-full">
-        <div className="relative w-full h-12 m-2 ">
+      <div className="h-16 w-full flex items-end rounded-md rounded-tl-none rounded-md bg-blue-100 h-full w-full">
+        <div className="relative w-full h-12">
           <div
             className={`rounded-md bg-blue-400 h-full rounded-bl-none shadow-lg absolute`}
             style={{
@@ -63,13 +63,13 @@ export const BudgetChart = () => {
         </div>
       </div>
       <div className="flex justify-between z-50 w-full h-10 relative">
-        <div className={`flex flex-col items-start absolute left-2 -top-2`}>
+        <div className={`flex flex-col items-start absolute left-0 `}>
           <div className={`w-1 h-4 bg-blue-400`} />
           <div className={`px-2 py-1 bg-blue-400 w-fit shadow-lg`}>
             Available: {available}€
           </div>
         </div>
-        <div className={`flex flex-col items-end absolute right-2 -top-2`}>
+        <div className={`flex flex-col items-end absolute right-0`}>
           <div className={`w-1 h-4 bg-blue-300 shadow-lg`} />
           <div
             className={`px-2 py-1 bg-blue-300 w-fit shadow-lg flex flex-row items-center`}
