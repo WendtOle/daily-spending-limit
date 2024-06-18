@@ -10,15 +10,22 @@ export const useLocalstorageValues = () => {
   const [nullableOffset, setOffset] = useState<number | undefined>();
   const [startBudget, setStartBudget] = useState<number | undefined>();
   const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
+  const [futureExpenses, setFutureExpenses] = useState<number | undefined>();
 
   useEffect(() => {
     const updateValues = () => {
-      const { currentBudget, budgetOffset, startBudget, thirdMonthMode } =
-        readFromLocalStorage();
+      const {
+        currentBudget,
+        budgetOffset,
+        startBudget,
+        thirdMonthMode,
+        futureExpenses,
+      } = readFromLocalStorage();
       setAccountBalance(currentBudget);
       setOffset(budgetOffset);
       setStartBudget(startBudget);
       setThirdMonthMode(thirdMonthMode);
+      setFutureExpenses(futureExpenses);
     };
     window.addEventListener("storage", updateValues);
     updateValues();
@@ -39,6 +46,14 @@ export const useLocalstorageValues = () => {
     localStorage.setItem(LocalStorageKey.THIRD_MONTH_MODE, value.toString());
     window.dispatchEvent(new StorageEvent("storage"));
   };
+  const handleFutureExpensesChange = (value: number) => {
+    setFutureExpenses(value);
+    localStorage.setItem(
+      LocalStorageKey.FUTURE_EXPENSES,
+      JSON.stringify({ value, creationDay: new Date().getDate() })
+    );
+    window.dispatchEvent(new StorageEvent("storage"));
+  };
   const handleCurrentBudgetChange = (value: number) => {
     writeNewHistoryEntry(value);
     setAccountBalance(value);
@@ -55,5 +70,7 @@ export const useLocalstorageValues = () => {
     setStartBudget: handleStartBudgetChange,
     thirdMonthMode,
     setThirdMonthMode: handleThridMonthModeChange,
+    futureExpenses: futureExpenses ?? 0,
+    setFutureExpenses: handleFutureExpensesChange,
   };
 };

@@ -12,6 +12,8 @@ export const SettingsModal = () => {
     setStartBudget,
     thirdMonthMode,
     setThirdMonthMode,
+    futureExpenses,
+    setFutureExpenses,
   } = useLocalstorageValues();
 
   return (
@@ -35,6 +37,19 @@ export const SettingsModal = () => {
         value={startBudget ?? 0}
         setValue={setStartBudget}
       />
+
+      <div>
+        <Input
+          label="Future expenses"
+          value={futureExpenses ?? 0}
+          setValue={setFutureExpenses}
+        />
+        <div className="w-56 text-sm mt-2 ml-4">
+          For expanses you know that will happen but are not registered in your
+          account balance yet. <br /> <i>Future expenses</i> are resetted at the
+          beginning of each day.
+        </div>
+      </div>
       <div>
         <div className="flex flex-row items-center">
           <input

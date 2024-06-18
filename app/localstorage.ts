@@ -7,6 +7,7 @@ export enum LocalStorageKey {
   START_BUDGET = "startBudget",
   THIRD_MONTH_MODE = "thirdMonthMode",
   DISMISSED_WELCOME_MODAL = "dismissedWelcomeModal",
+  FUTURE_EXPENSES = "futureExpenses",
 }
 
 const DEFAULT_VALLUES = {
@@ -15,6 +16,9 @@ const DEFAULT_VALLUES = {
   budgetOffset: 0,
 };
 
+type FutureExpenseType = { value: number; creationDay: number };
+const FUTURE_EXPENSES_DEFAULT = { value: 0, creationDay: 0 };
+
 export const readFromLocalStorage = (): {
   currentBudget: number;
   startBudget: number;
@@ -22,6 +26,7 @@ export const readFromLocalStorage = (): {
   history: History;
   thirdMonthMode: boolean;
   dismissedWelcomeModal: boolean;
+  futureExpenses: number;
 } => {
   const nullableCurrentBudget = localStorage.getItem(
     LocalStorageKey.CURRENT_BUDGET
@@ -32,6 +37,12 @@ export const readFromLocalStorage = (): {
   const nullableBudgetOffset = localStorage.getItem(
     LocalStorageKey.BUDGET_OFFSET
   );
+  const nullableFutureExpanseString = localStorage.getItem(
+    LocalStorageKey.FUTURE_EXPENSES
+  );
+  const nullableFutureExpenses: FutureExpenseType = nullableFutureExpanseString
+    ? JSON.parse(nullableFutureExpanseString)
+    : FUTURE_EXPENSES_DEFAULT;
   const rawHistory = localStorage.getItem(LocalStorageKey.HISTORY);
   const history: History = JSON.parse(rawHistory ?? "{}");
   const nullableThirdMonthMode = localStorage.getItem(
@@ -54,6 +65,10 @@ export const readFromLocalStorage = (): {
     history,
     thirdMonthMode: nullableThirdMonthMode === "true",
     dismissedWelcomeModal: nullableDismissedWelcomeModal === "true",
+    futureExpenses:
+      nullableFutureExpenses.creationDay === new Date().getDate()
+        ? nullableFutureExpenses.value
+        : 0,
   };
 };
 

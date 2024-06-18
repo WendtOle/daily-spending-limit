@@ -19,6 +19,7 @@ export const DSLChart = () => {
     currentBudget,
     offset: budgetOffset,
     thirdMonthMode,
+    futureExpenses,
   } = useLocalstorageValues();
   if (!startBudget || !currentBudget) {
     return null;
@@ -32,7 +33,7 @@ export const DSLChart = () => {
 
   const customRound = (value: number) => parseFloat(value.toFixed(1));
 
-  const actualCurrentBudget = currentBudget - budgetOffset;
+  const actualCurrentBudget = currentBudget - budgetOffset - futureExpenses;
   const actualStartBudget = startBudget - budgetOffset;
   const idealDSL = customRound(actualStartBudget / periodLength);
   const youShouldTargetDSL = customRound(actualCurrentBudget / leftPeriod);

@@ -9,6 +9,7 @@ export default function Chart() {
     startBudget: start,
     thirdMonthMode,
     currentBudget: current,
+    futureExpenses,
   } = useLocalstorageValues();
 
   if ((Object.keys(history).length < 2 && !start) || !current) {
@@ -24,7 +25,7 @@ export default function Chart() {
     if (!start) {
       return null;
     }
-    const moneySpent = start - current;
+    const moneySpent = start - current + futureExpenses;
     const moneyLeft = start - moneySpent - offset;
     return (
       <CustomBarChart left={moneySpent} right={moneyLeft} unit="€" legendTop />
