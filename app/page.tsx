@@ -7,15 +7,7 @@ import { WelcomeModal } from "./WelcomeModal";
 import { BudgetChart } from "./BudgetChart";
 
 export default function Home() {
-  const [currentBudget, setCurrentBudget] = useState<number | undefined>();
-
   useEffect(() => {
-    const update = () => {
-      const { currentBudget } = readFromLocalStorage();
-      setCurrentBudget(currentBudget);
-    };
-    update();
-    window.addEventListener("storage", update);
     const { dismissedWelcomeModal } = readFromLocalStorage();
     if (!dismissedWelcomeModal) {
       // @ts-ignore
@@ -29,7 +21,7 @@ export default function Home() {
         Daily spending limit
       </h1>
       <BudgetChart />
-      {currentBudget && <Chart current={currentBudget} />}
+      <Chart />
       <SettingsModal />
       <WelcomeModal />
     </main>

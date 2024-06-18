@@ -1,27 +1,14 @@
-import { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
-import { readFromLocalStorage } from "./localstorage";
 import { SETTINGS_MODAL_ID } from "./SettingsModal";
+import { useLocalstorageValues } from "./useLocalstorageValues";
 
 export const BudgetChart = () => {
-  const [currentBudget, setCurrentBudget] = useState<number | undefined>();
-  const [nullableOffset, setOffset] = useState<number | undefined>();
-
-  useEffect(() => {
-    const updateValues = () => {
-      const { currentBudget, budgetOffset } = readFromLocalStorage();
-      setCurrentBudget(currentBudget);
-      setOffset(budgetOffset);
-    };
-    window.addEventListener("storage", updateValues);
-    updateValues();
-  }, []);
+  const { currentBudget, offset } = useLocalstorageValues();
 
   if (currentBudget === undefined) {
     return null;
   }
 
-  const offset = nullableOffset ?? 0;
   const available = currentBudget - offset;
   const percent = (available / currentBudget) * 100;
 

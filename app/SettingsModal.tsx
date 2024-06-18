@@ -1,48 +1,18 @@
-import { useEffect, useState } from "react";
 import Input from "./Input";
-import {
-  LocalStorageKey,
-  readFromLocalStorage,
-  writeNewHistoryEntry,
-} from "./localstorage";
+import { useLocalstorageValues } from "./useLocalstorageValues";
 export const SETTINGS_MODAL_ID = "settings-modal-id";
 
 export const SettingsModal = () => {
-  const [accountBalance, setAccountBalance] = useState<number>(0);
-  const [startBudget, setStartBudget] = useState<number>(0);
-  const [budgetOffset, setBudgetOffset] = useState<number>(0);
-  const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
-
-  useEffect(() => {
-    const { startBudget, budgetOffset, thirdMonthMode, currentBudget } =
-      readFromLocalStorage();
-    setStartBudget(startBudget ?? 0);
-    setBudgetOffset(budgetOffset ?? 0);
-    setThirdMonthMode(thirdMonthMode);
-    setAccountBalance(currentBudget);
-  }, []);
-
-  const handleStartBudgetChange = (value: number) => {
-    setStartBudget(value);
-    localStorage.setItem(LocalStorageKey.START_BUDGET, value.toString());
-    window.dispatchEvent(new StorageEvent("storage"));
-  };
-  const handleBudgetOffsetChange = (value: number) => {
-    setBudgetOffset(value);
-    localStorage.setItem(LocalStorageKey.BUDGET_OFFSET, value.toString());
-    window.dispatchEvent(new StorageEvent("storage"));
-  };
-  const handleThridMonthModeChange = (value: boolean) => {
-    setThirdMonthMode(value);
-    localStorage.setItem(LocalStorageKey.THIRD_MONTH_MODE, value.toString());
-    window.dispatchEvent(new StorageEvent("storage"));
-  };
-  const handleCurrentBudgetChange = (value: number) => {
-    writeNewHistoryEntry(value);
-    setAccountBalance(value);
-    localStorage.setItem(LocalStorageKey.CURRENT_BUDGET, value.toString());
-    window.dispatchEvent(new StorageEvent("storage"));
-  };
+  const {
+    currentBudget,
+    setBalance,
+    offset,
+    setOffset,
+    startBudget,
+    setStartBudget,
+    thirdMonthMode,
+    setThirdMonthMode,
+  } = useLocalstorageValues();
 
   return (
     <div
@@ -56,18 +26,14 @@ export const SettingsModal = () => {
       </h1>
       <Input
         label="Account balance"
-        value={accountBalance}
-        setValue={handleCurrentBudgetChange}
+        value={currentBudget ?? 0}
+        setValue={setBalance}
       />
-      <Input
-        label="Budget offset"
-        value={budgetOffset}
-        setValue={handleBudgetOffsetChange}
-      />
+      <Input label="Budget offset" value={offset} setValue={setOffset} />
       <Input
         label="Start budget"
-        value={startBudget}
-        setValue={handleStartBudgetChange}
+        value={startBudget ?? 0}
+        setValue={setStartBudget}
       />
       <div>
         <div className="flex flex-row items-center">
@@ -75,7 +41,7 @@ export const SettingsModal = () => {
             className="w-6 h-6"
             type="checkbox"
             checked={thirdMonthMode}
-            onChange={(e) => handleThridMonthModeChange(e.target.checked)}
+            onChange={(e) => setThirdMonthMode(e.target.checked)}
           />
           <label className="font-medium text-gray-900 ml-2">Focus mode</label>
         </div>

@@ -1,33 +1,18 @@
 "use client";
 import { getPeriod } from "./lastDayOfMonth";
-import { useEffect } from "react";
-import { readFromLocalStorage } from "./localstorage";
-import { useState } from "react";
 import { CustomBarChart } from "./CustomBarChart";
 import { DSLChart } from "./DSLChart";
+import { useLocalstorageValues } from "./useLocalstorageValues";
 
-interface ChartProps {
-  current: number;
-}
+export default function Chart() {
+  const {
+    offset,
+    startBudget: start,
+    thirdMonthMode,
+    currentBudget: current,
+  } = useLocalstorageValues();
 
-export default function Chart({ current }: ChartProps) {
-  const [start, setStartBudget] = useState<number | undefined>(undefined);
-  const [nullableOffset, setBudgetOffset] = useState<number | undefined>(
-    undefined
-  );
-  const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
-  useEffect(() => {
-    const update = () => {
-      const { startBudget, budgetOffset, thirdMonthMode } =
-        readFromLocalStorage();
-      setStartBudget(startBudget);
-      setBudgetOffset(budgetOffset);
-      setThirdMonthMode(thirdMonthMode);
-    };
-    update();
-    window.addEventListener("storage", update);
-  }, []);
-  if (Object.keys(history).length < 2 && !start && !nullableOffset) {
+  if ((Object.keys(history).length < 2 && !start) || !current) {
     return null;
   }
   const { start: startPeriod, end: endPeriod } = getPeriod(thirdMonthMode);
@@ -40,7 +25,6 @@ export default function Chart({ current }: ChartProps) {
     if (!start) {
       return null;
     }
-    const offset = nullableOffset ?? 0;
     const moneySpent = start - current;
     const moneyLeft = start - moneySpent - offset;
     return (
@@ -101,7 +85,7 @@ export default function Chart({ current }: ChartProps) {
       </div>
       {getDSLChart({
         currentBudget: current,
-        budgetOffset: nullableOffset ?? 0,
+        budgetOffset: offset,
         startBudget: start,
         daysDone: donePeriod,
         daysLeft: leftPeriod,
