@@ -4,6 +4,7 @@ import {
   readFromLocalStorage,
   writeNewHistoryEntry,
 } from "./localstorage";
+import { History } from "./types";
 
 export const useLocalstorageValues = () => {
   const [currentBudget, setAccountBalance] = useState<number | undefined>();
@@ -11,6 +12,7 @@ export const useLocalstorageValues = () => {
   const [startBudget, setStartBudget] = useState<number | undefined>();
   const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
   const [futureExpenses, setFutureExpenses] = useState<number | undefined>();
+  const [history, setHistory] = useState<History>({});
 
   useEffect(() => {
     const updateValues = () => {
@@ -20,12 +22,14 @@ export const useLocalstorageValues = () => {
         startBudget,
         thirdMonthMode,
         futureExpenses,
+        history,
       } = readFromLocalStorage();
       setAccountBalance(currentBudget);
       setOffset(budgetOffset);
       setStartBudget(startBudget);
       setThirdMonthMode(thirdMonthMode);
       setFutureExpenses(futureExpenses);
+      setHistory(history);
     };
     window.addEventListener("storage", updateValues);
     updateValues();
