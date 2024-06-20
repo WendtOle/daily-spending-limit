@@ -12,7 +12,7 @@ export const BudgetChart = () => {
   const available = currentBudget - offset - futureExpenses;
   const futureExpensesPercent = Math.max(
     (futureExpenses / currentBudget) * 100,
-    0
+    2
   );
   const availablePercent = Math.max((available / currentBudget) * 100, 0);
 
