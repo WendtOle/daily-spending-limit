@@ -25,7 +25,10 @@ export const DSLChart = () => {
     return null;
   }
 
-  const { start: startPeriod, end: endPeriod } = getPeriod(thirdMonthMode);
+  const { start: startPeriod, end: endPeriod } = getPeriod(
+    thirdMonthMode,
+    new Date()
+  );
   const today = new Date().getDate();
   const periodLength = endPeriod - startPeriod;
   const leftPeriod = endPeriod - today;

@@ -1,7 +1,8 @@
 export const getPeriod = (
-  thirdMonthMode: boolean
+  thirdMonthMode: boolean,
+  today: Date
 ): { start: number; end: number } => {
-  const day = new Date().getDate();
+  const day = today.getDate();
   if (thirdMonthMode) {
     if (day < 10) {
       return { start: 0, end: 10 };
@@ -10,7 +11,6 @@ export const getPeriod = (
       return { start: 10, end: 20 };
     }
   }
-  const today = new Date();
   return {
     start: thirdMonthMode ? 20 : 0,
     end: new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate(),

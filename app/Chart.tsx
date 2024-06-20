@@ -16,7 +16,10 @@ export default function Chart() {
   if ((Object.keys(history).length < 2 && !start) || !current) {
     return null;
   }
-  const { start: startPeriod, end: endPeriod } = getPeriod(thirdMonthMode);
+  const { start: startPeriod, end: endPeriod } = getPeriod(
+    thirdMonthMode,
+    new Date()
+  );
   const today = new Date().getDate();
   const length = endPeriod - startPeriod;
   const leftPeriod = endPeriod - today;
