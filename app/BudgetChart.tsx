@@ -65,17 +65,17 @@ export const BudgetChart = () => {
         </div>
       </div>
       <div className="flex justify-between z-50 w-full h-24 relative">
-        <div
-          className={`flex flex-col items-start absolute `}
-          style={{
-            left: `${futureExpenses > 0 ? availablePercent + 0.5 : 0}%`,
-          }}
-        >
-          <div
-            className={`w-1 h-16 bg-blue-400 ${
-              futureExpenses <= 0 ? "w-0" : "w-1"
-            }`}
-          />
+        <div className={`flex flex-col items-center w-full`}>
+          <div className="h-16 w-full relative">
+            <div
+              className={`w-1 h-16 bg-blue-400 absolute ${
+                futureExpenses <= 0 ? "w-0" : "w-1"
+              }`}
+              style={{
+                left: `${futureExpenses > 0 ? availablePercent + 0.5 : 0}%`,
+              }}
+            />
+          </div>
           <div className={`px-2 py-1 bg-blue-400 w-fit shadow-lg text-white`}>
             <span>
               {futureExpenses === 0
