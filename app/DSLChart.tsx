@@ -22,22 +22,23 @@ export const DSLChart = () => {
     thirdMonthMode,
     futureExpenses,
   } = useLocalstorageValues();
-  if (!startBudget || !currentBudget) {
-    return null;
-  }
 
   const {
     idealDSL,
     actualCurrentDSL: actualDSL,
     youShouldTargetDSL: targetDSL,
   } = useDSL({
-    startBudget,
-    currentBudget,
+    startBudget: startBudget ?? 0,
+    currentBudget: currentBudget ?? 0,
     thirdMonthMode,
     offset: budgetOffset,
     futureExpenses,
     today: new Date(),
   });
+
+  if (!startBudget || !currentBudget) {
+    return null;
+  }
 
   const data = {
     [DSL.IDEAL]: { value: idealDSL },
