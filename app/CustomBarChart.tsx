@@ -36,7 +36,10 @@ export const CustomBarChart = ({
       </div>
       <div className="flex justify-between z-50">
         <div className={`flex ${order} items-start`}>
-          <div className={`w-1 h-4 ${color}`} />
+          <div
+            className={`w-1 h-4 ${color}`}
+            style={{ width: left === 0 ? 0 : undefined }}
+          />
           <div className={`px-2 py-1 ${color} w-fit shadow-lg`}>
             {labelDone}
           </div>
