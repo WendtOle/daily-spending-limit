@@ -1,12 +1,5 @@
-import { getPeriod } from "./lastDayOfMonth";
 import { useDSL } from "./useDSL";
 import { useLocalstorageValues } from "./useLocalstorageValues";
-
-interface CustomBarChartProps {
-  idealDSL: number;
-  actualDSL: number;
-  targetDSL: number;
-}
 
 enum DSL {
   IDEAL = "ideal",
