@@ -25,7 +25,7 @@ export const BudgetChart = () => {
   return (
     <div className={`flex flex-col w-80 sm:w-96 mt-4`}>
       <div className="flex w-full justify-between items-end">
-        <div className={`flex items-start flex-col`}>
+        <div className={`flex items-center flex-col w-full`}>
           <div
             className={`px-2 py-1 flex flex-row items-center bg-blue-100 z-50`}
           >
@@ -37,7 +37,7 @@ export const BudgetChart = () => {
           <div className={`w-1 h-4 bg-blue-100 z-50`} />
         </div>
       </div>
-      <div className="h-16 w-full flex items-end rounded-md rounded-tl-none rounded-md bg-blue-100 h-full w-full">
+      <div className="h-16 w-full flex items-end rounded-md rounded-tl-none rounded-md bg-blue-100 w-full">
         <div className="relative w-full h-12">
           <div
             className={`rounded-md bg-blue-600 h-full rounded-bl-none shadow-lg absolute`}
