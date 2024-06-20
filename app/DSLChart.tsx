@@ -1,4 +1,5 @@
 import { getPeriod } from "./lastDayOfMonth";
+import { useDSL } from "./useDSL";
 import { useLocalstorageValues } from "./useLocalstorageValues";
 
 interface CustomBarChartProps {
@@ -25,39 +26,28 @@ export const DSLChart = () => {
     return null;
   }
 
-  const { start: startPeriod, end: endPeriod } = getPeriod(
+  const {
+    idealDSL,
+    actualCurrentDSL: actualDSL,
+    youShouldTargetDSL: targetDSL,
+  } = useDSL({
+    startBudget,
+    currentBudget,
     thirdMonthMode,
-    new Date()
-  );
-  const today = new Date().getDate();
-  const periodLength = endPeriod - startPeriod;
-  const leftPeriod = endPeriod - today;
-  const donePeriod = periodLength - leftPeriod;
-
-  const customRound = (value: number) => parseFloat(value.toFixed(1));
-
-  const actualCurrentBudget = currentBudget - budgetOffset - futureExpenses;
-  const actualStartBudget = startBudget - budgetOffset;
-  const idealDSL = customRound(actualStartBudget / periodLength);
-  const youShouldTargetDSL = customRound(actualCurrentBudget / leftPeriod);
-  const actualSpendUntilNow =
-    actualStartBudget !== actualCurrentBudget
-      ? actualStartBudget - actualCurrentBudget
-      : undefined;
-  const actualCurrentDSL = actualSpendUntilNow
-    ? customRound(actualSpendUntilNow / Math.max(donePeriod, 1))
-    : 0;
-
-  const targetDSL = youShouldTargetDSL;
-  const actualDSL = actualCurrentDSL;
+    offset: budgetOffset,
+    futureExpenses,
+    today: new Date(),
+  });
 
   const data = {
-    [DSL.IDEAL]: { value: idealDSL, color: "bg-red-200" },
-    [DSL.TARGET]: { value: targetDSL, color: "bg-red-300" },
-    [DSL.ACTUAL]: { value: actualDSL, color: "bg-red-100" },
+    [DSL.IDEAL]: { value: idealDSL },
+    [DSL.TARGET]: { value: targetDSL },
+    [DSL.ACTUAL]: { value: actualDSL },
   };
 
-  const targetSpending = targetDSL < idealDSL ? DSL.TARGET : DSL.IDEAL;
+  const targetSpending =
+    data[DSL.TARGET] < data[DSL.IDEAL] ? DSL.TARGET : DSL.IDEAL;
+
   const [smallerDSL, biggerDSL] =
     data[targetSpending].value > actualDSL
       ? [DSL.ACTUAL, targetSpending]
