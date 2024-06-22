@@ -106,15 +106,13 @@ export const deletePendingEntry = (uid: string) => {
 };
 
 const purgeOutdatedPendingEntries = () => {
-  return;
-  /*
   const rawPending = localStorage.getItem(LocalStorageKey.PENDING);
   const parsedPending: Pending[] = rawPending ? JSON.parse(rawPending) : [];
   const today = new Date().getDate();
   const updatedPending = parsedPending.filter(
     (entry) => entry.clearingDay > today || entry.repeatsEveryMonth
   );
+  if (parsedPending.length === updatedPending.length) return;
   localStorage.setItem(LocalStorageKey.PENDING, JSON.stringify(updatedPending));
   window.dispatchEvent(new StorageEvent("storage"));
-  */
 };
