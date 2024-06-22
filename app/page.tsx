@@ -21,9 +21,10 @@ export default function Home() {
       <h1 className="text-3xl text-center uppercase tracking-tighter py-4">
         Daily spending limit
       </h1>
+
+      <DSLChart />
       <BudgetChart />
       <Chart />
-      <DSLChart />
       <SettingsModal />
       <WelcomeModal />
     </main>
