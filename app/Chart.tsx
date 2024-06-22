@@ -21,8 +21,8 @@ export default function Chart() {
     new Date()
   );
   const today = new Date().getDate();
-  const length = endPeriod - startPeriod;
-  const leftPeriod = endPeriod - today;
+  const length = endPeriod - startPeriod + 1;
+  const leftPeriod = endPeriod - today + 1;
   const donePeriod = length - leftPeriod;
 
   const getMoneyBarChar = () => {

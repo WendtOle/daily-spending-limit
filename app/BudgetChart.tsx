@@ -72,7 +72,7 @@ export const BudgetChart = () => {
                 futureExpenses <= 0 ? "w-0" : "w-1"
               }`}
               style={{
-                left: `${futureExpenses > 0 ? availablePercent + 0.5 : 0}%`,
+                left: `${availablePercent + 0.5}%`,
               }}
             />
           </div>
