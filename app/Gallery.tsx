@@ -20,7 +20,7 @@ export const Gallery = ({ entries, defaultSelectedIndex }: GalleryProps) => {
   };
 
   return (
-    <div className="h-full flex flex-col justify-between space-y-4">
+    <div className="h-full flex flex-col justify-between ">
       {entries.map(({ component, label, color }, index) => {
         const isFocused = index === focus;
         const buttonClasses = `${color} text-white px-4 py-2 rounded shadow uppercase text-md`;
@@ -32,7 +32,7 @@ export const Gallery = ({ entries, defaultSelectedIndex }: GalleryProps) => {
             <div
               className={
                 !isFocused
-                  ? `scale-75 blur-sm saturate-50 transition-transform`
+                  ? `scale-[0.6] blur-sm saturate-50 transition-transform`
                   : ""
               }
             >
@@ -54,7 +54,7 @@ export const Gallery = ({ entries, defaultSelectedIndex }: GalleryProps) => {
               className={
                 isFocused
                   ? "hidden"
-                  : "absolute right-8 bottom-4 bg-white px-4 py-2 rounded shadow uppercase text-md"
+                  : "absolute right-12 bottom-8 bg-white px-4 py-2 rounded shadow uppercase text-md"
               }
             >
               {label}
