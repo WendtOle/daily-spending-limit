@@ -1,6 +1,19 @@
-import { FaEdit } from "react-icons/fa";
-import { SETTINGS_MODAL_ID } from "./SettingsModal";
 import { useLocalstorageValues } from "./useLocalstorageValues";
+
+enum Section {
+  AVAILABLE = "Available",
+  PENDING = "Pending",
+  PUFFER = "Puffer",
+}
+
+interface SectionData {
+  label: string;
+  color: string;
+  value: number;
+}
+
+const MIN_PERCENTAGE_TO_DISPLAY = 2.5;
+const LABEL_HEIGH = 16;
 
 export const BudgetChart = () => {
   const { currentBudget, offset, futureExpenses } = useLocalstorageValues();
@@ -10,105 +23,194 @@ export const BudgetChart = () => {
   }
 
   const available = currentBudget - offset - futureExpenses;
-  const futureExpensesPercent = Math.max(
-    (futureExpenses / currentBudget) * 100,
-    2
-  );
-  const availablePercent = Math.max((available / currentBudget) * 100, 0);
 
-  const remainingPuffer = available < 0 ? offset + available : offset;
-
-  const editButtonProps = {
-    popovertarget: SETTINGS_MODAL_ID,
+  const sectionData: Record<Section, SectionData> = {
+    [Section.AVAILABLE]: {
+      color: "bg-blue-800",
+      value: available,
+      label: "Available",
+    },
+    [Section.PENDING]: {
+      color: "bg-blue-600",
+      value: futureExpenses,
+      label: "Pending",
+    },
+    [Section.PUFFER]: {
+      color: "bg-blue-400",
+      value: offset,
+      label: "Puffer",
+    },
   };
 
-  return (
-    <div className={`flex flex-col w-80 sm:w-96 mt-4`}>
-      <div className="flex w-full justify-between items-end">
-        <div className={`flex items-center flex-col w-full`}>
-          <div
-            className={`px-2 py-1 flex flex-row items-center bg-blue-100 z-50`}
-          >
-            <span>Account balance: {currentBudget}€</span>
-            <button className="ml-4" {...editButtonProps}>
-              <FaEdit fontSize={16} />
-            </button>
-          </div>
-          <div className={`w-1 h-4 bg-blue-100 z-50`} />
-        </div>
-      </div>
-      <div className="h-16 w-full flex items-end rounded-md rounded-tl-none rounded-md bg-blue-100 w-full">
-        <div className="relative w-full h-12">
-          <div
-            className={`rounded-md bg-blue-600 h-full rounded-bl-none shadow-lg absolute`}
-            style={{
-              width: `${availablePercent - 0.5}%`,
-            }}
-          />
-          {futureExpensesPercent > 0 && (
-            <div
-              className={`rounded-md bg-blue-400 h-full rounded-bl-none shadow-lg absolute`}
-              style={{
-                left: `${availablePercent + 0.5}%`,
-                width: `${futureExpensesPercent - 0.5}%`,
-              }}
-            />
-          )}
-          <div className="w-full flex items-end h-full justify-end absolute">
-            <div
-              className={`rounded-md bg-blue-300 h-12 rounded-br-none shadow-lg`}
-              style={{
-                width: `${100 - availablePercent - futureExpensesPercent - 1}%`,
-              }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-between z-50 w-full h-24 relative">
-        <div className={`flex flex-col items-center w-full`}>
-          <div className="h-16 w-full relative">
-            <div
-              className={`w-1 h-16 bg-blue-400 absolute ${
-                futureExpenses <= 0 ? "w-0" : "w-1"
-              }`}
-              style={{
-                left: `${availablePercent + 0.5}%`,
-              }}
-            />
-          </div>
-          <div className={`px-2 py-1 bg-blue-400 w-fit shadow-lg text-white`}>
-            <span>
-              {futureExpenses === 0
-                ? "No future expenses"
-                : `Future expenses: ${futureExpenses}€`}
-            </span>
-            <button className="ml-4" {...editButtonProps}>
-              <FaEdit fontSize={16} />
-            </button>
-          </div>
-        </div>
-        <div className={`flex flex-col items-start absolute left-0 `}>
-          <div className={`w-1 h-4 bg-blue-600`} />
-          <div className={`px-2 py-1 bg-blue-600 w-fit shadow-lg text-white`}>
-            Available: {Math.max(available, 0)}€
-          </div>
-        </div>
+  const values = Object.values(sectionData).map(({ value }) => value);
 
-        <div className={`flex flex-col items-end absolute right-0`}>
-          <div className={`w-1 h-4 bg-blue-300 shadow-lg`} />
+  const percentage = values.map((value) => {
+    const percentage = (value / currentBudget) * 100;
+    return percentage <= 0
+      ? 0
+      : Math.max(percentage, MIN_PERCENTAGE_TO_DISPLAY);
+  });
+
+  const total = percentage.reduce((acc, value) => acc + value, 0);
+
+  const normiertePercentages = percentage.map((value) => (value / total) * 100);
+
+  type TSomething = Array<{ top: number; labelTop: number; height: number }>;
+
+  const sectionDataWithTopAndHeight = normiertePercentages.reduce(
+    (acc, value, index, all) => {
+      const height = Math.max(value - 0.5, 0);
+
+      if (acc.length === 0) {
+        return [
+          ...acc,
+          {
+            top: 0,
+            labelTop: 0,
+            height,
+          },
+        ];
+      }
+
+      const {
+        top: previousTop,
+        height: previousHeight,
+        labelTop: previousLabelTop,
+      } = acc[acc.length - 1];
+      const top = previousHeight + previousTop + 1;
+      const heightPreviousLabelNeeds = previousLabelTop + LABEL_HEIGH;
+
+      const BOTTOM_LABEL_HEIGHT = 10;
+      const amountOfLabels = all.length - index;
+      const something =
+        100 - amountOfLabels * LABEL_HEIGH - BOTTOM_LABEL_HEIGHT;
+      const isNOTEnoughSpaceForFollowingLabels = top > something;
+
+      if (
+        isNOTEnoughSpaceForFollowingLabels ||
+        top < heightPreviousLabelNeeds
+      ) {
+        return [
+          ...acc,
+          {
+            top,
+            labelTop: heightPreviousLabelNeeds,
+            height,
+          },
+        ];
+      }
+
+      return [...acc, { top, labelTop: top, height }];
+    },
+    [] as TSomething
+  );
+
+  const getBarSection = ({
+    barTop,
+    labelTop,
+    height,
+    color,
+    value,
+    label,
+    textColor,
+  }: {
+    barTop: number;
+    labelTop: number;
+    height: number;
+    color: string;
+    value: number;
+    label: string;
+    textColor?: string;
+  }) => {
+    const hideLine =
+      height === 0 || barTop > labelTop || labelTop > barTop + height;
+    return (
+      <>
+        <div
+          className={`rounded-md ${color} h-full shadow-lg w-16`}
+          style={{
+            position: "absolute",
+            top: `${barTop}%`,
+            height: `${height}%`,
+          }}
+        />
+        <div
+          className={`absolute flex flex-row items-start left-14 `}
+          style={{ top: `${labelTop}%` }}
+        >
+          <div className={`${hideLine ? "h-0" : "h-1"} w-10 ${color}`} />
           <div
-            className={`px-2 py-1 bg-blue-300 w-fit shadow-lg flex flex-row items-center`}
+            className={`px-2 py-1 ${color} w-36 shadow-lg ${
+              textColor ?? "text-slate-200"
+            } flex justify-between`}
           >
-            <span>
-              {remainingPuffer < offset
-                ? `Puffer: ${remainingPuffer}/${offset}`
-                : `Offset: ${offset}`}{" "}
-              €
-            </span>
-            <button className="ml-4" {...editButtonProps}>
-              <FaEdit fontSize={16} />
-            </button>
+            <span>{label}: </span>
+            <span>{value}€</span>
           </div>
+        </div>
+      </>
+    );
+  };
+
+  const getBarSectionDescription = ({
+    label,
+    value,
+    color,
+    top,
+    textColor,
+    absolute,
+  }: {
+    value: number;
+    label: string;
+    color: string;
+    top?: string;
+    textColor?: string;
+    absolute?: boolean;
+  }) => (
+    <div
+      className={`flex flex-row items-center ${
+        absolute && "absolute"
+      } -left-2 ${top}`}
+    >
+      <div className={`h-1 w-8 ${color}`} />
+      <div
+        className={`px-2 py-1 ${color} w-36 shadow-lg ${
+          textColor ?? "text-slate-200"
+        } flex justify-between`}
+      >
+        <span>{label}: </span>
+        <span>{value}€</span>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={`w-80 sm:w-96 mt-8 flex flex-row justify-center`}>
+      <div className="flex flex-row w-64">
+        <div className="h-60 w-20 flex items-end bg-blue-100 w-full">
+          <div className="relative w-16 h-56 mb-2 ml-2">
+            {Object.keys(sectionData).map((sectionKey, index) => {
+              const data = sectionData[sectionKey as Section];
+              const { top, labelTop, height } =
+                sectionDataWithTopAndHeight[index];
+              return getBarSection({
+                ...data,
+                barTop: top,
+                labelTop,
+                height,
+              });
+            })}
+          </div>
+        </div>
+        <div className="flex flex-col relative">
+          {getBarSectionDescription({
+            label: "Total",
+            value: currentBudget,
+            color: "bg-blue-100",
+            top: "bottom-0",
+            textColor: "text-slate-800",
+            absolute: true,
+          })}
         </div>
       </div>
     </div>
