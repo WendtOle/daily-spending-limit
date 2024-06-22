@@ -6,6 +6,7 @@ import {
   writeNewHistoryEntry,
 } from "./localstorage";
 import { History } from "./types";
+import { getPeriod } from "./lastDayOfMonth";
 
 export const useLocalstorageValues = () => {
   const [currentBudget, setAccountBalance] = useState<number | undefined>();
@@ -59,6 +60,11 @@ export const useLocalstorageValues = () => {
     window.dispatchEvent(new StorageEvent("storage"));
   };
 
+  const { start, end } = getPeriod(thirdMonthMode, new Date());
+  const pendingTotal = pendingEntries
+    .filter((entry) => start < entry.clearingDay && end >= entry.clearingDay)
+    .reduce((acc, entry) => acc + entry.value, 0);
+
   return {
     currentBudget,
     setBalance: handleCurrentBudgetChange,
@@ -70,6 +76,6 @@ export const useLocalstorageValues = () => {
     setThirdMonthMode: handleThridMonthModeChange,
     history,
     pendingEntries,
-    pendingTotal: pendingEntries.reduce((acc, entry) => acc + entry.value, 0),
+    pendingTotal,
   };
 };
