@@ -4,16 +4,12 @@ export const SETTINGS_MODAL_ID = "settings-modal-id";
 
 export const SettingsModal = () => {
   const {
-    currentBudget,
-    setBalance,
     offset,
     setOffset,
     startBudget,
     setStartBudget,
     thirdMonthMode,
     setThirdMonthMode,
-    futureExpenses,
-    setFutureExpenses,
   } = useLocalstorageValues();
 
   const closeButtonProps = {
