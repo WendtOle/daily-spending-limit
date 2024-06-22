@@ -125,7 +125,7 @@ export const BudgetChart = () => {
     const hideLine =
       height === 0 || barTop > labelTop || labelTop > barTop + height;
     return (
-      <>
+      <div key={barTop}>
         <div
           className={`rounded-md ${color} h-full shadow-lg w-16`}
           style={{
@@ -148,7 +148,7 @@ export const BudgetChart = () => {
             <span>{value}€</span>
           </div>
         </div>
-      </>
+      </div>
     );
   };
 
@@ -185,7 +185,7 @@ export const BudgetChart = () => {
   );
 
   return (
-    <div className={`w-80 sm:w-96 mt-8 flex flex-row justify-center`}>
+    <div className={`w-80 sm:w-96 flex flex-row justify-center`}>
       <div className="flex flex-row w-64">
         <div className="h-60 w-20 flex items-end bg-blue-100">
           <div className="relative w-16 h-56 mb-2 ml-2">

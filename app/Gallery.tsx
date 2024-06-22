@@ -20,7 +20,7 @@ export const Gallery = ({ entries, defaultSelectedIndex }: GalleryProps) => {
   };
 
   return (
-    <div className="h-full flex flex-col justify-between space-y-8 mt-8">
+    <div className="h-full flex flex-col justify-between space-y-4">
       {entries.map(({ component, label, color }, index) => {
         const isFocused = index === focus;
         const buttonClasses = `${color} text-white px-4 py-2 rounded shadow uppercase text-md`;
