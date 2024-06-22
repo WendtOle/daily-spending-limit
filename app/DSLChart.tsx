@@ -98,15 +98,17 @@ export const DSLChart = () => {
     alignment: topLabelAlignment,
   });
 
-  const bottomLabel = getLabel({
-    color: bottomLabelColor,
-    label:
-      mode === "tense"
-        ? `You have spent: ${data[DSL.ACTUAL].value} €/d`
-        : `You have only spent: ${data[DSL.ACTUAL].value} €/d`,
-    alignment: bottomLabelAlignment,
-    bottom: true,
-  });
+  const bottomLabel =
+    data[DSL.ACTUAL].value > 0 &&
+    getLabel({
+      color: bottomLabelColor,
+      label:
+        mode === "tense"
+          ? `You have spent: ${data[DSL.ACTUAL].value} €/d`
+          : `You have only spent: ${data[DSL.ACTUAL].value} €/d`,
+      alignment: bottomLabelAlignment,
+      bottom: true,
+    });
 
   return (
     <div className="w-80 sm:w-96">

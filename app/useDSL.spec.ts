@@ -14,7 +14,7 @@ interface TestEntry {
   expected: {
     idealDSL: number;
     youShouldTargetDSL: number;
-    actualCurrentDSL: number;
+    actualCurrentDSL: number | undefined;
   };
 }
 
@@ -61,6 +61,23 @@ const testData: TestEntry[] = [
       idealDSL: 23.4,
       youShouldTargetDSL: 22.2,
       actualCurrentDSL: 17,
+    },
+  },
+  {
+    message:
+      "handles situation in which current budget is higher than start budget",
+    parameter: {
+      startBudget: 400,
+      currentBudget: 500,
+      offset: 166,
+      thirdMonthMode: true,
+      futureExpenses: 0,
+      today: new Date("2024-06-22"),
+    },
+    expected: {
+      idealDSL: 23.4,
+      youShouldTargetDSL: 37.1,
+      actualCurrentDSL: 0,
     },
   },
 ];

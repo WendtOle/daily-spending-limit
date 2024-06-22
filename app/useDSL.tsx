@@ -41,7 +41,7 @@ export const useDSL = ({
       ? actualCurrentBudget
       : customRound(actualCurrentBudget / (leftPeriod + 1));
   const actualSpendUntilNow =
-    actualStartBudget !== actualCurrentBudget
+    actualStartBudget > actualCurrentBudget
       ? actualStartBudget - actualCurrentBudget
       : undefined;
   const actualCurrentDSL = actualSpendUntilNow

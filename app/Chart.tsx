@@ -32,7 +32,12 @@ export default function Chart() {
     const moneySpent = start - current + futureExpenses;
     const moneyLeft = start - moneySpent - offset;
     return (
-      <CustomBarChart left={moneySpent} right={moneyLeft} unit="€" legendTop />
+      <CustomBarChart
+        left={Math.max(moneySpent, 0)}
+        right={moneyLeft}
+        unit="€"
+        legendTop
+      />
     );
   };
 
