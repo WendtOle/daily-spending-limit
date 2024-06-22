@@ -125,7 +125,7 @@ export const BudgetChart = () => {
     const hideLine =
       height === 0 || barTop > labelTop || labelTop > barTop + height;
     return (
-      <>
+      <div key={barTop}>
         <div
           className={`rounded-md ${color} h-full shadow-lg w-16`}
           style={{
@@ -148,7 +148,7 @@ export const BudgetChart = () => {
             <span>{value}€</span>
           </div>
         </div>
-      </>
+      </div>
     );
   };
 
