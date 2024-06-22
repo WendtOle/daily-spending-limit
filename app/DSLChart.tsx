@@ -40,7 +40,7 @@ export const DSLChart = () => {
   };
 
   const targetSpending =
-    data[DSL.TARGET] < data[DSL.IDEAL] ? DSL.TARGET : DSL.IDEAL;
+    data[DSL.TARGET].value < data[DSL.IDEAL].value ? DSL.TARGET : DSL.IDEAL;
 
   const [smallerDSL, biggerDSL] =
     data[targetSpending].value > actualDSL
