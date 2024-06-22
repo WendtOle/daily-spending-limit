@@ -22,7 +22,7 @@ export const useDSL = ({
     todayDate
   );
   const today = todayDate.getDate();
-  const periodLength = endPeriod - startPeriod;
+  const periodLength = endPeriod - startPeriod + 1;
   const leftPeriod = endPeriod - today;
   const donePeriod = periodLength - leftPeriod;
 
@@ -31,8 +31,15 @@ export const useDSL = ({
   const actualCurrentBudget = currentBudget - budgetOffset - futureExpenses;
 
   const actualStartBudget = startBudget - budgetOffset;
+
   const idealDSL = customRound(actualStartBudget / periodLength);
-  const youShouldTargetDSL = customRound(actualCurrentBudget / leftPeriod);
+  if (leftPeriod < 0) {
+    throw new Error("leftPeriod is negative");
+  }
+  const youShouldTargetDSL =
+    leftPeriod === 0
+      ? actualCurrentBudget
+      : customRound(actualCurrentBudget / (leftPeriod + 1));
   const actualSpendUntilNow =
     actualStartBudget !== actualCurrentBudget
       ? actualStartBudget - actualCurrentBudget
