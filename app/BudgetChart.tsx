@@ -187,7 +187,7 @@ export const BudgetChart = () => {
   return (
     <div className={`w-80 sm:w-96 mt-8 flex flex-row justify-center`}>
       <div className="flex flex-row w-64">
-        <div className="h-60 w-20 flex items-end bg-blue-100 w-full">
+        <div className="h-60 w-20 flex items-end bg-blue-100">
           <div className="relative w-16 h-56 mb-2 ml-2">
             {Object.keys(sectionData).map((sectionKey, index) => {
               const data = sectionData[sectionKey as Section];
