@@ -16,9 +16,14 @@ export const SettingsModal = () => {
     setFutureExpenses,
   } = useLocalstorageValues();
 
+  const closeButtonProps = {
+    popovertarget: SETTINGS_MODAL_ID,
+    popovertargetaction: "hide",
+  };
+
   return (
     <div
-      className="p-8 pt-6 shadow-xl modal rounded space-y-6"
+      className="p-8 pt-6 shadow-xl modal rounded space-y-6 w-full h-screen"
       id={SETTINGS_MODAL_ID}
       // @ts-ignore
       popover="auto"
@@ -27,29 +32,11 @@ export const SettingsModal = () => {
         Settings
       </h1>
       <Input
-        label="Account balance"
-        value={currentBudget ?? 0}
-        setValue={setBalance}
-      />
-      <Input label="Budget offset" value={offset} setValue={setOffset} />
-      <Input
         label="Start budget"
         value={startBudget ?? 0}
         setValue={setStartBudget}
       />
-
-      <div>
-        <Input
-          label="Future expenses"
-          value={futureExpenses ?? 0}
-          setValue={setFutureExpenses}
-        />
-        <div className="w-56 text-sm mt-2 ml-4">
-          For expanses you know that will happen but are not registered in your
-          account balance yet. <br /> <i>Future expenses</i> are resetted at the
-          beginning of each day.
-        </div>
-      </div>
+      <Input label="Budget offset" value={offset} setValue={setOffset} />
       <div>
         <div className="flex flex-row items-center">
           <input
@@ -66,6 +53,14 @@ export const SettingsModal = () => {
           should adjust the value for <i>budget offset</i> and{" "}
           <i>start budget</i> accordingly.
         </div>
+      </div>
+      <div className="w-full flex justify-center bottom-0">
+        <button
+          className=" px-4 py-2 rounded shadow uppercase text-md"
+          {...closeButtonProps}
+        >
+          Close
+        </button>
       </div>
     </div>
   );

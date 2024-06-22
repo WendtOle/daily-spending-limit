@@ -43,7 +43,7 @@ export default function Chart() {
 
   return (
     <div className="w-80 sm:w-96">
-      <div className="space-y-2 my-8">
+      <div className="space-y-2 ">
         {getMoneyBarChar()}
         <CustomBarChart
           left={donePeriod}
