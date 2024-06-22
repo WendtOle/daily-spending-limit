@@ -9,6 +9,7 @@ import { DSLChart } from "./DSLChart";
 import { Gallery } from "./Gallery";
 import { InputValuesModal } from "./InputValuesModal";
 import { ExplanationModal } from "./ExplanationModal";
+import { Modals } from "./Modals";
 
 export default function Home() {
   useEffect(() => {
@@ -53,6 +54,7 @@ export default function Home() {
       <SettingsModal />
       <WelcomeModal />
       <InputValuesModal />
+      <Modals />
       {entries.map(({ component, label, text }) => (
         <ExplanationModal
           key={label}

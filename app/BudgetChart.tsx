@@ -16,13 +16,13 @@ const MIN_PERCENTAGE_TO_DISPLAY = 2.5;
 const LABEL_HEIGH = 16;
 
 export const BudgetChart = () => {
-  const { currentBudget, offset, futureExpenses } = useLocalstorageValues();
+  const { currentBudget, offset, pendingTotal } = useLocalstorageValues();
 
   if (currentBudget === undefined) {
     return null;
   }
 
-  const available = currentBudget - offset - futureExpenses;
+  const available = currentBudget - offset - pendingTotal;
 
   const sectionData: Record<Section, SectionData> = {
     [Section.AVAILABLE]: {
@@ -32,7 +32,7 @@ export const BudgetChart = () => {
     },
     [Section.PENDING]: {
       color: "bg-blue-600",
-      value: futureExpenses,
+      value: pendingTotal,
       label: "Pending",
     },
     [Section.PUFFER]: {

@@ -1,10 +1,12 @@
 import Input from "./Input";
+import { PENDING_ENTRY_MODAL_ID } from "./PendingEntryModal";
 import { SETTINGS_MODAL_ID } from "./SettingsModal";
+import { deletePendingEntry } from "./localstorage";
 import { useLocalstorageValues } from "./useLocalstorageValues";
 export const INPUT_VALUES_MODAL = "input-values-modal-id";
 
 export const InputValuesModal = () => {
-  const { currentBudget, setBalance, futureExpenses, setFutureExpenses } =
+  const { currentBudget, setBalance, pendingEntries, pendingTotal } =
     useLocalstorageValues();
 
   const dissmissButtonProps = {
@@ -14,6 +16,10 @@ export const InputValuesModal = () => {
 
   const openSettingsButtonProps = {
     popovertarget: SETTINGS_MODAL_ID,
+  };
+
+  const addPendingEntryButtonProps = {
+    popovertarget: PENDING_ENTRY_MODAL_ID,
   };
 
   return (
@@ -31,18 +37,35 @@ export const InputValuesModal = () => {
         value={currentBudget ?? 0}
         setValue={setBalance}
       />
-      <div>
-        <Input
-          label="Future expenses"
-          value={futureExpenses ?? 0}
-          setValue={setFutureExpenses}
-        />
-        <div className="w-56 text-sm mt-2 ml-4">
-          For expanses you know that will happen but are not registered in your
-          account balance yet. <br /> <i>Future expenses</i> are resetted at the
-          beginning of each day.
-        </div>
+
+      <div className="w-full">
+        {pendingEntries
+          .sort((a, b) => (a.clearingDay < b.clearingDay ? -1 : 1))
+          .map((entry) => (
+            <div
+              key={entry.id}
+              className="flex flex-row justify-between space-x-2"
+            >
+              <p>
+                {entry.value}€ clears on the {entry.clearingDay}.{" "}
+                {entry.repeatsEveryMonth ? "every month" : ""}
+              </p>
+              <button
+                onClick={() => deletePendingEntry(entry.id)}
+                className="p-1 shadow"
+              >
+                X
+              </button>
+            </div>
+          ))}
+        <p className="border-t-2">{pendingTotal}€ total</p>
       </div>
+      <button
+        {...addPendingEntryButtonProps}
+        className="rounded shadow px-4 py-2 w-full uppercase"
+      >
+        Add pending entry
+      </button>
       <div className="flex justify-center space-x-2">
         <button
           className=" px-4 py-2 rounded shadow uppercase text-md"

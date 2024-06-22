@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   LocalStorageKey,
+  Pending,
   readFromLocalStorage,
   writeNewHistoryEntry,
 } from "./localstorage";
@@ -11,8 +12,8 @@ export const useLocalstorageValues = () => {
   const [nullableOffset, setOffset] = useState<number | undefined>();
   const [startBudget, setStartBudget] = useState<number | undefined>();
   const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
-  const [futureExpenses, setFutureExpenses] = useState<number | undefined>();
   const [history, setHistory] = useState<History>({});
+  const [pendingEntries, setPendingEntries] = useState<Pending[]>([]);
 
   useEffect(() => {
     const updateValues = () => {
@@ -21,15 +22,15 @@ export const useLocalstorageValues = () => {
         budgetOffset,
         startBudget,
         thirdMonthMode,
-        futureExpenses,
         history,
+        pending,
       } = readFromLocalStorage();
       setAccountBalance(currentBudget);
       setOffset(budgetOffset);
       setStartBudget(startBudget);
       setThirdMonthMode(thirdMonthMode);
-      setFutureExpenses(futureExpenses);
       setHistory(history);
+      setPendingEntries(pending);
     };
     window.addEventListener("storage", updateValues);
     updateValues();
@@ -50,14 +51,7 @@ export const useLocalstorageValues = () => {
     localStorage.setItem(LocalStorageKey.THIRD_MONTH_MODE, value.toString());
     window.dispatchEvent(new StorageEvent("storage"));
   };
-  const handleFutureExpensesChange = (value: number) => {
-    setFutureExpenses(value);
-    localStorage.setItem(
-      LocalStorageKey.FUTURE_EXPENSES,
-      JSON.stringify({ value, creationDay: new Date().getDate() })
-    );
-    window.dispatchEvent(new StorageEvent("storage"));
-  };
+
   const handleCurrentBudgetChange = (value: number) => {
     writeNewHistoryEntry(value);
     setAccountBalance(value);
@@ -74,8 +68,8 @@ export const useLocalstorageValues = () => {
     setStartBudget: handleStartBudgetChange,
     thirdMonthMode,
     setThirdMonthMode: handleThridMonthModeChange,
-    futureExpenses: futureExpenses ?? 0,
-    setFutureExpenses: handleFutureExpensesChange,
     history,
+    pendingEntries,
+    pendingTotal: pendingEntries.reduce((acc, entry) => acc + entry.value, 0),
   };
 };

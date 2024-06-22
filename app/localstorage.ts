@@ -7,7 +7,7 @@ export enum LocalStorageKey {
   START_BUDGET = "startBudget",
   THIRD_MONTH_MODE = "thirdMonthMode",
   DISMISSED_WELCOME_MODAL = "dismissedWelcomeModal",
-  FUTURE_EXPENSES = "futureExpenses",
+  PENDING = "pending",
 }
 
 const DEFAULT_VALLUES = {
@@ -16,8 +16,12 @@ const DEFAULT_VALLUES = {
   budgetOffset: 0,
 };
 
-type FutureExpenseType = { value: number; creationDay: number };
-const FUTURE_EXPENSES_DEFAULT = { value: 0, creationDay: 0 };
+export interface Pending {
+  value: number;
+  clearingDay: number;
+  repeatsEveryMonth: boolean;
+  id: string;
+}
 
 export const readFromLocalStorage = (): {
   currentBudget: number;
@@ -26,7 +30,7 @@ export const readFromLocalStorage = (): {
   history: History;
   thirdMonthMode: boolean;
   dismissedWelcomeModal: boolean;
-  futureExpenses: number;
+  pending: Pending[];
 } => {
   const nullableCurrentBudget = localStorage.getItem(
     LocalStorageKey.CURRENT_BUDGET
@@ -37,12 +41,12 @@ export const readFromLocalStorage = (): {
   const nullableBudgetOffset = localStorage.getItem(
     LocalStorageKey.BUDGET_OFFSET
   );
-  const nullableFutureExpanseString = localStorage.getItem(
-    LocalStorageKey.FUTURE_EXPENSES
-  );
-  const nullableFutureExpenses: FutureExpenseType = nullableFutureExpanseString
-    ? JSON.parse(nullableFutureExpanseString)
-    : FUTURE_EXPENSES_DEFAULT;
+
+  purgeOutdatedPendingEntries();
+  const nullablePendingString = localStorage.getItem(LocalStorageKey.PENDING);
+  const pending: Pending[] = nullablePendingString
+    ? JSON.parse(nullablePendingString)
+    : [];
   const rawHistory = localStorage.getItem(LocalStorageKey.HISTORY);
   const history: History = JSON.parse(rawHistory ?? "{}");
   const nullableThirdMonthMode = localStorage.getItem(
@@ -65,10 +69,7 @@ export const readFromLocalStorage = (): {
     history,
     thirdMonthMode: nullableThirdMonthMode === "true",
     dismissedWelcomeModal: nullableDismissedWelcomeModal === "true",
-    futureExpenses:
-      nullableFutureExpenses.creationDay === new Date().getDate()
-        ? nullableFutureExpenses.value
-        : 0,
+    pending,
   };
 };
 
@@ -82,4 +83,35 @@ export const writeNewHistoryEntry = (value: number): History => {
   };
   localStorage.setItem(LocalStorageKey.HISTORY, JSON.stringify(updatedHistory));
   return updatedHistory;
+};
+
+export const addPendingEntry = (pending: Pending) => {
+  const rawPending = localStorage.getItem(LocalStorageKey.PENDING);
+  const parsedPending: Pending[] = rawPending ? JSON.parse(rawPending) : [];
+  parsedPending.push(pending);
+  localStorage.setItem(LocalStorageKey.PENDING, JSON.stringify(parsedPending));
+  window.dispatchEvent(new StorageEvent("storage"));
+  purgeOutdatedPendingEntries();
+};
+
+export const deletePendingEntry = (uid: string) => {
+  const rawPending = localStorage.getItem(LocalStorageKey.PENDING);
+  const parsedPending: Pending[] = rawPending ? JSON.parse(rawPending) : [];
+  localStorage.setItem(
+    LocalStorageKey.PENDING,
+    JSON.stringify(parsedPending.filter((entry) => entry.id !== uid))
+  );
+  window.dispatchEvent(new StorageEvent("storage"));
+  purgeOutdatedPendingEntries();
+};
+
+const purgeOutdatedPendingEntries = () => {
+  const rawPending = localStorage.getItem(LocalStorageKey.PENDING);
+  const parsedPending: Pending[] = rawPending ? JSON.parse(rawPending) : [];
+  const today = new Date().getDate();
+  const updatedPending = parsedPending.filter(
+    (entry) => entry.clearingDay > today || entry.repeatsEveryMonth
+  );
+  localStorage.setItem(LocalStorageKey.PENDING, JSON.stringify(updatedPending));
+  window.dispatchEvent(new StorageEvent("storage"));
 };
