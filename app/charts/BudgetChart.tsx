@@ -190,7 +190,7 @@ export const BudgetChart = () => {
 
   return (
     <div className={`w-80 sm:w-96 flex flex-row justify-center relative`}>
-      <div className="absolute top-0 right-0 flex flex-row space-x-2">
+      <div className="absolute -top-6 right-4 flex flex-row space-x-2">
         <OpenModalButton id={ModalType.Budget_CHART_CALCULATIONS}>
           <FaCalculator size={25} className="text-slate-600" />
         </OpenModalButton>
