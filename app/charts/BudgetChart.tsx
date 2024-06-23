@@ -1,7 +1,7 @@
-import { FaCircleQuestion } from "react-icons/fa6";
+import { FaCalculator, FaCircleQuestion } from "react-icons/fa6";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { OpenModalButton } from "../OpenModalButton";
-import { getExplanationModalId } from "../modal/Modals";
+import { ModalType, getExplanationModalId } from "../modal/Modals";
 import { ChartTypes } from "../chartEntries";
 
 enum Section {
@@ -190,12 +190,14 @@ export const BudgetChart = () => {
 
   return (
     <div className={`w-80 sm:w-96 flex flex-row justify-center relative`}>
-      <OpenModalButton
-        className="absolute top-0 right-0"
-        id={getExplanationModalId(ChartTypes.BUDGET_CHART)}
-      >
-        <FaCircleQuestion size={25} className="text-slate-600" />
-      </OpenModalButton>
+      <div className="absolute top-0 right-0 flex flex-row space-x-2">
+        <OpenModalButton id={ModalType.Budget_CHART_CALCULATIONS}>
+          <FaCalculator size={25} className="text-slate-600" />
+        </OpenModalButton>
+        <OpenModalButton id={getExplanationModalId(ChartTypes.BUDGET_CHART)}>
+          <FaCircleQuestion size={25} className="text-slate-600" />
+        </OpenModalButton>
+      </div>
       <div className="flex flex-row w-64">
         <div className="h-60 w-20 flex items-end bg-blue-100">
           <div className="relative w-16 h-56 mb-2 ml-2">
