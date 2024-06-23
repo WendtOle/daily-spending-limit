@@ -35,12 +35,12 @@ export const InputValuesModal = () => {
           <FaQuestionCircle />
         </OpenModalButton>
       </div>
-      <div className="w-full max-h-60 overflow-auto flex items-center flex-col space-y-2">
-        <div className="flex flex-row space-x-8 items-center w-60">
-          <p>Date</p>
-          <p>Amount</p>
-          <p>Recurring</p>
-        </div>
+      <div className="flex flex-row items-center w-full italic text-sm">
+        <p>Date</p>
+        <p className="ml-14">Amount</p>
+        <p className="ml-10">Recurring</p>
+      </div>
+      <div className="w-full max-h-60 overflow-y-scroll overflow-x-hidden flex items-center flex-col space-y-2 text-sm">
         {pendingEntries
           .sort((a, b) => (a.clearingDay < b.clearingDay ? -1 : 1))
           .map((entry) => {
@@ -48,11 +48,11 @@ export const InputValuesModal = () => {
             return (
               <div
                 key={entry.id}
-                className={`flex flex-row justify-between space-x-1 max-w-96 border-b-2 ${
+                className={`flex flex-row justify-between space-x-1 border-b-2 border-b-slate-100 w-full mr-4 ${
                   inactive ? "text-slate-300" : ""
                 }`}
               >
-                <div className="flex flex-row space-x-16 items-center px-4 py-1 w-60">
+                <div className="flex flex-row space-x-16 items-center px-4 py-1 w-full">
                   <p>
                     {entry.clearingDay}.{new Date().getMonth() + 1}{" "}
                   </p>
