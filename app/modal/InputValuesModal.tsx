@@ -8,11 +8,6 @@ export const InputValuesModal = () => {
   const { currentBudget, setBalance, pendingEntries, pendingTotal } =
     useLocalstorageValues();
 
-  const dissmissButtonProps = {
-    popovertarget: ModalType.INPUT_VALUES,
-    popovertargetaction: "hide",
-  };
-
   const openSettingsButtonProps = {
     popovertarget: ModalType.SETTING,
   };
@@ -41,7 +36,7 @@ export const InputValuesModal = () => {
               className="flex flex-row justify-between space-x-2"
             >
               <p>
-                {entry.value}€ clears on the {entry.clearingDay}.{" "}
+                {entry.value}€ on the {entry.clearingDay}.{" "}
                 {entry.repeatsEveryMonth ? "every month" : ""}
               </p>
               <button
@@ -66,12 +61,6 @@ export const InputValuesModal = () => {
           {...openSettingsButtonProps}
         >
           Open settings
-        </button>
-        <button
-          className=" px-4 py-2 rounded shadow uppercase text-md"
-          {...dissmissButtonProps}
-        >
-          Close
         </button>
       </div>
     </Modal>

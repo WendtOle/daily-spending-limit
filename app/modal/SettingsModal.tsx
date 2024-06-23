@@ -13,11 +13,6 @@ export const SettingsModal = () => {
     setThirdMonthMode,
   } = useLocalstorageValues();
 
-  const closeButtonProps = {
-    popovertarget: ModalType.SETTING,
-    popovertargetaction: "hide",
-  };
-
   return (
     <Modal modalId={ModalType.SETTING}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
@@ -45,14 +40,6 @@ export const SettingsModal = () => {
           should adjust the value for <i>budget offset</i> and{" "}
           <i>start budget</i> accordingly.
         </div>
-      </div>
-      <div className="w-full flex justify-center bottom-0">
-        <button
-          className=" px-4 py-2 rounded shadow uppercase text-md"
-          {...closeButtonProps}
-        >
-          Close
-        </button>
       </div>
     </Modal>
   );
