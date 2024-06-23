@@ -1,5 +1,7 @@
-export const BudgetChartThumbnail = () => {
-  const color = "bg-slate-500";
+import { ThumbnailComponent } from "../Gallery";
+
+export const BudgetChartThumbnail: ThumbnailComponent = ({ grayscale }) => {
+  const color = grayscale ? "bg-slate-500" : "bg-blue-600";
   return (
     <div className="w-20 h-20 pt-4">
       <div className="flex flex-row h-10 justify-center">

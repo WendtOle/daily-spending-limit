@@ -46,7 +46,6 @@ export const DSLChart = () => {
     data[targetSpending].value > actualDSL
       ? [DSL.ACTUAL, targetSpending]
       : [targetSpending, DSL.ACTUAL];
-  console.log({ targetDSL });
 
   const mode = targetSpending === DSL.IDEAL ? "relaxed" : "tense";
   const accent = mode === "tense" ? "bg-red-400" : "bg-green-400";

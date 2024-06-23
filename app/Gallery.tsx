@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { INPUT_VALUES_MODAL } from "./modal/InputValuesModal";
-import { DSLChartThumbnail } from "./charts/DSLChartThumbnail";
+
+export type ThumbnailComponent = (props: {
+  grayscale?: boolean;
+}) => JSX.Element;
 
 interface Entry {
   component: JSX.Element;
   label: string;
   color: string;
-  thumbnail?: JSX.Element;
+  thumbnail: ThumbnailComponent;
 }
 
 interface GalleryProps {
@@ -20,7 +22,7 @@ export const Gallery = ({ entries, defaultSelectedIndex }: GalleryProps) => {
   const { component } = entries[focus];
 
   return (
-    <div className="h-full flex flex-col justify-between ">
+    <div className="h-full flex flex-col justify-between">
       <div className="h-72 flex flex-row items-center">{component}</div>
       <div className="flex flex-row justify-around">
         {entries.map(({ label, thumbnail }, index) => (
@@ -28,10 +30,10 @@ export const Gallery = ({ entries, defaultSelectedIndex }: GalleryProps) => {
             key={label}
             onClick={() => setFocus(index)}
             className={`${
-              focus === index ? "bg-gray-200" : "bg-gray-100"
+              focus === index ? "bg-gray-200" : "bg-gray-100 grayscale"
             } text-black rounded shadow text-sm relative transition-colors duration-300`}
           >
-            {thumbnail}
+            {thumbnail({ grayscale: focus !== index })}
             <p className={`absolute bottom-0 left-0 w-full pt-1 px-2 rounded`}>
               {label}
             </p>

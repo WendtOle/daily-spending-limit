@@ -1,5 +1,7 @@
-export const DSLChartThumbnail = () => {
-  const color = "bg-slate-500";
+import { ThumbnailComponent } from "../Gallery";
+
+export const DSLChartThumbnail: ThumbnailComponent = ({ grayscale }) => {
+  const color = grayscale ? "bg-slate-500" : "bg-red-400";
   return (
     <div className="w-20 h-20 flex flex-col justify-center items-center">
       <div className="w-16">
