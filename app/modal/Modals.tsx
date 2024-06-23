@@ -23,7 +23,7 @@ export const Modals = () => {
       <InputValuesModal />
       <PendingEntryModal />
       {Object.values(ChartTypes).map((type) => {
-        const { label, component, text } = chartEntries[type];
+        const { label, text } = chartEntries[type];
         return (
           <ExplanationModal
             key={label}
