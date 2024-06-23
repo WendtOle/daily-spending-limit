@@ -14,7 +14,7 @@ export const ExplanationModal = ({
   return (
     <Modal modalId={id}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
-        Explanation: {title} - Chart
+        Explanation: {title}
       </h1>
       <p>{text}</p>
     </Modal>

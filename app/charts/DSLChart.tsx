@@ -118,7 +118,7 @@ export const DSLChart = () => {
     <div className="w-80 sm:w-96 relative">
       <OpenModalButton
         className="absolute top-0 right-0"
-        id={getExplanationModalId(ChartTypes.DSL)}
+        id={getExplanationModalId(ChartTypes.DSL_CHART)}
       >
         <FaCircleQuestion size={25} className="text-slate-600" />
       </OpenModalButton>

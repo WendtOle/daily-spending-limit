@@ -192,7 +192,7 @@ export const BudgetChart = () => {
     <div className={`w-80 sm:w-96 flex flex-row justify-center relative`}>
       <OpenModalButton
         className="absolute top-0 right-0"
-        id={getExplanationModalId(ChartTypes.BUDGET)}
+        id={getExplanationModalId(ChartTypes.BUDGET_CHART)}
       >
         <FaCircleQuestion size={25} className="text-slate-600" />
       </OpenModalButton>

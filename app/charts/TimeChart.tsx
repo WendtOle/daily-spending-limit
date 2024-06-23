@@ -49,7 +49,7 @@ export default function Chart() {
     <div className="w-80 sm:w-96 relative">
       <OpenModalButton
         className="absolute -top-10 right-0"
-        id={getExplanationModalId(ChartTypes.TIME)}
+        id={getExplanationModalId(ChartTypes.TIME_CHART)}
       >
         <FaCircleQuestion size={25} className="text-slate-600" />
       </OpenModalButton>

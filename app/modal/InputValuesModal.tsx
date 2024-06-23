@@ -17,7 +17,7 @@ export const InputValuesModal = () => {
   };
 
   return (
-    <Modal modalId={ModalType.INPUT_VALUES}>
+    <Modal fullScreen modalId={ModalType.INPUT_VALUES}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Input values
       </h1>
