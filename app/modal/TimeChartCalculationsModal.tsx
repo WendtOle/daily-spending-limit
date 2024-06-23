@@ -62,7 +62,7 @@ export const TimeChartCalculationsModal = () => {
 
   return (
     <Modal modalId={ModalType.TIME_CHART_CALCULATIONS} fullScreen>
-      <h1 className="uppercase text-xl">Budget chart calculation</h1>
+      <h1 className="uppercase text-xl">Time chart calculation</h1>
 
       <div className="p-2 border rounded relative flex flex-col space-y-2 items-center">
         <p className="text-sm absolute -bottom-4 right-0 bg-white px-2 py-1">
@@ -78,34 +78,40 @@ export const TimeChartCalculationsModal = () => {
       </div>
       <div className="p-2 border rounded relative flex flex-col space-y-2 items-center">
         <p className="text-sm absolute -bottom-4 right-0 bg-white px-2 py-1">
-          Total budget
+          Money spent
         </p>
         {getNew({
-          steps: ["Start budget - Puffer - pending expenses"],
+          steps: ["Start budget - current + pending"],
         })}
         {getNew({
-          steps: [`${startBudget}€ - ${budgetOffset}€ - ${pendingTotal}€`],
-          result: `${(startBudget ?? 0) - budgetOffset - pendingTotal}€`,
+          steps: [
+            `${startBudget ?? 0}€ - ${currentBudget ?? 0}€ + ${pendingTotal}€`,
+          ],
+          result: `${
+            (startBudget ?? 0) - (currentBudget ?? 0) + pendingTotal
+          }€`,
         })}
       </div>
       <div className="p-2 border rounded relative flex flex-col space-y-2 items-center">
         <p className="text-sm absolute -bottom-4 right-0 bg-white px-2 py-1">
-          Money spent
+          Total budget
         </p>
         {getNew({
-          steps: ["Total budget - available budget"],
+          steps: ["Available budget + money spent"],
         })}
         {getNew({
           steps: [
-            `${(startBudget ?? 0) - budgetOffset - pendingTotal}€ - ${
-              (currentBudget ?? 0) - budgetOffset - pendingTotal
-            }€ `,
+            `${(currentBudget ?? 0) - budgetOffset - pendingTotal}€ + ${
+              (startBudget ?? 0) - (currentBudget ?? 0) + pendingTotal
+            }€`,
           ],
           result: `${
-            (startBudget ?? 0) -
+            (currentBudget ?? 0) -
             budgetOffset -
-            pendingTotal -
-            ((currentBudget ?? 0) - budgetOffset - pendingTotal)
+            pendingTotal +
+            (startBudget ?? 0) -
+            (currentBudget ?? 0) +
+            pendingTotal
           }€`,
         })}
       </div>
