@@ -37,8 +37,9 @@ export const InputValuesModal = () => {
       </div>
       <div className="flex flex-row items-center w-full italic text-sm">
         <p>Date</p>
-        <p className="ml-14">Amount</p>
-        <p className="ml-10">Recurring</p>
+        <p className="ml-6">Amount</p>
+        <p className="ml-6">Name</p>
+        <p className="ml-6">Recurring</p>
       </div>
       <div className="w-full max-h-60 overflow-y-scroll overflow-x-hidden flex items-center flex-col space-y-2 text-sm">
         {pendingEntries
@@ -52,13 +53,17 @@ export const InputValuesModal = () => {
                   inactive ? "text-slate-300" : ""
                 }`}
               >
-                <div className="flex flex-row space-x-16 items-center px-4 py-1 w-full">
-                  <p className="w-6">
+                <div className="flex flex-row items-center px-2 py-1 w-full">
+                  <p className="w-6 ml-2">
                     {entry.clearingDay}.{new Date().getMonth() + 1}{" "}
                   </p>
-                  <p className="w-10">{entry.value}€ </p>
-
-                  {entry.repeatsEveryMonth && <FaRotateRight />}
+                  <p className="w-10 ml-8">{entry.value}€ </p>
+                  <p className="w-24 ml-2 overflow-hidden text-center">
+                    {entry.label}
+                  </p>
+                  <div className="w-4 ml-4">
+                    {entry.repeatsEveryMonth && <FaRotateRight />}
+                  </div>
                 </div>
                 <button
                   onClick={() => deletePendingEntry(entry.id)}

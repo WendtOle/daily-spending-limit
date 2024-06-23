@@ -17,6 +17,7 @@ const DEFAULT_VALLUES = {
 };
 
 export interface Pending {
+  label: string;
   value: number;
   clearingDay: number;
   repeatsEveryMonth: boolean;
