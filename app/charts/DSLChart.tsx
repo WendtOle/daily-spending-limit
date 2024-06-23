@@ -24,6 +24,7 @@ export const DSLChart = () => {
     idealDSL,
     actualCurrentDSL: actualDSL,
     youShouldTargetDSL: targetDSL,
+    isTense,
   } = useDSL({
     startBudget: startBudget ?? 0,
     currentBudget: currentBudget ?? 0,
@@ -51,19 +52,17 @@ export const DSLChart = () => {
       ? [DSL.ACTUAL, targetSpending]
       : [targetSpending, DSL.ACTUAL];
 
-  const mode = targetSpending === DSL.IDEAL ? "relaxed" : "tense";
-  const accent = mode === "tense" ? "bg-red-400" : "bg-green-400";
-  const minor = mode === "tense" ? "bg-red-100" : "bg-green-100";
-  const [topLabelColor, bottomLabelColor] =
-    mode === "tense" ? [accent, minor] : [minor, accent];
-  const [topLabelAlignment, bottomLabelAlignment] =
-    mode === "relaxed"
-      ? ["items-end", "items-start"]
-      : ["items-start", "items-end"];
-  const [accentRounding, minorRounding] =
-    mode === "tense"
-      ? ["rounded-tl-none", "rounded-br-none"]
-      : ["rounded-bl-none", "rounded-tr-none"];
+  const accent = isTense ? "bg-red-400" : "bg-green-400";
+  const minor = isTense ? "bg-red-100" : "bg-green-100";
+  const [topLabelColor, bottomLabelColor] = isTense
+    ? [accent, minor]
+    : [minor, accent];
+  const [topLabelAlignment, bottomLabelAlignment] = !isTense
+    ? ["items-end", "items-start"]
+    : ["items-start", "items-end"];
+  const [accentRounding, minorRounding] = isTense
+    ? ["rounded-tl-none", "rounded-br-none"]
+    : ["rounded-bl-none", "rounded-tr-none"];
 
   const getLabel = ({
     color,
@@ -95,10 +94,9 @@ export const DSLChart = () => {
 
   const topLabel = getLabel({
     color: topLabelColor,
-    label:
-      mode === "tense"
-        ? `You should only spend: ${data[targetSpending].value} €/d`
-        : `You can spend: ${data[DSL.IDEAL].value} €/d`,
+    label: isTense
+      ? `You should only spend: ${data[targetSpending].value} €/d`
+      : `You can spend: ${data[DSL.IDEAL].value} €/d`,
     alignment: topLabelAlignment,
   });
 
@@ -106,10 +104,9 @@ export const DSLChart = () => {
     data[DSL.ACTUAL].value > 0 &&
     getLabel({
       color: bottomLabelColor,
-      label:
-        mode === "tense"
-          ? `You have spent: ${data[DSL.ACTUAL].value} €/d`
-          : `You have only spent: ${data[DSL.ACTUAL].value} €/d`,
+      label: isTense
+        ? `You have spent: ${data[DSL.ACTUAL].value} €/d`
+        : `You have only spent: ${data[DSL.ACTUAL].value} €/d`,
       alignment: bottomLabelAlignment,
       bottom: true,
     });

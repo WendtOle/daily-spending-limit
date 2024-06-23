@@ -15,6 +15,7 @@ interface TestEntry {
     idealDSL: number;
     youShouldTargetDSL: number;
     actualCurrentDSL: number | undefined;
+    isTense: boolean;
   };
 }
 
@@ -33,6 +34,7 @@ const testData: TestEntry[] = [
       idealDSL: 23.4,
       youShouldTargetDSL: 221,
       actualCurrentDSL: 1.3,
+      isTense: false,
     },
   },
   {
@@ -45,7 +47,12 @@ const testData: TestEntry[] = [
       futureExpenses: 20,
       today: new Date("2024-06-21"),
     },
-    expected: { idealDSL: 23.4, youShouldTargetDSL: 20, actualCurrentDSL: 34 },
+    expected: {
+      idealDSL: 23.4,
+      youShouldTargetDSL: 20,
+      actualCurrentDSL: 34,
+      isTense: true,
+    },
   },
   {
     message: "handles second day of third part of third month mode",
@@ -61,6 +68,7 @@ const testData: TestEntry[] = [
       idealDSL: 23.4,
       youShouldTargetDSL: 22.2,
       actualCurrentDSL: 17,
+      isTense: false,
     },
   },
   {
@@ -78,6 +86,7 @@ const testData: TestEntry[] = [
       idealDSL: 23.4,
       youShouldTargetDSL: 37.1,
       actualCurrentDSL: 0,
+      isTense: false,
     },
   },
 ];

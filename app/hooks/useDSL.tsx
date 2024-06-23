@@ -48,5 +48,7 @@ export const useDSL = ({
     ? customRound(actualSpendUntilNow / Math.max(donePeriod, 1))
     : 0;
 
-  return { idealDSL, youShouldTargetDSL, actualCurrentDSL };
+  const isTense = actualCurrentDSL > idealDSL;
+
+  return { idealDSL, youShouldTargetDSL, actualCurrentDSL, isTense };
 };
