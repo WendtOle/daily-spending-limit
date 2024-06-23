@@ -107,21 +107,26 @@ export const DSLChartCalculationsModal = () => {
               upper: "Money spent",
               lower: "Period done",
             },
-            {
-              upper: "Start - current + pending",
-              lower: "Period done",
-            },
+            (startBudget ?? 0) > (currentBudget ?? 0)
+              ? {
+                  upper: "Start - current + pending",
+                  lower: "Period done",
+                }
+              : {
+                  upper: "Start - current - pending",
+                  lower: "Period done",
+                },
           ],
         })}
         {getNew({
           steps: [
             {
-              upper: `${startBudget}€ - ${currentBudget}€ + ${pendingTotal}€`,
+              upper: `${startBudget}€ - (${currentBudget}€ + ${pendingTotal}€)`,
               lower: `${donePeriod}d`,
             },
             {
               upper: `${
-                (startBudget ?? 0) - (currentBudget ?? 0) - pendingTotal
+                (startBudget ?? 0) - (currentBudget ?? 0) + pendingTotal
               }€`,
               lower: `${donePeriod}d`,
             },
