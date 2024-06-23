@@ -11,6 +11,7 @@ import { Modals } from "./modal/Modals";
 import { DSLChartThumbnail } from "./charts/DSLChartThumbnail";
 import { BudgetChartThumbnail } from "./charts/BudgetChartThumbnail";
 import { TimeChartThumbnail } from "./charts/TimeChartThumbnail";
+import { INPUT_VALUES_MODAL } from "./modal/InputValuesModal";
 
 export default function Home() {
   useEffect(() => {
@@ -49,12 +50,21 @@ export default function Home() {
     },
   ];
 
+  const adjustValuesButtonProps = {
+    popovertarget: INPUT_VALUES_MODAL,
+  };
+  const buttonClasses = `bg-slate-100 text-slate-600 px-4 py-2 rounded shadow uppercase text-md mt-8 font-medium`;
+
   return (
     <main className="flex flex-col justify-start items-center relative">
       <h1 className="text-3xl text-center uppercase tracking-tighter py-4">
         Daily spending limit
       </h1>
       <Gallery entries={entries} defaultSelectedIndex={1} />
+
+      <button {...adjustValuesButtonProps} className={buttonClasses}>
+        Adjust values
+      </button>
       <Modals />
       {entries.map(({ component, label, text }) => (
         <ExplanationModal
