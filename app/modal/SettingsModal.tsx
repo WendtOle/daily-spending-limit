@@ -1,7 +1,7 @@
 import Input from "../Input";
 import { Modal } from "../Modal";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
-export const SETTINGS_MODAL_ID = "settings-modal-id";
+import { ModalType } from "./Modals";
 
 export const SettingsModal = () => {
   const {
@@ -14,12 +14,12 @@ export const SettingsModal = () => {
   } = useLocalstorageValues();
 
   const closeButtonProps = {
-    popovertarget: SETTINGS_MODAL_ID,
+    popovertarget: ModalType.SETTING,
     popovertargetaction: "hide",
   };
 
   return (
-    <Modal modalId={SETTINGS_MODAL_ID}>
+    <Modal modalId={ModalType.SETTING}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Settings
       </h1>

@@ -2,8 +2,7 @@ import { useState } from "react";
 import Input from "../Input";
 import { addPendingEntry } from "../localstorage";
 import { Modal } from "../Modal";
-
-export const PENDING_ENTRY_MODAL_ID = "pending-entry-modal-id";
+import { ModalType } from "./Modals";
 
 export const PendingEntryModal = () => {
   const [value, setValue] = useState(0);
@@ -12,7 +11,7 @@ export const PendingEntryModal = () => {
 
   const handleSave = () => {
     // @ts-ignore
-    document.getElementById(PENDING_ENTRY_MODAL_ID)?.hidePopover();
+    document.getElementById(ModalType.PENDING_ENTRY)?.hidePopover();
     addPendingEntry({
       value,
       clearingDay,
@@ -22,7 +21,7 @@ export const PendingEntryModal = () => {
   };
 
   return (
-    <Modal modalId={PENDING_ENTRY_MODAL_ID}>
+    <Modal modalId={ModalType.PENDING_ENTRY}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Add pending entry
       </h1>

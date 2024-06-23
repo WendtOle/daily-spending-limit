@@ -5,6 +5,13 @@ import { PendingEntryModal } from "./PendingEntryModal";
 import { SettingsModal } from "./SettingsModal";
 import { WelcomeModal } from "./WelcomeModal";
 
+export enum ModalType {
+  SETTING = "settings-modal-id",
+  WELCOME = "welcome-modal-id",
+  INPUT_VALUES = "input-values-modal-id",
+  PENDING_ENTRY = "pending-entry-modal-id",
+}
+
 export const Modals = () => {
   return (
     <>

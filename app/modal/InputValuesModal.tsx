@@ -1,30 +1,28 @@
 import Input from "../Input";
-import { PENDING_ENTRY_MODAL_ID } from "./PendingEntryModal";
-import { SETTINGS_MODAL_ID } from "./SettingsModal";
 import { deletePendingEntry } from "../localstorage";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
+import { ModalType } from "./Modals";
 import { Modal } from "../Modal";
-export const INPUT_VALUES_MODAL = "input-values-modal-id";
 
 export const InputValuesModal = () => {
   const { currentBudget, setBalance, pendingEntries, pendingTotal } =
     useLocalstorageValues();
 
   const dissmissButtonProps = {
-    popovertarget: INPUT_VALUES_MODAL,
+    popovertarget: ModalType.INPUT_VALUES,
     popovertargetaction: "hide",
   };
 
   const openSettingsButtonProps = {
-    popovertarget: SETTINGS_MODAL_ID,
+    popovertarget: ModalType.SETTING,
   };
 
   const addPendingEntryButtonProps = {
-    popovertarget: PENDING_ENTRY_MODAL_ID,
+    popovertarget: ModalType.PENDING_ENTRY,
   };
 
   return (
-    <Modal modalId={INPUT_VALUES_MODAL}>
+    <Modal modalId={ModalType.INPUT_VALUES}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Input values
       </h1>

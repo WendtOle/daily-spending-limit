@@ -1,17 +1,16 @@
 import { Modal } from "../Modal";
 import { LocalStorageKey } from "../localstorage";
-
-export const WELCOME_MODAL_ID = "welcome-modal-id";
+import { ModalType } from "./Modals";
 
 export const WelcomeModal = () => {
   const onDismiss = () => {
     localStorage.setItem(LocalStorageKey.DISMISSED_WELCOME_MODAL, "true");
     // @ts-ignore
-    document.getElementById(WELCOME_MODAL_ID)?.hidePopover();
+    document.getElementById(ModalType.WELCOME)?.hidePopover();
   };
 
   return (
-    <Modal modalId={WELCOME_MODAL_ID}>
+    <Modal modalId={ModalType.WELCOME}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Welcome
       </h1>
