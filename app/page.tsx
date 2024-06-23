@@ -50,7 +50,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex flex-col justify-start items-center relative bg-slate-50">
+    <main className="flex flex-col justify-start items-center relative">
       <h1 className="text-3xl text-center uppercase tracking-tighter py-4">
         Daily spending limit
       </h1>
