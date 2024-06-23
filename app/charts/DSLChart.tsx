@@ -72,7 +72,7 @@ export const DSLChart = () => {
     alignment: string;
     bottom?: boolean;
   }) => {
-    const shadow = bottom ? "shadow-lg" : "";
+    const shadow = bottom ? "" : "shadow-lg";
     return (
       <div
         className={`flex ${alignment} ${
