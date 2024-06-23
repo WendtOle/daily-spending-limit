@@ -3,6 +3,7 @@ import { PENDING_ENTRY_MODAL_ID } from "./PendingEntryModal";
 import { SETTINGS_MODAL_ID } from "./SettingsModal";
 import { deletePendingEntry } from "../localstorage";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
+import { Modal } from "../Modal";
 export const INPUT_VALUES_MODAL = "input-values-modal-id";
 
 export const InputValuesModal = () => {
@@ -23,12 +24,7 @@ export const InputValuesModal = () => {
   };
 
   return (
-    <div
-      className="p-8 py-6 shadow-xl modal rounded space-y-6"
-      id={INPUT_VALUES_MODAL}
-      // @ts-ignore
-      popover="auto"
-    >
+    <Modal modalId={INPUT_VALUES_MODAL}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Input values
       </h1>
@@ -80,6 +76,6 @@ export const InputValuesModal = () => {
           Close
         </button>
       </div>
-    </div>
+    </Modal>
   );
 };

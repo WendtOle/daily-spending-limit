@@ -1,3 +1,5 @@
+import { Modal } from "../Modal";
+
 interface ExplanationModalProps {
   chart: JSX.Element;
   title: string;
@@ -17,12 +19,7 @@ export const ExplanationModal = ({
   };
 
   return (
-    <div
-      className="p-8 pt-6 shadow-xl modal rounded space-y-12 w-full h-screen"
-      id={id}
-      // @ts-ignore
-      popover="auto"
-    >
+    <Modal modalId={id}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         {title}
       </h1>
@@ -36,6 +33,6 @@ export const ExplanationModal = ({
           Close
         </button>
       </div>
-    </div>
+    </Modal>
   );
 };

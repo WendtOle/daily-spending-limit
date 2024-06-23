@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "../Input";
 import { addPendingEntry } from "../localstorage";
+import { Modal } from "../Modal";
 
 export const PENDING_ENTRY_MODAL_ID = "pending-entry-modal-id";
 
@@ -21,12 +22,7 @@ export const PendingEntryModal = () => {
   };
 
   return (
-    <div
-      className="p-8 py-6 shadow-xl modal rounded space-y-2"
-      id={PENDING_ENTRY_MODAL_ID}
-      // @ts-ignore
-      popover="auto"
-    >
+    <Modal modalId={PENDING_ENTRY_MODAL_ID}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Add pending entry
       </h1>
@@ -57,6 +53,6 @@ export const PendingEntryModal = () => {
       >
         Add entry
       </button>
-    </div>
+    </Modal>
   );
 };

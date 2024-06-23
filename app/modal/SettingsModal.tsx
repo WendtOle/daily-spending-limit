@@ -1,4 +1,5 @@
 import Input from "../Input";
+import { Modal } from "../Modal";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 export const SETTINGS_MODAL_ID = "settings-modal-id";
 
@@ -18,12 +19,7 @@ export const SettingsModal = () => {
   };
 
   return (
-    <div
-      className="p-8 pt-6 shadow-xl modal rounded space-y-6 w-full h-screen"
-      id={SETTINGS_MODAL_ID}
-      // @ts-ignore
-      popover="auto"
-    >
+    <Modal modalId={SETTINGS_MODAL_ID}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Settings
       </h1>
@@ -58,6 +54,6 @@ export const SettingsModal = () => {
           Close
         </button>
       </div>
-    </div>
+    </Modal>
   );
 };

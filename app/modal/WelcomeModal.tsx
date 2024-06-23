@@ -1,3 +1,4 @@
+import { Modal } from "../Modal";
 import { LocalStorageKey } from "../localstorage";
 
 export const WELCOME_MODAL_ID = "welcome-modal-id";
@@ -10,12 +11,7 @@ export const WelcomeModal = () => {
   };
 
   return (
-    <div
-      className="p-8 pt-6 shadow-xl modal rounded space-y-6  w-96"
-      id={WELCOME_MODAL_ID}
-      // @ts-ignore
-      popover="auto"
-    >
+    <Modal modalId={WELCOME_MODAL_ID}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Welcome
       </h1>
@@ -34,6 +30,6 @@ export const WelcomeModal = () => {
       >
         Dismiss
       </button>
-    </div>
+    </Modal>
   );
 };
