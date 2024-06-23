@@ -53,10 +53,10 @@ export const InputValuesModal = () => {
                 }`}
               >
                 <div className="flex flex-row space-x-16 items-center px-4 py-1 w-full">
-                  <p>
+                  <p className="w-6">
                     {entry.clearingDay}.{new Date().getMonth() + 1}{" "}
                   </p>
-                  <p>{entry.value}€ </p>
+                  <p className="w-10">{entry.value}€ </p>
 
                   {entry.repeatsEveryMonth && <FaRotateRight />}
                 </div>
