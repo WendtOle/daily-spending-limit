@@ -1,4 +1,4 @@
-import { useLocalstorageValues } from "../useLocalstorageValues";
+import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 
 enum Section {
   AVAILABLE = "Available",

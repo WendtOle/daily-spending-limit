@@ -1,7 +1,7 @@
 "use client";
 import { getPeriod } from "../lastDayOfMonth";
 import { CustomBarChart } from "../CustomBarChart";
-import { useLocalstorageValues } from "../useLocalstorageValues";
+import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 
 export default function Chart() {
   const {

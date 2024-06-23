@@ -1,4 +1,4 @@
-import { getPeriod } from "./lastDayOfMonth";
+import { getPeriod } from "../lastDayOfMonth";
 
 interface UseDSLProps {
   startBudget: number;

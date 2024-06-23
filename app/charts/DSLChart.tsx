@@ -1,5 +1,5 @@
-import { useDSL } from "../useDSL";
-import { useLocalstorageValues } from "../useLocalstorageValues";
+import { useDSL } from "../hooks/useDSL";
+import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 
 enum DSL {
   IDEAL = "ideal",

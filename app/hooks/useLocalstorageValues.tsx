@@ -4,9 +4,9 @@ import {
   Pending,
   readFromLocalStorage,
   writeNewHistoryEntry,
-} from "./localstorage";
-import { History } from "./types";
-import { getPeriod } from "./lastDayOfMonth";
+} from "../localstorage";
+import { History } from "../types";
+import { getPeriod } from "../lastDayOfMonth";
 
 export const useLocalstorageValues = () => {
   const [currentBudget, setAccountBalance] = useState<number | undefined>();
