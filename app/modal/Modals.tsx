@@ -5,6 +5,7 @@ import { ExplanationModal } from "./ExplanationModal";
 import { InputValuesModal } from "./InputValuesModal";
 import { PendingEntryModal } from "./PendingEntryModal";
 import { SettingsModal } from "./SettingsModal";
+import { TimeChartCalculationsModal } from "./TimeChartCalculationsModal";
 import { WelcomeModal } from "./WelcomeModal";
 
 export enum ModalType {
@@ -14,6 +15,7 @@ export enum ModalType {
   PENDING_ENTRY = "pending-entry-modal-id",
   DSL_CHART_CALCULATIONS = "dsl-chart-calculations-modal-id",
   Budget_CHART_CALCULATIONS = "budget-chart-calculations-modal-id",
+  TIME_CHART_CALCULATIONS = "time-chart-calculations-modal-id",
 }
 
 export enum ConceptType {
@@ -63,6 +65,7 @@ export const Modals = () => {
       <PendingEntryModal />
       <DSLChartCalculationsModal />
       <BudgetChartCalculationsModal />
+      <TimeChartCalculationsModal />
       {Object.values({ ...ChartTypes, ...ConceptType }).map((type) => {
         const { label, text } = explanationData[type];
         return (
