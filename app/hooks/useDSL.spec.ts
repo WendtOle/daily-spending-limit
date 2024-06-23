@@ -33,7 +33,7 @@ const testData: TestEntry[] = [
     expected: {
       idealDSL: 23.4,
       youShouldTargetDSL: 221,
-      actualCurrentDSL: 1.3,
+      actualCurrentDSL: 1.4,
       isTense: false,
     },
   },
@@ -67,8 +67,8 @@ const testData: TestEntry[] = [
     expected: {
       idealDSL: 23.4,
       youShouldTargetDSL: 22.2,
-      actualCurrentDSL: 17,
-      isTense: false,
+      actualCurrentDSL: 34,
+      isTense: true,
     },
   },
   {
@@ -87,6 +87,24 @@ const testData: TestEntry[] = [
       youShouldTargetDSL: 37.1,
       actualCurrentDSL: 0,
       isTense: false,
+    },
+  },
+  {
+    message:
+      "another situation in which current budget is higher than start budget",
+    parameter: {
+      startBudget: 400,
+      currentBudget: 656,
+      offset: 166,
+      thirdMonthMode: true,
+      futureExpenses: 326,
+      today: new Date("2024-06-23"),
+    },
+    expected: {
+      idealDSL: 23.4,
+      youShouldTargetDSL: 20.5,
+      actualCurrentDSL: 35,
+      isTense: true,
     },
   },
 ];

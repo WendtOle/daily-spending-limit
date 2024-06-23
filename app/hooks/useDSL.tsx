@@ -45,7 +45,7 @@ export const useDSL = ({
       ? actualStartBudget - actualCurrentBudget
       : undefined;
   const actualCurrentDSL = actualSpendUntilNow
-    ? customRound(actualSpendUntilNow / Math.max(donePeriod, 1))
+    ? customRound(actualSpendUntilNow / Math.max(donePeriod - 1, 1))
     : 0;
 
   const isTense = actualCurrentDSL > idealDSL;
