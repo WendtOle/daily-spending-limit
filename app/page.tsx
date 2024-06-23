@@ -17,7 +17,11 @@ export default function Home() {
   const adjustValuesButtonProps = {
     popovertarget: ModalType.INPUT_VALUES,
   };
-  const buttonClasses = `w-72 bg-slate-100 px-4 py-2 w-full rounded shadow uppercase text-md mt-8`;
+  const buttonClasses = `w-72 bg-slate-100 px-4 py-2 rounded shadow uppercase text-md`;
+
+  const openSettingsButtonProps = {
+    popovertarget: ModalType.SETTING,
+  };
 
   return (
     <main className="flex flex-col justify-start items-center relative">
@@ -25,9 +29,15 @@ export default function Home() {
         Daily spending limit
       </h1>
       <Gallery entries={Object.values(chartEntries)} defaultSelectedIndex={1} />
-      <button {...adjustValuesButtonProps} className={buttonClasses}>
-        Adjust values
-      </button>
+
+      <div className="flex flex-col justify-center mt-8 space-y-2">
+        <button {...adjustValuesButtonProps} className={buttonClasses}>
+          Update
+        </button>
+        <button className={buttonClasses} {...openSettingsButtonProps}>
+          Settings
+        </button>
+      </div>
       <Modals />
     </main>
   );

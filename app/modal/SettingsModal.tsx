@@ -17,9 +17,7 @@ export const SettingsModal = () => {
 
   return (
     <Modal modalId={ModalType.SETTING} fullScreen>
-      <h1 className="text-xl text-center uppercase tracking-tighter">
-        Settings
-      </h1>
+      <h1 className="text-xl text-center uppercase">Settings</h1>
       <div className="flex flex-row justify-between">
         <p>Start budget</p>
         <OpenModalButton id={getExplanationModalId(ConceptType.START_BUDGET)}>

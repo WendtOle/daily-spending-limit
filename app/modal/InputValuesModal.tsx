@@ -11,19 +11,13 @@ export const InputValuesModal = () => {
   const { currentBudget, setBalance, pendingEntries, pendingTotal } =
     useLocalstorageValues();
 
-  const openSettingsButtonProps = {
-    popovertarget: ModalType.SETTING,
-  };
-
   const addPendingEntryButtonProps = {
     popovertarget: ModalType.PENDING_ENTRY,
   };
 
   return (
     <Modal fullScreen modalId={ModalType.INPUT_VALUES}>
-      <h1 className="text-xl text-center uppercase tracking-tighter">
-        Input values
-      </h1>
+      <h1 className="text-xl text-center uppercase">Parameters</h1>
       <div className="flex flex-row justify-between">
         <p>Account balance</p>
         <OpenModalButton
@@ -67,17 +61,6 @@ export const InputValuesModal = () => {
             Add pending entry
           </button>
         </div>
-      </div>
-      <div className="flex flex-row justify-center">
-        <p className="border-t-2 w-60 text-center">{pendingTotal}€ total</p>
-      </div>
-      <div className="flex justify-center space-x-2">
-        <button
-          className=" px-4 py-2 rounded shadow uppercase text-md"
-          {...openSettingsButtonProps}
-        >
-          Open settings
-        </button>
       </div>
     </Modal>
   );
