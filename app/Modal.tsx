@@ -16,8 +16,8 @@ export const Modal = ({
   return (
     <div
       className={`${
-        fullScreen ? "w-full h-full sm:w-96 sm:h-96" : "w-80 sm:w-96"
-      } sm:mt-40 sm:mx-auto p-8 py-6 shadow-xl modal rounded space-y-2 relative `}
+        fullScreen ? "w-full h-full sm:w-96 sm:h-fit" : "w-80 sm:w-96"
+      } sm:mt-40 sm:mx-auto p-8 py-6 shadow-xl modal rounded space-y-4 relative `}
       id={modalId}
       // @ts-ignore
       popover="auto"

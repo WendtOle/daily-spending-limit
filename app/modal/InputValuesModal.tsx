@@ -1,8 +1,11 @@
 import Input from "../Input";
 import { deletePendingEntry } from "../localstorage";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
-import { ModalType } from "./Modals";
+import { ConceptType, ModalType, getExplanationModalId } from "./Modals";
 import { Modal } from "../Modal";
+import { FaTrash } from "react-icons/fa6";
+import { OpenModalButton } from "../OpenModalButton";
+import { FaQuestionCircle } from "react-icons/fa";
 
 export const InputValuesModal = () => {
   const { currentBudget, setBalance, pendingEntries, pendingTotal } =
@@ -21,40 +24,53 @@ export const InputValuesModal = () => {
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Input values
       </h1>
-      <Input
-        label="Account balance"
-        value={currentBudget ?? 0}
-        setValue={setBalance}
-      />
-
-      <div className="w-full">
+      <div className="flex flex-row justify-between">
+        <p>Account balance</p>
+        <OpenModalButton
+          id={getExplanationModalId(ConceptType.ACCOUNT_BALANCE)}
+        >
+          <FaQuestionCircle />
+        </OpenModalButton>
+      </div>
+      <Input value={currentBudget ?? 0} setValue={setBalance} />
+      <div className="flex flex-row justify-between">
+        <p>Pending expenses</p>
+        <OpenModalButton
+          id={getExplanationModalId(ConceptType.PENDING_EXPENSE)}
+        >
+          <FaQuestionCircle />
+        </OpenModalButton>
+      </div>
+      <div className="w-full max-h-96 overflow-auto flex items-center flex-col space-y-1">
         {pendingEntries
           .sort((a, b) => (a.clearingDay < b.clearingDay ? -1 : 1))
           .map((entry) => (
             <div
               key={entry.id}
-              className="flex flex-row justify-between space-x-2"
+              className="flex flex-row justify-between space-x-1 py-1 max-w-96"
             >
-              <p>
-                {entry.value}€ on the {entry.clearingDay}.{" "}
-                {entry.repeatsEveryMonth ? "every month" : ""}
-              </p>
-              <button
-                onClick={() => deletePendingEntry(entry.id)}
-                className="p-1 shadow"
-              >
-                X
+              <div className="flex flex-row bg-slate-100 space-x-1 px-4 py-1 w-60">
+                <p>{entry.value}€ </p>
+                <p>on the {entry.clearingDay}. </p>
+                <p>{entry.repeatsEveryMonth ? "every month" : ""}</p>
+              </div>
+              <button onClick={() => deletePendingEntry(entry.id)} className="">
+                <FaTrash className="text-slate-600" />
               </button>
             </div>
           ))}
-        <p className="border-t-2">{pendingTotal}€ total</p>
+        <div className="m-2">
+          <button
+            {...addPendingEntryButtonProps}
+            className="rounded-full shadow px-4 py-1 w-full shadow w-48 mb-2"
+          >
+            Add pending entry
+          </button>
+        </div>
       </div>
-      <button
-        {...addPendingEntryButtonProps}
-        className="rounded shadow px-4 py-2 w-full uppercase"
-      >
-        Add pending entry
-      </button>
+      <div className="flex flex-row justify-center">
+        <p className="border-t-2 w-60 text-center">{pendingTotal}€ total</p>
+      </div>
       <div className="flex justify-center space-x-2">
         <button
           className=" px-4 py-2 rounded shadow uppercase text-md"
