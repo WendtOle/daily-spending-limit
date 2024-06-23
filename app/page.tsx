@@ -2,12 +2,10 @@
 import { useEffect } from "react";
 import TimeChart from "./charts/TimeChart";
 import { readFromLocalStorage } from "./localstorage";
-import { SETTINGS_MODAL_ID, SettingsModal } from "./modal/SettingsModal";
-import { WelcomeModal } from "./modal/WelcomeModal";
+import { SETTINGS_MODAL_ID } from "./modal/SettingsModal";
 import { BudgetChart } from "./charts/BudgetChart";
 import { DSLChart } from "./charts/DSLChart";
 import { Gallery } from "./Gallery";
-import { InputValuesModal } from "./modal/InputValuesModal";
 import { ExplanationModal } from "./modal/ExplanationModal";
 import { Modals } from "./modal/Modals";
 
@@ -51,9 +49,6 @@ export default function Home() {
         Daily spending limit
       </h1>
       <Gallery entries={entries} defaultSelectedIndex={1} />
-      <SettingsModal />
-      <WelcomeModal />
-      <InputValuesModal />
       <Modals />
       {entries.map(({ component, label, text }) => (
         <ExplanationModal
