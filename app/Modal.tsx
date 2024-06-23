@@ -6,7 +6,7 @@ export const Modal = ({
   fullScreen,
   bottom,
 }: {
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
   modalId: string;
   fullScreen?: boolean;
   bottom?: boolean;
