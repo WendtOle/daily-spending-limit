@@ -3,9 +3,11 @@ import { FaXmark } from "react-icons/fa6";
 export const Modal = ({
   children,
   modalId,
+  fullScreen,
 }: {
   children: JSX.Element[];
   modalId: string;
+  fullScreen?: boolean;
 }): JSX.Element => {
   const borderButtonProps = {
     popovertarget: modalId,
@@ -13,7 +15,9 @@ export const Modal = ({
   };
   return (
     <div
-      className="p-8 py-6 shadow-xl modal rounded space-y-2 relative"
+      className={`${
+        fullScreen ? "w-full h-full sm:w-96 sm:h-96" : "w-80 sm:w-96"
+      } sm:mt-40 sm:mx-auto p-8 py-6 shadow-xl modal rounded space-y-2 relative `}
       id={modalId}
       // @ts-ignore
       popover="auto"

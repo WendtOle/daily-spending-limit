@@ -14,7 +14,7 @@ export const SettingsModal = () => {
   } = useLocalstorageValues();
 
   return (
-    <Modal modalId={ModalType.SETTING}>
+    <Modal modalId={ModalType.SETTING} fullScreen>
       <h1 className="text-xl text-center uppercase tracking-tighter">
         Settings
       </h1>
@@ -34,7 +34,7 @@ export const SettingsModal = () => {
           />
           <label className="font-medium text-gray-900 ml-2">Focus mode</label>
         </div>
-        <div className="w-56 text-sm mt-2 ml-4">
+        <div className="w-full text-sm mt-2 ml-4">
           The focus mode helps to gain control over your daily spending by
           reducing the observed time period to 10 days. <br /> Obviously you
           should adjust the value for <i>budget offset</i> and{" "}
