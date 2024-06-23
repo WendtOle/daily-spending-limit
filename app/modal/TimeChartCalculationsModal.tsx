@@ -114,7 +114,7 @@ export const TimeChartCalculationsModal = () => {
           Period length
         </p>
         {getNew({
-          steps: ["End - start - 1", `${endPeriod} - ${startPeriod} + 1`],
+          steps: ["End - start + 1", `${endPeriod} - ${startPeriod} + 1`],
           result: `${periodLength}d`,
         })}
       </div>
@@ -134,7 +134,7 @@ export const TimeChartCalculationsModal = () => {
         {getNew({
           steps: [
             "PeriodLength - leftPeriod + 1",
-            `${periodLength} - ${leftPeriod} - 1`,
+            `${periodLength} - ${leftPeriod} + 1`,
           ],
           result: `${donePeriod}d`,
         })}
