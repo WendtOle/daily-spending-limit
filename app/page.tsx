@@ -1,11 +1,11 @@
 "use client";
 import { useEffect } from "react";
-import Chart from "./Chart";
+import TimeChart from "./charts/TimeChart";
 import { readFromLocalStorage } from "./localstorage";
 import { SETTINGS_MODAL_ID, SettingsModal } from "./SettingsModal";
 import { WelcomeModal } from "./WelcomeModal";
-import { BudgetChart } from "./BudgetChart";
-import { DSLChart } from "./DSLChart";
+import { BudgetChart } from "./charts/BudgetChart";
+import { DSLChart } from "./charts/DSLChart";
 import { Gallery } from "./Gallery";
 import { InputValuesModal } from "./InputValuesModal";
 import { ExplanationModal } from "./ExplanationModal";
@@ -38,7 +38,7 @@ export default function Home() {
       text: "This chart gives you an idea how much money you should spend on average each day to stay within your budget. The chart is based on the start budget and the budget offset.",
     },
     {
-      component: <Chart />,
+      component: <TimeChart />,
       label: "Time",
       color: "bg-yellow-400",
       text: "This chart gives you an idea how much money you have spent from your money in relation to the time left.",

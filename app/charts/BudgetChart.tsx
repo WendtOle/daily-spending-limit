@@ -1,4 +1,4 @@
-import { useLocalstorageValues } from "./useLocalstorageValues";
+import { useLocalstorageValues } from "../useLocalstorageValues";
 
 enum Section {
   AVAILABLE = "Available",
