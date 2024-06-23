@@ -1,8 +1,8 @@
-import Input from "./Input";
+import Input from "../Input";
 import { PENDING_ENTRY_MODAL_ID } from "./PendingEntryModal";
 import { SETTINGS_MODAL_ID } from "./SettingsModal";
-import { deletePendingEntry } from "./localstorage";
-import { useLocalstorageValues } from "./hooks/useLocalstorageValues";
+import { deletePendingEntry } from "../localstorage";
+import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 export const INPUT_VALUES_MODAL = "input-values-modal-id";
 
 export const InputValuesModal = () => {

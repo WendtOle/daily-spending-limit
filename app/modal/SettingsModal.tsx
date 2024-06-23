@@ -1,5 +1,5 @@
-import Input from "./Input";
-import { useLocalstorageValues } from "./hooks/useLocalstorageValues";
+import Input from "../Input";
+import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 export const SETTINGS_MODAL_ID = "settings-modal-id";
 
 export const SettingsModal = () => {

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Input from "./Input";
-import { addPendingEntry } from "./localstorage";
+import Input from "../Input";
+import { addPendingEntry } from "../localstorage";
 
 export const PENDING_ENTRY_MODAL_ID = "pending-entry-modal-id";
 

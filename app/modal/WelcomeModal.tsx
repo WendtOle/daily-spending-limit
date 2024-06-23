@@ -1,4 +1,4 @@
-import { LocalStorageKey } from "./localstorage";
+import { LocalStorageKey } from "../localstorage";
 
 export const WELCOME_MODAL_ID = "welcome-modal-id";
 

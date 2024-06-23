@@ -2,14 +2,14 @@
 import { useEffect } from "react";
 import TimeChart from "./charts/TimeChart";
 import { readFromLocalStorage } from "./localstorage";
-import { SETTINGS_MODAL_ID, SettingsModal } from "./SettingsModal";
-import { WelcomeModal } from "./WelcomeModal";
+import { SETTINGS_MODAL_ID, SettingsModal } from "./modal/SettingsModal";
+import { WelcomeModal } from "./modal/WelcomeModal";
 import { BudgetChart } from "./charts/BudgetChart";
 import { DSLChart } from "./charts/DSLChart";
 import { Gallery } from "./Gallery";
-import { InputValuesModal } from "./InputValuesModal";
-import { ExplanationModal } from "./ExplanationModal";
-import { Modals } from "./Modals";
+import { InputValuesModal } from "./modal/InputValuesModal";
+import { ExplanationModal } from "./modal/ExplanationModal";
+import { Modals } from "./modal/Modals";
 
 export default function Home() {
   useEffect(() => {

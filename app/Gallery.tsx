@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { INPUT_VALUES_MODAL } from "./InputValuesModal";
+import { INPUT_VALUES_MODAL } from "./modal/InputValuesModal";
 
 interface Entry {
   component: JSX.Element;
