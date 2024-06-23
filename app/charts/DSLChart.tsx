@@ -1,5 +1,9 @@
+import { FaCircleQuestion } from "react-icons/fa6";
 import { useDSL } from "../hooks/useDSL";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
+import { OpenModalButton } from "../OpenModalButton";
+import { getExplanationModalId } from "../modal/Modals";
+import { ChartTypes } from "../chartEntries";
 
 enum DSL {
   IDEAL = "ideal",
@@ -111,7 +115,13 @@ export const DSLChart = () => {
     });
 
   return (
-    <div className="w-80 sm:w-96">
+    <div className="w-80 sm:w-96 relative">
+      <OpenModalButton
+        className="absolute top-0 right-0"
+        id={getExplanationModalId(ChartTypes.DSL)}
+      >
+        <FaCircleQuestion size={25} className="text-slate-600" />
+      </OpenModalButton>
       <div className={`flex  flex-col`}>
         {topLabel}
         <div className="h-12 w-full relative flex items-center rounded-md">

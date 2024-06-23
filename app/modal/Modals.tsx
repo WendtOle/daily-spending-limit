@@ -1,4 +1,4 @@
-import { chartEntries } from "../chartEntries";
+import { ChartTypes, chartEntries } from "../chartEntries";
 import { ExplanationModal } from "./ExplanationModal";
 import { InputValuesModal } from "./InputValuesModal";
 import { PendingEntryModal } from "./PendingEntryModal";
@@ -12,6 +12,9 @@ export enum ModalType {
   PENDING_ENTRY = "pending-entry-modal-id",
 }
 
+export const getExplanationModalId = (type: ChartTypes) =>
+  `${type}-explanation-modal-id`;
+
 export const Modals = () => {
   return (
     <>
@@ -19,15 +22,17 @@ export const Modals = () => {
       <WelcomeModal />
       <InputValuesModal />
       <PendingEntryModal />
-      {chartEntries.map(({ component, label, text }) => (
-        <ExplanationModal
-          key={label}
-          chart={component}
-          title={label}
-          text={text ?? `This is a ${label.toLowerCase()} chart`}
-          id={`${label.toLowerCase()}-explanation-modal-id`}
-        />
-      ))}
+      {Object.values(ChartTypes).map((type) => {
+        const { label, component, text } = chartEntries[type];
+        return (
+          <ExplanationModal
+            key={label}
+            title={label}
+            text={text ?? `This is a ${label.toLowerCase()} chart`}
+            id={getExplanationModalId(type)}
+          />
+        );
+      })}
     </>
   );
 };

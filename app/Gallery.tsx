@@ -4,11 +4,12 @@ export type ThumbnailComponent = (props: {
   grayscale?: boolean;
 }) => JSX.Element;
 
-interface Entry {
+export interface Entry {
   component: JSX.Element;
   label: string;
   color: string;
   thumbnail: ThumbnailComponent;
+  text: string;
 }
 
 interface GalleryProps {

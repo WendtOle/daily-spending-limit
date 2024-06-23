@@ -1,14 +1,12 @@
 import { Modal } from "../Modal";
 
 interface ExplanationModalProps {
-  chart: JSX.Element;
   title: string;
   text: string;
   id: string;
 }
 
 export const ExplanationModal = ({
-  chart,
   title,
   text,
   id,
@@ -21,9 +19,8 @@ export const ExplanationModal = ({
   return (
     <Modal modalId={id}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
-        {title}
+        Explanation: "{title} - Chart"
       </h1>
-      <div className="">{chart}</div>
       <p>{text}</p>
       <div className="w-full flex justify-center bottom-0">
         <button
