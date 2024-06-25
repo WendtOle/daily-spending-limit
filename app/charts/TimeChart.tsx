@@ -2,10 +2,9 @@
 import { getPeriod } from "../lastDayOfMonth";
 import { CustomBarChart } from "../CustomBarChart";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
-import { FaCalculator, FaCircleQuestion } from "react-icons/fa6";
-import { OpenModalButton } from "../OpenModalButton";
-import { ModalType, getExplanationModalId } from "../modal/Modals";
+import { ModalType } from "../modal/Modals";
 import { ChartTypes } from "../chartEntries";
+import { ChartOptionButtons } from "../ChartOptionButtons";
 
 export default function Chart() {
   const {
@@ -47,15 +46,10 @@ export default function Chart() {
 
   return (
     <div className="w-80 sm:w-96 relative">
-      <div className="absolute -top-8 right-0 flex flex-row space-x-2">
-        <OpenModalButton id={ModalType.TIME_CHART_CALCULATIONS}>
-          <FaCalculator size={25} className="text-slate-600" />
-        </OpenModalButton>
-        <OpenModalButton id={getExplanationModalId(ChartTypes.TIME_CHART)}>
-          <FaCircleQuestion size={25} className="text-slate-600" />
-        </OpenModalButton>
-      </div>
-
+      <ChartOptionButtons
+        calculationModalId={ModalType.TIME_CHART_CALCULATIONS}
+        chartType={ChartTypes.TIME_CHART}
+      />
       <div className="space-y-2 ">
         {getMoneyBarChar()}
         <CustomBarChart
