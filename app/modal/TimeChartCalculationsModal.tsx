@@ -34,8 +34,8 @@ export const TimeChartCalculationsModal = () => {
   );
   const today = new Date().getDate();
   const periodLength = endPeriod - startPeriod + 1;
-  const leftPeriod = endPeriod - today;
-  const donePeriod = periodLength - leftPeriod - 1;
+  const leftPeriod = endPeriod - today + 1;
+  const donePeriod = periodLength - leftPeriod;
 
   interface Single {
     upper: string;
@@ -129,7 +129,7 @@ export const TimeChartCalculationsModal = () => {
           Period left
         </p>
         {getNew({
-          steps: ["End - today", `${endPeriod} - ${today}`],
+          steps: ["End - today + 1", `${endPeriod} - ${today} + 1`],
           result: `${leftPeriod}d`,
         })}
       </div>
@@ -139,8 +139,8 @@ export const TimeChartCalculationsModal = () => {
         </p>
         {getNew({
           steps: [
-            "PeriodLength - leftPeriod + 1",
-            `${periodLength} - ${leftPeriod} + 1`,
+            "PeriodLength - leftPeriod",
+            `${periodLength} - ${leftPeriod}`,
           ],
           result: `${donePeriod}d`,
         })}

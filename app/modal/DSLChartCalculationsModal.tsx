@@ -33,8 +33,8 @@ export const DSLChartCalculationsModal = () => {
   );
   const today = new Date().getDate();
   const periodLength = endPeriod - startPeriod + 1;
-  const leftPeriod = endPeriod - today;
-  const donePeriod = periodLength - leftPeriod - 1;
+  const leftPeriod = endPeriod - today + 1;
+  const donePeriod = periodLength - leftPeriod;
 
   interface Single {
     upper: string;
