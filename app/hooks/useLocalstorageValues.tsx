@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import {
   LocalStorageKey,
-  Pending,
   readFromLocalStorage,
   writeNewHistoryEntry,
 } from "../localstorage";
 import { History } from "../types";
 import { getPeriod } from "../lastDayOfMonth";
+import { Pending } from "../pendingUtils";
 
 export const useLocalstorageValues = () => {
   const [currentBudget, setAccountBalance] = useState<number | undefined>();

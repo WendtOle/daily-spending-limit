@@ -1,9 +1,9 @@
 import Input from "../Input";
-import { deletePendingEntry } from "../localstorage";
+import { clearPendingEntry, deletePendingEntry } from "../pendingUtils";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ConceptType, ModalType, getExplanationModalId } from "./Modals";
 import { Modal } from "../Modal";
-import { FaRotateRight, FaTrash } from "react-icons/fa6";
+import { FaCheck, FaRotateRight, FaTrash } from "react-icons/fa6";
 import { OpenModalButton } from "../OpenModalButton";
 import { FaQuestionCircle } from "react-icons/fa";
 
@@ -45,7 +45,8 @@ export const InputValuesModal = () => {
         {pendingEntries
           .sort((a, b) => (a.clearingDay < b.clearingDay ? -1 : 1))
           .map((entry) => {
-            const inactive = entry.clearingDay <= new Date().getDate();
+            const inactive =
+              entry.isCleared || entry.clearingDay <= new Date().getDate();
             return (
               <div
                 key={entry.id}
@@ -65,6 +66,12 @@ export const InputValuesModal = () => {
                     {entry.repeatsEveryMonth && <FaRotateRight />}
                   </div>
                 </div>
+                <button
+                  onClick={() => clearPendingEntry(entry.id)}
+                  className=""
+                >
+                  <FaCheck className="text-slate-600" />
+                </button>
                 <button
                   onClick={() => deletePendingEntry(entry.id)}
                   className=""

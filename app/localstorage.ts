@@ -1,3 +1,4 @@
+import { Pending, purgeOutdatedPendingEntries } from "./pendingUtils";
 import { History } from "./types";
 
 export enum LocalStorageKey {
@@ -15,14 +16,6 @@ const DEFAULT_VALLUES = {
   startBudget: 1000,
   budgetOffset: 0,
 };
-
-export interface Pending {
-  label: string;
-  value: number;
-  clearingDay: number;
-  repeatsEveryMonth: boolean;
-  id: string;
-}
 
 export const readFromLocalStorage = (): {
   currentBudget: number;
@@ -84,36 +77,4 @@ export const writeNewHistoryEntry = (value: number): History => {
   };
   localStorage.setItem(LocalStorageKey.HISTORY, JSON.stringify(updatedHistory));
   return updatedHistory;
-};
-
-export const addPendingEntry = (pending: Pending) => {
-  const rawPending = localStorage.getItem(LocalStorageKey.PENDING);
-  const parsedPending: Pending[] = rawPending ? JSON.parse(rawPending) : [];
-  parsedPending.push(pending);
-  localStorage.setItem(LocalStorageKey.PENDING, JSON.stringify(parsedPending));
-  window.dispatchEvent(new StorageEvent("storage"));
-  purgeOutdatedPendingEntries();
-};
-
-export const deletePendingEntry = (uid: string) => {
-  const rawPending = localStorage.getItem(LocalStorageKey.PENDING);
-  const parsedPending: Pending[] = rawPending ? JSON.parse(rawPending) : [];
-  localStorage.setItem(
-    LocalStorageKey.PENDING,
-    JSON.stringify(parsedPending.filter((entry) => entry.id !== uid))
-  );
-  window.dispatchEvent(new StorageEvent("storage"));
-  purgeOutdatedPendingEntries();
-};
-
-const purgeOutdatedPendingEntries = () => {
-  const rawPending = localStorage.getItem(LocalStorageKey.PENDING);
-  const parsedPending: Pending[] = rawPending ? JSON.parse(rawPending) : [];
-  const today = new Date().getDate();
-  const updatedPending = parsedPending.filter(
-    (entry) => entry.clearingDay > today || entry.repeatsEveryMonth
-  );
-  if (parsedPending.length === updatedPending.length) return;
-  localStorage.setItem(LocalStorageKey.PENDING, JSON.stringify(updatedPending));
-  window.dispatchEvent(new StorageEvent("storage"));
 };

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "../Input";
-import { addPendingEntry } from "../localstorage";
+import { addPendingEntry } from "../pendingUtils";
 import { Modal } from "../Modal";
 import { ModalType } from "./Modals";
 
