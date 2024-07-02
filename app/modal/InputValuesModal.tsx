@@ -72,9 +72,9 @@ export const InputValuesModal = () => {
                     className="mr-2"
                   >
                     {inactive ? (
-                      <FaToggleOn className="text-slate-600" />
-                    ) : (
                       <FaToggleOff className="text-slate-600" />
+                    ) : (
+                      <FaToggleOn className="text-slate-600" />
                     )}
                   </button>
                 )}
