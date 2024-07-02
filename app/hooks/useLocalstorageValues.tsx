@@ -62,7 +62,12 @@ export const useLocalstorageValues = () => {
 
   const { start, end } = getPeriod(thirdMonthMode, new Date());
   const pendingTotal = pendingEntries
-    .filter((entry) => start < entry.clearingDay && end >= entry.clearingDay)
+    .filter(
+      (entry) =>
+        start < entry.clearingDay &&
+        end >= entry.clearingDay &&
+        !entry.isCleared
+    )
     .reduce((acc, entry) => acc + entry.value, 0);
 
   return {

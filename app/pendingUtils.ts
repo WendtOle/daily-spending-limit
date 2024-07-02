@@ -37,7 +37,7 @@ export const clearPendingEntry = (uid: string) => {
     JSON.stringify(
       parsedPending.map((entry) => ({
         ...entry,
-        isCleared: entry.id === uid ? true : entry.isCleared,
+        isCleared: entry.id === uid ? !entry.isCleared : entry.isCleared,
       }))
     )
   );

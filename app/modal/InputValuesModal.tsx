@@ -3,9 +3,9 @@ import { clearPendingEntry, deletePendingEntry } from "../pendingUtils";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ConceptType, ModalType, getExplanationModalId } from "./Modals";
 import { Modal } from "../Modal";
-import { FaCheck, FaRotateRight, FaTrash } from "react-icons/fa6";
+import { FaCheck, FaRotateRight, FaToggleOn, FaTrash } from "react-icons/fa6";
 import { OpenModalButton } from "../OpenModalButton";
-import { FaQuestionCircle } from "react-icons/fa";
+import { FaQuestionCircle, FaToggleOff } from "react-icons/fa";
 
 export const InputValuesModal = () => {
   const { currentBudget, setBalance, pendingEntries, pendingTotal } =
@@ -50,7 +50,7 @@ export const InputValuesModal = () => {
             return (
               <div
                 key={entry.id}
-                className={`flex flex-row justify-between space-x-1 border-b-2 border-b-slate-100 w-full mr-4 ${
+                className={`flex flex-row justify-between border-b-2 border-b-slate-100 w-full mr-4 ${
                   inactive ? "text-slate-300" : ""
                 }`}
               >
@@ -66,12 +66,18 @@ export const InputValuesModal = () => {
                     {entry.repeatsEveryMonth && <FaRotateRight />}
                   </div>
                 </div>
-                <button
-                  onClick={() => clearPendingEntry(entry.id)}
-                  className=""
-                >
-                  <FaCheck className="text-slate-600" />
-                </button>
+                {entry.repeatsEveryMonth && (
+                  <button
+                    onClick={() => clearPendingEntry(entry.id)}
+                    className="mr-2"
+                  >
+                    {inactive ? (
+                      <FaToggleOn className="text-slate-600" />
+                    ) : (
+                      <FaToggleOff className="text-slate-600" />
+                    )}
+                  </button>
+                )}
                 <button
                   onClick={() => deletePendingEntry(entry.id)}
                   className=""
