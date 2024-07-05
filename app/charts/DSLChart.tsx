@@ -15,7 +15,6 @@ export const DSLChart = () => {
     startBudget,
     currentBudget,
     offset: budgetOffset,
-    thirdMonthMode,
     pendingTotal,
   } = useLocalstorageValues();
 
@@ -27,7 +26,6 @@ export const DSLChart = () => {
   } = useDSL({
     startBudget: startBudget ?? 0,
     currentBudget: currentBudget ?? 0,
-    thirdMonthMode,
     offset: budgetOffset,
     futureExpenses: pendingTotal,
     today: new Date(),
