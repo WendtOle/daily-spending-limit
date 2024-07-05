@@ -8,7 +8,8 @@ export const TimeChartCalculationsModal = () => {
     startBudget,
     currentBudget,
     offset: budgetOffset,
-    pendingTotal,
+    pendingFixedCosts,
+    payedFixedCosts,
   } = useLocalstorageValues();
 
   const { start: startPeriod, end: endPeriod } = getPeriod(new Date());
@@ -47,8 +48,10 @@ export const TimeChartCalculationsModal = () => {
           steps: ["Current budget - Puffer - pending expenses"],
         })}
         {getNew({
-          steps: [`${currentBudget}€ - ${budgetOffset}€ - ${pendingTotal}€`],
-          result: `${(currentBudget ?? 0) - budgetOffset - pendingTotal}€`,
+          steps: [
+            `${currentBudget}€ - ${budgetOffset}€ - ${pendingFixedCosts}€`,
+          ],
+          result: `${(currentBudget ?? 0) - budgetOffset - pendingFixedCosts}€`,
         })}
       </div>
       <div className="p-2 border rounded relative flex flex-col space-y-2 items-center">
@@ -56,14 +59,20 @@ export const TimeChartCalculationsModal = () => {
           Money spent
         </p>
         {getNew({
-          steps: ["Start budget - current + pending"],
+          steps: ["Spending budget + puffer + fix costs - current"],
         })}
         {getNew({
           steps: [
-            `${startBudget ?? 0}€ - ${currentBudget ?? 0}€ + ${pendingTotal}€`,
+            `${startBudget ?? 0}€ + ${budgetOffset}€ + ${
+              pendingFixedCosts + payedFixedCosts
+            }€ - ${currentBudget ?? 0}€`,
           ],
           result: `${
-            (startBudget ?? 0) - (currentBudget ?? 0) + pendingTotal
+            (startBudget ?? 0) +
+            budgetOffset +
+            pendingFixedCosts +
+            payedFixedCosts -
+            (currentBudget ?? 0)
           }€`,
         })}
       </div>
@@ -76,17 +85,23 @@ export const TimeChartCalculationsModal = () => {
         })}
         {getNew({
           steps: [
-            `${(currentBudget ?? 0) - budgetOffset - pendingTotal}€ + ${
-              (startBudget ?? 0) - (currentBudget ?? 0) + pendingTotal
+            `${(currentBudget ?? 0) - budgetOffset - pendingFixedCosts}€ + ${
+              (startBudget ?? 0) +
+              budgetOffset +
+              pendingFixedCosts +
+              payedFixedCosts -
+              (currentBudget ?? 0)
             }€`,
           ],
           result: `${
             (currentBudget ?? 0) -
             budgetOffset -
-            pendingTotal +
-            (startBudget ?? 0) -
-            (currentBudget ?? 0) +
-            pendingTotal
+            pendingFixedCosts +
+            (startBudget ?? 0) +
+            budgetOffset +
+            pendingFixedCosts +
+            payedFixedCosts -
+            (currentBudget ?? 0)
           }€`,
         })}
       </div>

@@ -29,9 +29,9 @@ export default function Chart() {
     if (!start) {
       return null;
     }
-    const moneySpent = start - current - payedFixedCosts;
-    const moneyLeft =
-      start - offset - pendingFixedCosts - payedFixedCosts - moneySpent;
+    const moneySpent =
+      start + offset + pendingFixedCosts + payedFixedCosts - current;
+    const moneyLeft = current - offset - pendingFixedCosts;
     return (
       <CustomBarChart
         left={Math.max(moneySpent, 0)}

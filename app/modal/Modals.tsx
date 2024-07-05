@@ -22,7 +22,7 @@ export enum ConceptType {
   FIXED_COSTS = "fixed-costs",
   ACCOUNT_BALANCE = "account-balance",
   PUFFER = "puffer",
-  START_BUDGET = "start-budget",
+  SPENDING_BUDGET = "start-budget",
   FOCUS_MODE = "focus-mode",
 }
 
@@ -46,9 +46,9 @@ const explanationData: Record<
     label: "Puffer",
     text: "The puffer is an amount of money you have in your account but don't want to spend. This is useful for unexpected expenses or to prevent you from spending all your money. In all calculations the puffer is calculated out of the current account balance.",
   },
-  [ConceptType.START_BUDGET]: {
-    label: "Start budget",
-    text: "The start budget is the amount of money you had available at the start of the month on your account. This is the starting point for your budget calculations.",
+  [ConceptType.SPENDING_BUDGET]: {
+    label: "Spending budget",
+    text: "The spending budget is the amount of money you want to spend at most each month for variable costs. Food, going or eating out, buying some stuff.",
   },
   [ConceptType.FOCUS_MODE]: {
     label: "Focus mode",

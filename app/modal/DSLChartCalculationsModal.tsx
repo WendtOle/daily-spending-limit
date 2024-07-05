@@ -75,11 +75,7 @@ export const DSLChartCalculationsModal = () => {
         {getNew({
           steps: [
             {
-              upper: "Actual start budget",
-              lower: "Period length",
-            },
-            {
-              upper: "Start - puffer - fixed",
+              upper: "Spending budget",
               lower: "Period length",
             },
           ],
@@ -87,9 +83,7 @@ export const DSLChartCalculationsModal = () => {
         {getNew({
           steps: [
             {
-              upper: `${startBudget}€ - ${budgetOffset}€ - ${
-                payedFixedCosts + pendingFixedCosts
-              }€`,
+              upper: `${startBudget}€`,
               lower: `${periodLength}d`,
             },
           ],
@@ -107,7 +101,7 @@ export const DSLChartCalculationsModal = () => {
               lower: "Period done",
             },
             {
-              upper: "Start - current - pending",
+              upper: "current - offset - pending fixed costs",
               lower: "Period done",
             },
           ],
@@ -115,12 +109,13 @@ export const DSLChartCalculationsModal = () => {
         {getNew({
           steps: [
             {
-              upper: `${startBudget}€ - ${currentBudget}€ - ${pendingFixedCosts}€`,
+              upper: `${startBudget}€ - (${currentBudget}€ - ${budgetOffset}€ - ${pendingFixedCosts}€)`,
               lower: `${donePeriod}d`,
             },
             {
               upper: `${
-                (startBudget ?? 0) - (currentBudget ?? 0) - pendingFixedCosts
+                (startBudget ?? 0) -
+                ((currentBudget ?? 0) - (budgetOffset ?? 0) - pendingFixedCosts)
               }€`,
               lower: `${donePeriod}d`,
             },
@@ -139,7 +134,7 @@ export const DSLChartCalculationsModal = () => {
               lower: "Period left",
             },
             {
-              upper: "current - puffer - pending",
+              upper: "current - puffer - pending fixed costs",
               lower: "Period left",
             },
           ],

@@ -25,7 +25,8 @@ export const DSLChart = () => {
     youShouldTargetDSL: targetDSL,
     isTense,
   } = useDSL({
-    startBudget: startBudget ?? 0,
+    startBudget:
+      startBudget ?? 0 + budgetOffset + payedFixedCosts + pendingFixedCosts,
     currentBudget: currentBudget ?? 0,
     offset: budgetOffset,
     pendingFixedCosts,

@@ -29,8 +29,7 @@ export const useDSL = ({
 
   const actualCurrentBudget = currentBudget - budgetOffset - futureExpenses;
 
-  const actualStartBudget =
-    startBudget - budgetOffset - payedFixedCosts - pendingFixedCosts;
+  const actualStartBudget = startBudget;
 
   const idealDSL = customRound(actualStartBudget / periodLength);
   if (leftPeriod < 0) {

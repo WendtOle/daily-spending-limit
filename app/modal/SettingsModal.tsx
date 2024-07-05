@@ -13,8 +13,10 @@ export const SettingsModal = () => {
     <Modal modalId={ModalType.SETTING} fullScreen>
       <h1 className="text-xl text-center uppercase">Settings</h1>
       <div className="flex flex-row justify-between">
-        <p>Start budget</p>
-        <OpenModalButton id={getExplanationModalId(ConceptType.START_BUDGET)}>
+        <p>Spending budget</p>
+        <OpenModalButton
+          id={getExplanationModalId(ConceptType.SPENDING_BUDGET)}
+        >
           <FaQuestionCircle />
         </OpenModalButton>
       </div>
