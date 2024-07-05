@@ -12,24 +12,16 @@ export const useLocalstorageValues = () => {
   const [currentBudget, setAccountBalance] = useState<number | undefined>();
   const [nullableOffset, setOffset] = useState<number | undefined>();
   const [startBudget, setStartBudget] = useState<number | undefined>();
-  const [thirdMonthMode, setThirdMonthMode] = useState<boolean>(false);
   const [history, setHistory] = useState<History>({});
   const [pendingEntries, setPendingEntries] = useState<Pending[]>([]);
 
   useEffect(() => {
     const updateValues = () => {
-      const {
-        currentBudget,
-        budgetOffset,
-        startBudget,
-        thirdMonthMode,
-        history,
-        pending,
-      } = readFromLocalStorage();
+      const { currentBudget, budgetOffset, startBudget, history, pending } =
+        readFromLocalStorage();
       setAccountBalance(currentBudget);
       setOffset(budgetOffset);
       setStartBudget(startBudget);
-      setThirdMonthMode(thirdMonthMode);
       setHistory(history);
       setPendingEntries(pending);
     };
@@ -47,11 +39,6 @@ export const useLocalstorageValues = () => {
     localStorage.setItem(LocalStorageKey.BUDGET_OFFSET, value.toString());
     window.dispatchEvent(new StorageEvent("storage"));
   };
-  const handleThridMonthModeChange = (value: boolean) => {
-    setThirdMonthMode(value);
-    localStorage.setItem(LocalStorageKey.THIRD_MONTH_MODE, value.toString());
-    window.dispatchEvent(new StorageEvent("storage"));
-  };
 
   const handleCurrentBudgetChange = (value: number) => {
     writeNewHistoryEntry(value);
@@ -60,7 +47,7 @@ export const useLocalstorageValues = () => {
     window.dispatchEvent(new StorageEvent("storage"));
   };
 
-  const { start, end } = getPeriod(thirdMonthMode, new Date());
+  const { start, end } = getPeriod(new Date());
   const pendingTotal = pendingEntries
     .filter(
       (entry) =>
@@ -77,8 +64,6 @@ export const useLocalstorageValues = () => {
     setOffset: handleBudgetOffsetChange,
     startBudget,
     setStartBudget: handleStartBudgetChange,
-    thirdMonthMode,
-    setThirdMonthMode: handleThridMonthModeChange,
     history,
     pendingEntries,
     pendingTotal,

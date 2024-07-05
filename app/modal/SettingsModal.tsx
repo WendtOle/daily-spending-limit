@@ -6,14 +6,8 @@ import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ConceptType, ModalType, getExplanationModalId } from "./Modals";
 
 export const SettingsModal = () => {
-  const {
-    offset,
-    setOffset,
-    startBudget,
-    setStartBudget,
-    thirdMonthMode,
-    setThirdMonthMode,
-  } = useLocalstorageValues();
+  const { offset, setOffset, startBudget, setStartBudget } =
+    useLocalstorageValues();
 
   return (
     <Modal modalId={ModalType.SETTING} fullScreen>
@@ -32,22 +26,6 @@ export const SettingsModal = () => {
         </OpenModalButton>
       </div>
       <Input value={offset} setValue={setOffset} />
-      <div>
-        <div className="flex flex-row items-center justify-between">
-          <div className="flex flex-row items-center">
-            <input
-              className="w-6 h-6"
-              type="checkbox"
-              checked={thirdMonthMode}
-              onChange={(e) => setThirdMonthMode(e.target.checked)}
-            />
-            <label className="font-medium text-gray-900 ml-2">Focus mode</label>
-          </div>
-          <OpenModalButton id={getExplanationModalId(ConceptType.FOCUS_MODE)}>
-            <FaQuestionCircle />
-          </OpenModalButton>
-        </div>
-      </div>
     </Modal>
   );
 };

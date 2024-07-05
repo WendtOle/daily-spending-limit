@@ -10,7 +10,6 @@ export default function Chart() {
   const {
     offset,
     startBudget: start,
-    thirdMonthMode,
     currentBudget: current,
     pendingTotal,
     history,
@@ -19,10 +18,7 @@ export default function Chart() {
   if ((Object.keys(history).length < 2 && !start) || !current) {
     return null;
   }
-  const { start: startPeriod, end: endPeriod } = getPeriod(
-    thirdMonthMode,
-    new Date()
-  );
+  const { start: startPeriod, end: endPeriod } = getPeriod(new Date());
   const today = new Date().getDate();
   const length = endPeriod - startPeriod + 1;
   const leftPeriod = endPeriod - today + 1;

@@ -4,7 +4,6 @@ interface UseDSLProps {
   startBudget: number;
   currentBudget: number;
   offset: number;
-  thirdMonthMode: boolean;
   futureExpenses: number;
   today: Date;
 }
@@ -12,17 +11,13 @@ interface UseDSLProps {
 export const useDSL = ({
   startBudget,
   currentBudget,
-  thirdMonthMode,
   offset: budgetOffset,
   futureExpenses,
   today: todayDate,
 }: UseDSLProps) => {
-  const { start: startPeriod, end: endPeriod } = getPeriod(
-    thirdMonthMode,
-    todayDate
-  );
+  const { start: startPeriod, end: endPeriod } = getPeriod(todayDate);
   const today = todayDate.getDate();
-  const periodLength = endPeriod - startPeriod + 1;
+  const periodLength = endPeriod - startPeriod;
   const leftPeriod = endPeriod - today;
   const donePeriod = periodLength - leftPeriod;
 

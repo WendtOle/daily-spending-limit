@@ -7,7 +7,6 @@ interface TestEntry {
     startBudget: number;
     currentBudget: number;
     offset: number;
-    thirdMonthMode: boolean;
     futureExpenses: number;
     today: Date;
   };
@@ -21,52 +20,49 @@ interface TestEntry {
 
 const testData: TestEntry[] = [
   {
-    message: "handles end of third month mode with future expense",
+    message: "handles end of month with future expense",
     parameter: {
       startBudget: 400,
       currentBudget: 389,
       offset: 166,
-      thirdMonthMode: true,
       futureExpenses: 2,
-      today: new Date("2024-06-20"),
+      today: new Date("2024-06-30"),
     },
     expected: {
-      idealDSL: 23.4,
+      idealDSL: 7.8,
       youShouldTargetDSL: 221,
-      actualCurrentDSL: 1.4,
+      actualCurrentDSL: 0.4,
       isTense: false,
     },
   },
   {
-    message: "handles first day of third part of third month mode",
+    message: "handles first day of month",
     parameter: {
       startBudget: 400,
       currentBudget: 386,
       offset: 166,
-      thirdMonthMode: true,
       futureExpenses: 20,
-      today: new Date("2024-06-21"),
+      today: new Date("2024-06-01"),
     },
     expected: {
-      idealDSL: 23.4,
-      youShouldTargetDSL: 20,
+      idealDSL: 7.8,
+      youShouldTargetDSL: 6.7,
       actualCurrentDSL: 34,
       isTense: true,
     },
   },
   {
-    message: "handles second day of third part of third month mode",
+    message: "handles second day of month",
     parameter: {
       startBudget: 400,
       currentBudget: 386,
       offset: 166,
-      thirdMonthMode: true,
       futureExpenses: 20,
-      today: new Date("2024-06-22"),
+      today: new Date("2024-06-02"),
     },
     expected: {
-      idealDSL: 23.4,
-      youShouldTargetDSL: 22.2,
+      idealDSL: 7.8,
+      youShouldTargetDSL: 6.9,
       actualCurrentDSL: 34,
       isTense: true,
     },
@@ -78,12 +74,11 @@ const testData: TestEntry[] = [
       startBudget: 400,
       currentBudget: 500,
       offset: 166,
-      thirdMonthMode: true,
       futureExpenses: 0,
       today: new Date("2024-06-22"),
     },
     expected: {
-      idealDSL: 23.4,
+      idealDSL: 7.8,
       youShouldTargetDSL: 37.1,
       actualCurrentDSL: 0,
       isTense: false,
@@ -96,15 +91,14 @@ const testData: TestEntry[] = [
       startBudget: 400,
       currentBudget: 656,
       offset: 166,
-      thirdMonthMode: true,
       futureExpenses: 326,
       today: new Date("2024-06-23"),
     },
     expected: {
-      idealDSL: 23.4,
+      idealDSL: 7.8,
       youShouldTargetDSL: 20.5,
-      actualCurrentDSL: 35,
-      isTense: true,
+      actualCurrentDSL: 3.2,
+      isTense: false,
     },
   },
 ];

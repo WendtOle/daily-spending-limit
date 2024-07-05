@@ -6,7 +6,6 @@ export enum LocalStorageKey {
   CURRENT_BUDGET = "currentBudget",
   BUDGET_OFFSET = "budgetOffset",
   START_BUDGET = "startBudget",
-  THIRD_MONTH_MODE = "thirdMonthMode",
   DISMISSED_WELCOME_MODAL = "dismissedWelcomeModal",
   PENDING = "pending",
 }
@@ -22,7 +21,6 @@ export const readFromLocalStorage = (): {
   startBudget: number;
   budgetOffset: number;
   history: History;
-  thirdMonthMode: boolean;
   dismissedWelcomeModal: boolean;
   pending: Pending[];
 } => {
@@ -43,9 +41,7 @@ export const readFromLocalStorage = (): {
     : [];
   const rawHistory = localStorage.getItem(LocalStorageKey.HISTORY);
   const history: History = JSON.parse(rawHistory ?? "{}");
-  const nullableThirdMonthMode = localStorage.getItem(
-    LocalStorageKey.THIRD_MONTH_MODE
-  );
+
   const nullableDismissedWelcomeModal = localStorage.getItem(
     LocalStorageKey.DISMISSED_WELCOME_MODAL
   );
@@ -61,7 +57,6 @@ export const readFromLocalStorage = (): {
       ? +nullableBudgetOffset
       : DEFAULT_VALLUES.budgetOffset,
     history,
-    thirdMonthMode: nullableThirdMonthMode === "true",
     dismissedWelcomeModal: nullableDismissedWelcomeModal === "true",
     pending,
   };

@@ -9,7 +9,6 @@ export const DSLChartCalculationsModal = () => {
     startBudget,
     currentBudget,
     offset: budgetOffset,
-    thirdMonthMode,
     pendingTotal,
   } = useLocalstorageValues();
 
@@ -17,20 +16,15 @@ export const DSLChartCalculationsModal = () => {
     idealDSL,
     actualCurrentDSL: actualDSL,
     youShouldTargetDSL: targetDSL,
-    isTense,
   } = useDSL({
     startBudget: startBudget ?? 0,
     currentBudget: currentBudget ?? 0,
-    thirdMonthMode,
     offset: budgetOffset,
     futureExpenses: pendingTotal,
     today: new Date(),
   });
 
-  const { start: startPeriod, end: endPeriod } = getPeriod(
-    thirdMonthMode,
-    new Date()
-  );
+  const { start: startPeriod, end: endPeriod } = getPeriod(new Date());
   const today = new Date().getDate();
   const periodLength = endPeriod - startPeriod + 1;
   const leftPeriod = endPeriod - today + 1;
