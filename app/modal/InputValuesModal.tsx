@@ -3,16 +3,24 @@ import { clearPendingEntry, deletePendingEntry } from "../pendingUtils";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ConceptType, ModalType, getExplanationModalId } from "./Modals";
 import { Modal } from "../Modal";
-import { FaCheck, FaRotateRight, FaToggleOn, FaTrash } from "react-icons/fa6";
+import {
+  FaRotateRight,
+  FaSquareCheck,
+  FaToggleOn,
+  FaTrash,
+} from "react-icons/fa6";
 import { OpenModalButton } from "../OpenModalButton";
-import { FaQuestionCircle, FaToggleOff } from "react-icons/fa";
+import { FaQuestionCircle, FaSquare, FaToggleOff } from "react-icons/fa";
 
 export const InputValuesModal = () => {
-  const { currentBudget, setBalance, pendingEntries, pendingTotal } =
-    useLocalstorageValues();
+  const {
+    currentBudget,
+    setBalance,
+    pendingEntries: fixedCostsEntries,
+  } = useLocalstorageValues();
 
   const addPendingEntryButtonProps = {
-    popovertarget: ModalType.PENDING_ENTRY,
+    popovertarget: ModalType.FIXED_COST_ENTRY,
   };
 
   return (
@@ -28,72 +36,59 @@ export const InputValuesModal = () => {
       </div>
       <Input value={currentBudget ?? 0} setValue={setBalance} />
       <div className="flex flex-row justify-between">
-        <p>Pending expenses</p>
-        <OpenModalButton
-          id={getExplanationModalId(ConceptType.PENDING_EXPENSE)}
-        >
+        <p>Fixed costs</p>
+        <OpenModalButton id={getExplanationModalId(ConceptType.FIXED_COSTS)}>
           <FaQuestionCircle />
         </OpenModalButton>
       </div>
-      <div className="flex flex-row items-center w-full italic text-sm">
-        <p>Date</p>
-        <p className="ml-6">Amount</p>
-        <p className="ml-6">Name</p>
-        <p className="ml-6">Recurring</p>
-      </div>
+      {fixedCostsEntries.length > 0 ? (
+        <div className="flex flex-row items-center w-full italic text-sm">
+          <p className="ml-16">Amount</p>
+          <p className="ml-6">Name</p>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="w-full max-h-60 overflow-y-scroll overflow-x-hidden flex items-center flex-col space-y-2 text-sm">
-        {pendingEntries
-          .sort((a, b) => (a.clearingDay < b.clearingDay ? -1 : 1))
-          .map((entry) => {
-            const inactive =
-              entry.isCleared || entry.clearingDay <= new Date().getDate();
-            return (
-              <div
-                key={entry.id}
-                className={`flex flex-row justify-between border-b-2 border-b-slate-100 w-full mr-4 ${
-                  inactive ? "text-slate-300" : ""
-                }`}
-              >
-                <div className="flex flex-row items-center px-2 py-1 w-full">
-                  <p className="w-6 ml-2">
-                    {entry.clearingDay}.{new Date().getMonth() + 1}{" "}
-                  </p>
-                  <p className="w-10 ml-8">{entry.value}€ </p>
-                  <p className="w-24 ml-2 overflow-hidden text-center">
-                    {entry.label}
-                  </p>
-                  <div className="w-4 ml-4">
-                    {entry.repeatsEveryMonth && <FaRotateRight />}
-                  </div>
-                </div>
-                {entry.repeatsEveryMonth && (
-                  <button
-                    onClick={() => clearPendingEntry(entry.id)}
-                    className="mr-2"
-                  >
-                    {inactive ? (
-                      <FaToggleOff className="text-slate-600" />
-                    ) : (
-                      <FaToggleOn className="text-slate-600" />
-                    )}
-                  </button>
-                )}
+        {fixedCostsEntries.map((entry) => {
+          const inactive = entry.isPayed;
+          return (
+            <div
+              key={entry.id}
+              className={`flex flex-row justify-between border-b-2 border-b-slate-100 w-full mr-4 ${
+                inactive ? "text-slate-300" : ""
+              }`}
+            >
+              <div className="flex flex-row items-center px-2 py-1 w-full">
                 <button
-                  onClick={() => deletePendingEntry(entry.id)}
-                  className=""
+                  onClick={() => clearPendingEntry(entry.id)}
+                  className="mx-2"
                 >
-                  <FaTrash className="text-slate-600" />
+                  {inactive ? (
+                    <FaSquareCheck className="text-slate-600" />
+                  ) : (
+                    <FaSquare className="text-slate-600" />
+                  )}
                 </button>
+                <p className="w-10 ml-8">{entry.value}€ </p>
+                <p className="w-24 ml-2 overflow-hidden text-center">
+                  {entry.label}
+                </p>
               </div>
-            );
-          })}
+
+              <button onClick={() => deletePendingEntry(entry.id)} className="">
+                <FaTrash className="text-slate-600" />
+              </button>
+            </div>
+          );
+        })}
       </div>
       <div className="w-full flex flex-row justify-center">
         <button
           {...addPendingEntryButtonProps}
           className="rounded shadow px-4 py-2 w-full shadow mb-2 uppercase"
         >
-          Add pending entry
+          Add fixed cost entry
         </button>
       </div>
     </Modal>

@@ -11,8 +11,9 @@ export default function Chart() {
     offset,
     startBudget: start,
     currentBudget: current,
-    pendingTotal,
     history,
+    payedFixedCosts,
+    pendingFixedCosts,
   } = useLocalstorageValues();
 
   if ((Object.keys(history).length < 2 && !start) || !current) {
@@ -20,7 +21,7 @@ export default function Chart() {
   }
   const { start: startPeriod, end: endPeriod } = getPeriod(new Date());
   const today = new Date().getDate();
-  const length = endPeriod - startPeriod + 1;
+  const length = endPeriod - startPeriod;
   const leftPeriod = endPeriod - today + 1;
   const donePeriod = length - leftPeriod;
 
@@ -28,8 +29,9 @@ export default function Chart() {
     if (!start) {
       return null;
     }
-    const moneySpent = start - current + pendingTotal;
-    const moneyLeft = start - moneySpent - offset;
+    const moneySpent = start - current - payedFixedCosts;
+    const moneyLeft =
+      start - offset - pendingFixedCosts - payedFixedCosts - moneySpent;
     return (
       <CustomBarChart
         left={Math.max(moneySpent, 0)}

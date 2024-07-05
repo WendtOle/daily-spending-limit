@@ -1,4 +1,4 @@
-import { Pending, purgeOutdatedPendingEntries } from "./pendingUtils";
+import { Pending } from "./pendingUtils";
 import { History } from "./types";
 
 export enum LocalStorageKey {
@@ -7,7 +7,7 @@ export enum LocalStorageKey {
   BUDGET_OFFSET = "budgetOffset",
   START_BUDGET = "startBudget",
   DISMISSED_WELCOME_MODAL = "dismissedWelcomeModal",
-  PENDING = "pending",
+  FIXED_COSTS = "fixedCosts",
 }
 
 const DEFAULT_VALLUES = {
@@ -34,8 +34,9 @@ export const readFromLocalStorage = (): {
     LocalStorageKey.BUDGET_OFFSET
   );
 
-  purgeOutdatedPendingEntries();
-  const nullablePendingString = localStorage.getItem(LocalStorageKey.PENDING);
+  const nullablePendingString = localStorage.getItem(
+    LocalStorageKey.FIXED_COSTS
+  );
   const pending: Pending[] = nullablePendingString
     ? JSON.parse(nullablePendingString)
     : [];

@@ -15,7 +15,8 @@ export const DSLChart = () => {
     startBudget,
     currentBudget,
     offset: budgetOffset,
-    pendingTotal,
+    pendingFixedCosts,
+    payedFixedCosts,
   } = useLocalstorageValues();
 
   const {
@@ -27,7 +28,9 @@ export const DSLChart = () => {
     startBudget: startBudget ?? 0,
     currentBudget: currentBudget ?? 0,
     offset: budgetOffset,
-    futureExpenses: pendingTotal,
+    pendingFixedCosts,
+    payedFixedCosts,
+    futureExpenses: pendingFixedCosts,
     today: new Date(),
   });
 

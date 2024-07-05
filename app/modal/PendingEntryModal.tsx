@@ -6,26 +6,23 @@ import { ModalType } from "./Modals";
 
 export const PendingEntryModal = () => {
   const [value, setValue] = useState(0);
-  const [clearingDay, setClearingDay] = useState(1);
-  const [repeatsEveryMonth, setRepeatsEveryMonth] = useState(false);
   const [label, setLabel] = useState<string>("");
 
   const handleSave = () => {
     // @ts-ignore
-    document.getElementById(ModalType.PENDING_ENTRY)?.hidePopover();
+    document.getElementById(ModalType.FIXED_COST_ENTRY)?.hidePopover();
     addPendingEntry({
       value,
-      clearingDay,
-      repeatsEveryMonth,
       id: crypto.randomUUID(),
       label,
+      isPayed: false,
     });
   };
 
   return (
-    <Modal modalId={ModalType.PENDING_ENTRY}>
+    <Modal modalId={ModalType.FIXED_COST_ENTRY}>
       <h1 className="text-xl text-center uppercase tracking-tighter">
-        Add pending entry
+        Add fixed costs entry
       </h1>
       <label htmlFor="label" className="block font-small text-gray-900">
         Label
@@ -40,26 +37,6 @@ export const PendingEntryModal = () => {
         placeholder="Enter entry label ..."
       />
       <Input label="Amount" value={value} setValue={setValue} />
-      <p>Clearing day</p>
-      <select
-        className="w-full"
-        value={clearingDay}
-        onChange={(e) => setClearingDay(parseInt(e.target.value))}
-      >
-        {[...Array.from(Array(31).keys())].map((i) => (
-          <option key={i} value={i + 1}>
-            {i + 1}
-          </option>
-        ))}
-      </select>
-      <div className="flex flex-row space-x-4">
-        <input
-          type="checkbox"
-          checked={repeatsEveryMonth ?? false}
-          onChange={() => setRepeatsEveryMonth(!repeatsEveryMonth)}
-        />
-        <p>Repeats every month</p>
-      </div>
       <button
         className="rounded shadow px-4 py-2 w-full uppercase"
         onClick={handleSave}

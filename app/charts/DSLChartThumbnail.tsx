@@ -3,15 +3,22 @@ import { useDSL } from "../hooks/useDSL";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 
 export const DSLChartThumbnail: ThumbnailComponent = ({ grayscale }) => {
-  const { startBudget, currentBudget, offset, thirdMonthMode, pendingTotal } =
-    useLocalstorageValues();
+  const {
+    startBudget,
+    currentBudget,
+    offset,
+    pendingTotal,
+    payedFixedCosts,
+    pendingFixedCosts,
+  } = useLocalstorageValues();
   const { isTense } = useDSL({
     startBudget: startBudget ?? 0,
     currentBudget: currentBudget ?? 0,
     offset,
-    thirdMonthMode,
     futureExpenses: pendingTotal,
     today: new Date(),
+    pendingFixedCosts,
+    payedFixedCosts,
   });
   const color = grayscale
     ? "bg-slate-500"

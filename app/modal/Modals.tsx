@@ -12,14 +12,14 @@ export enum ModalType {
   SETTING = "settings-modal-id",
   WELCOME = "welcome-modal-id",
   INPUT_VALUES = "input-values-modal-id",
-  PENDING_ENTRY = "pending-entry-modal-id",
+  FIXED_COST_ENTRY = "fixed-costs-entry-modal-id",
   DSL_CHART_CALCULATIONS = "dsl-chart-calculations-modal-id",
   Budget_CHART_CALCULATIONS = "budget-chart-calculations-modal-id",
   TIME_CHART_CALCULATIONS = "time-chart-calculations-modal-id",
 }
 
 export enum ConceptType {
-  PENDING_EXPENSE = "pending-expense",
+  FIXED_COSTS = "fixed-costs",
   ACCOUNT_BALANCE = "account-balance",
   PUFFER = "puffer",
   START_BUDGET = "start-budget",
@@ -34,9 +34,9 @@ const explanationData: Record<
   { label: string; text: string }
 > = {
   ...chartEntries,
-  [ConceptType.PENDING_EXPENSE]: {
-    label: "Pending expense",
-    text: "Pending expenses are amounts you've already spent but haven't been officially recorded yet. This allows you to track your current spending even if it’s not shown in your account balance. Each pending entry has a clearing date; once this date passes, the entry is automatically removed or not longer reflected in calculations if the \"every month\" option is chosen.",
+  [ConceptType.FIXED_COSTS]: {
+    label: "Fixed costs",
+    text: "Fixed costs are amounts of money you have to spent each month again and again. Rent, water, energy and so on are examples for fixed costs.",
   },
   [ConceptType.ACCOUNT_BALANCE]: {
     label: "Account balance",

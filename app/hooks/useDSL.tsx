@@ -6,6 +6,8 @@ interface UseDSLProps {
   offset: number;
   futureExpenses: number;
   today: Date;
+  payedFixedCosts: number;
+  pendingFixedCosts: number;
 }
 
 export const useDSL = ({
@@ -14,6 +16,8 @@ export const useDSL = ({
   offset: budgetOffset,
   futureExpenses,
   today: todayDate,
+  payedFixedCosts,
+  pendingFixedCosts,
 }: UseDSLProps) => {
   const { start: startPeriod, end: endPeriod } = getPeriod(todayDate);
   const today = todayDate.getDate();
@@ -25,7 +29,8 @@ export const useDSL = ({
 
   const actualCurrentBudget = currentBudget - budgetOffset - futureExpenses;
 
-  const actualStartBudget = startBudget - budgetOffset;
+  const actualStartBudget =
+    startBudget - budgetOffset - payedFixedCosts - pendingFixedCosts;
 
   const idealDSL = customRound(actualStartBudget / periodLength);
   if (leftPeriod < 0) {

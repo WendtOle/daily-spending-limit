@@ -5,7 +5,6 @@ import {
   writeNewHistoryEntry,
 } from "../localstorage";
 import { History } from "../types";
-import { getPeriod } from "../lastDayOfMonth";
 import { Pending } from "../pendingUtils";
 
 export const useLocalstorageValues = () => {
@@ -47,14 +46,15 @@ export const useLocalstorageValues = () => {
     window.dispatchEvent(new StorageEvent("storage"));
   };
 
-  const { start, end } = getPeriod(new Date());
   const pendingTotal = pendingEntries
-    .filter(
-      (entry) =>
-        start < entry.clearingDay &&
-        end >= entry.clearingDay &&
-        !entry.isCleared
-    )
+    .filter((entry) => !entry.isPayed)
+    .reduce((acc, entry) => acc + entry.value, 0);
+
+  const payedFixedCosts = pendingEntries
+    .filter((entry) => entry.isPayed)
+    .reduce((acc, entry) => acc + entry.value, 0);
+  const pendingFixedCosts = pendingEntries
+    .filter((entry) => !entry.isPayed)
     .reduce((acc, entry) => acc + entry.value, 0);
 
   return {
@@ -67,5 +67,7 @@ export const useLocalstorageValues = () => {
     history,
     pendingEntries,
     pendingTotal,
+    payedFixedCosts,
+    pendingFixedCosts,
   };
 };

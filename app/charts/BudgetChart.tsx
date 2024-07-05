@@ -5,7 +5,7 @@ import { ChartOptionButtons } from "../ChartOptionButtons";
 
 enum Section {
   AVAILABLE = "Available",
-  PENDING = "Pending",
+  FIXED = "Fixed",
   PUFFER = "Puffer",
 }
 
@@ -19,13 +19,14 @@ const MIN_PERCENTAGE_TO_DISPLAY = 2.5;
 const LABEL_HEIGH = 16;
 
 export const BudgetChart = () => {
-  const { currentBudget, offset, pendingTotal } = useLocalstorageValues();
+  const { currentBudget, offset, pendingTotal, pendingFixedCosts } =
+    useLocalstorageValues();
 
   if (currentBudget === undefined) {
     return null;
   }
 
-  const available = currentBudget - offset - pendingTotal;
+  const available = currentBudget - offset - pendingFixedCosts;
 
   const sectionData: Record<Section, SectionData> = {
     [Section.AVAILABLE]: {
@@ -33,10 +34,10 @@ export const BudgetChart = () => {
       value: available,
       label: "Available",
     },
-    [Section.PENDING]: {
+    [Section.FIXED]: {
       color: "bg-blue-600",
-      value: pendingTotal,
-      label: "Pending",
+      value: pendingFixedCosts,
+      label: "Fixed",
     },
     [Section.PUFFER]: {
       color: "bg-blue-400",

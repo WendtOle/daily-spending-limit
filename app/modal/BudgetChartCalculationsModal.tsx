@@ -6,7 +6,7 @@ export const BudgetChartCalculationsModal = () => {
   const {
     currentBudget,
     offset: budgetOffset,
-    pendingTotal,
+    pendingFixedCosts: pendingTotal,
   } = useLocalstorageValues();
 
   const getNew = ({ steps, result }: { steps: string[]; result?: string }) => {

@@ -9,7 +9,8 @@ export const DSLChartCalculationsModal = () => {
     startBudget,
     currentBudget,
     offset: budgetOffset,
-    pendingTotal,
+    payedFixedCosts,
+    pendingFixedCosts,
   } = useLocalstorageValues();
 
   const {
@@ -20,13 +21,15 @@ export const DSLChartCalculationsModal = () => {
     startBudget: startBudget ?? 0,
     currentBudget: currentBudget ?? 0,
     offset: budgetOffset,
-    futureExpenses: pendingTotal,
+    futureExpenses: pendingFixedCosts,
+    payedFixedCosts,
+    pendingFixedCosts,
     today: new Date(),
   });
 
   const { start: startPeriod, end: endPeriod } = getPeriod(new Date());
   const today = new Date().getDate();
-  const periodLength = endPeriod - startPeriod + 1;
+  const periodLength = endPeriod - startPeriod;
   const leftPeriod = endPeriod - today + 1;
   const donePeriod = periodLength - leftPeriod;
 
@@ -76,7 +79,7 @@ export const DSLChartCalculationsModal = () => {
               lower: "Period length",
             },
             {
-              upper: "Start budget - puffer",
+              upper: "Start - puffer - fixed",
               lower: "Period length",
             },
           ],
@@ -84,7 +87,9 @@ export const DSLChartCalculationsModal = () => {
         {getNew({
           steps: [
             {
-              upper: `${startBudget}€ - ${budgetOffset}€`,
+              upper: `${startBudget}€ - ${budgetOffset}€ - ${
+                payedFixedCosts + pendingFixedCosts
+              }€`,
               lower: `${periodLength}d`,
             },
           ],
@@ -102,7 +107,7 @@ export const DSLChartCalculationsModal = () => {
               lower: "Period done",
             },
             {
-              upper: "Start - current + pending",
+              upper: "Start - current - pending",
               lower: "Period done",
             },
           ],
@@ -110,12 +115,12 @@ export const DSLChartCalculationsModal = () => {
         {getNew({
           steps: [
             {
-              upper: `${startBudget}€ - ${currentBudget}€ + ${pendingTotal}€`,
+              upper: `${startBudget}€ - ${currentBudget}€ - ${pendingFixedCosts}€`,
               lower: `${donePeriod}d`,
             },
             {
               upper: `${
-                (startBudget ?? 0) - (currentBudget ?? 0) + pendingTotal
+                (startBudget ?? 0) - (currentBudget ?? 0) - pendingFixedCosts
               }€`,
               lower: `${donePeriod}d`,
             },
@@ -142,11 +147,13 @@ export const DSLChartCalculationsModal = () => {
         {getNew({
           steps: [
             {
-              upper: `${currentBudget}€ - ${budgetOffset}€ - ${pendingTotal}€`,
+              upper: `${currentBudget}€ - ${budgetOffset}€ - ${pendingFixedCosts}€`,
               lower: `${leftPeriod}d`,
             },
             {
-              upper: `${(currentBudget ?? 0) - budgetOffset - pendingTotal}€`,
+              upper: `${
+                (currentBudget ?? 0) - budgetOffset - pendingFixedCosts
+              }€`,
               lower: `${leftPeriod}d`,
             },
           ],
