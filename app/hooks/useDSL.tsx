@@ -1,4 +1,10 @@
-import { round } from "../calculations";
+import {
+  getCurrentDSL,
+  getIdealDSL,
+  getYouShouldTargetDSL,
+  round,
+  getAvailableBudget,
+} from "../calculations";
 import { getPeriod } from "../calculations";
 
 interface UseDSLProps {
@@ -16,33 +22,32 @@ export const useDSL = ({
   futureExpenses,
   today: todayDate,
 }: UseDSLProps) => {
-  const {
-    length: periodLength,
-    left: leftPeriod,
-    done: donePeriod,
-  } = getPeriod(todayDate);
+  const { length: periodLength, left, done } = getPeriod(todayDate);
+  const leftWithToday = left + 1;
+  const doneWithoutToday = done - 1;
 
-  const actualCurrentBudget = currentBudget - budgetOffset - futureExpenses;
+  const ideal = getIdealDSL({ startBudget, periodLength });
+  const available = getAvailableBudget({
+    currentBudget,
+    offset: budgetOffset,
+    futureExpenses,
+  });
 
-  const actualStartBudget = startBudget;
+  const youShouldTarget = getYouShouldTargetDSL({
+    leftWithToday,
+    availableBudget: available,
+  });
 
-  const idealDSL = round(actualStartBudget / periodLength);
-  if (leftPeriod < 0) {
-    throw new Error("leftPeriod is negative");
-  }
-  const youShouldTargetDSL =
-    leftPeriod === 0
-      ? actualCurrentBudget
-      : round(actualCurrentBudget / (leftPeriod + 1));
-  const actualSpendUntilNow =
-    actualStartBudget > actualCurrentBudget
-      ? actualStartBudget - actualCurrentBudget
-      : undefined;
-  const actualCurrentDSL = actualSpendUntilNow
-    ? round(actualSpendUntilNow / Math.max(donePeriod - 1, 1))
-    : 0;
+  const current = getCurrentDSL({
+    startBudget,
+    availableBudget: available,
+    doneWithoutToday,
+  });
 
-  const isTense = actualCurrentDSL > idealDSL;
-
-  return { idealDSL, youShouldTargetDSL, actualCurrentDSL, isTense };
+  return {
+    idealDSL: round(ideal),
+    youShouldTargetDSL: round(youShouldTarget),
+    actualCurrentDSL: round(current),
+    isTense: current > ideal,
+  };
 };
