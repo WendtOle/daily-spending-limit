@@ -1,7 +1,7 @@
 import { Modal } from "../Modal";
 import { useDSL } from "../hooks/useDSL";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
-import { getPeriod } from "../calculations";
+import { getAvailableBudget, getPeriod } from "../calculations";
 import { ModalType } from "./Modals";
 
 interface Single {
@@ -10,7 +10,7 @@ interface Single {
 }
 
 interface Props {
-  block: [Single, Single] | [Single];
+  block: [Single, Single] | [Single] | string[];
   result?: string;
 }
 
@@ -40,6 +40,12 @@ export const DSLChartCalculationsModal = () => {
     left: leftPeriod,
   } = getPeriod(new Date());
 
+  const availableBudget = getAvailableBudget({
+    currentBudget: currentBudget ?? 0,
+    offset: budgetOffset,
+    futureExpenses: pendingFixedCosts,
+  });
+
   const explanations: Array<{ label: string; rows: Props[] }> = [
     {
       label: "Ideal DSL",
@@ -50,16 +56,26 @@ export const DSLChartCalculationsModal = () => {
               upper: "Spending budget",
               lower: "Period length",
             },
-          ],
-        },
-        {
-          block: [
             {
               upper: `${startBudget}€`,
               lower: `${periodLength}d`,
             },
           ],
           result: `${idealDSL}€/d`,
+        },
+      ],
+    },
+    {
+      label: "Available budget",
+      rows: [
+        {
+          block: ["Current budget - Puffer - pending expenses"],
+        },
+        {
+          block: [
+            `${currentBudget}€ - ${budgetOffset}€ - ${pendingFixedCosts}€`,
+          ],
+          result: `${(currentBudget ?? 0) - budgetOffset - pendingFixedCosts}€`,
         },
       ],
     },
@@ -73,7 +89,7 @@ export const DSLChartCalculationsModal = () => {
               lower: "Period done",
             },
             {
-              upper: "current - offset - pending fixed costs",
+              upper: "Current - available ",
               lower: "Period done",
             },
           ],
@@ -81,7 +97,7 @@ export const DSLChartCalculationsModal = () => {
         {
           block: [
             {
-              upper: `${startBudget}€ - (${currentBudget}€ - ${budgetOffset}€ - ${pendingFixedCosts}€)`,
+              upper: `${startBudget}€ - ${availableBudget}€`,
               lower: `${donePeriod}d`,
             },
             {
@@ -106,17 +122,13 @@ export const DSLChartCalculationsModal = () => {
               lower: "Period left",
             },
             {
-              upper: "current - puffer - pending fixed costs",
+              upper: "Available budget",
               lower: "Period left",
             },
           ],
         },
         {
           block: [
-            {
-              upper: `${currentBudget}€ - ${budgetOffset}€ - ${pendingFixedCosts}€`,
-              lower: `${leftPeriod}d`,
-            },
             {
               upper: `${
                 (currentBudget ?? 0) - budgetOffset - pendingFixedCosts
@@ -136,10 +148,16 @@ export const DSLChartCalculationsModal = () => {
         {steps.map((step, index) => (
           <div key={index} className="flex flex-row items-center">
             <div key={index + "main"} className="flex flex-col  text-center">
-              <p>{step.upper}</p>
-              <p className="text-center border-t-2 border-t-slate-400">
-                {step.lower}
-              </p>
+              {typeof step === "string" ? (
+                <p>{step}</p>
+              ) : (
+                <>
+                  <p>{step.upper}</p>
+                  <p className="text-center border-t-2 border-t-slate-400">
+                    {step.lower}
+                  </p>
+                </>
+              )}
             </div>
             <p className="mx-2">=</p>
           </div>
