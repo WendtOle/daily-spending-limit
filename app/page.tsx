@@ -2,10 +2,21 @@
 import { useEffect } from "react";
 import { readFromLocalStorage } from "./localstorage";
 import { Gallery } from "./Gallery";
-import { ModalType, Modals } from "./modal/Modals";
+import {
+  ConceptType,
+  ModalType,
+  Modals,
+  getExplanationModalId,
+} from "./modal/Modals";
 import { chartEntries } from "./chartEntries";
+import { FaQuestionCircle } from "react-icons/fa";
+import { OpenModalButton } from "./OpenModalButton";
+import { useLocalstorageValues } from "./hooks/useLocalstorageValues";
+import Input from "./Input";
 
 export default function Home() {
+  const { currentBudget, setBalance } = useLocalstorageValues();
+
   useEffect(() => {
     const { dismissedWelcomeModal } = readFromLocalStorage();
     if (!dismissedWelcomeModal) {
@@ -13,10 +24,6 @@ export default function Home() {
       document.getElementById("welcome-modal-id")?.showPopover();
     }
   }, []);
-
-  const adjustValuesButtonProps = {
-    popovertarget: ModalType.INPUT_VALUES,
-  };
   const adjustFixedCostsButtonProps = {
     popovertarget: ModalType.FIXED_COSTS,
   };
@@ -29,11 +36,16 @@ export default function Home() {
   return (
     <main className="flex flex-col justify-start items-center relative mt-8">
       <Gallery entries={Object.values(chartEntries)} defaultSelectedIndex={1} />
-
       <div className="flex flex-col justify-center mt-8 space-y-2">
-        <button {...adjustValuesButtonProps} className={buttonClasses}>
-          Update
-        </button>
+        <div className="flex flex-row justify-between">
+          <p>Account balance</p>
+          <OpenModalButton
+            id={getExplanationModalId(ConceptType.ACCOUNT_BALANCE)}
+          >
+            <FaQuestionCircle />
+          </OpenModalButton>
+        </div>
+        <Input value={currentBudget ?? 0} setValue={setBalance} />
         <button {...adjustFixedCostsButtonProps} className={buttonClasses}>
           Fixed costs
         </button>

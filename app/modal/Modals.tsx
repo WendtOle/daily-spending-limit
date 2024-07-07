@@ -3,7 +3,6 @@ import { BudgetChartCalculationsModal } from "./BudgetChartCalculationsModal";
 import { DSLChartCalculationsModal } from "./DSLChartCalculationsModal";
 import { ExplanationModal } from "./ExplanationModal";
 import { FixedCostsModal } from "./FixedCostsModal";
-import { InputValuesModal } from "./InputValuesModal";
 import { PendingEntryModal } from "./PendingEntryModal";
 import { SettingsModal } from "./SettingsModal";
 import { TimeChartCalculationsModal } from "./TimeChartCalculationsModal";
@@ -12,7 +11,6 @@ import { WelcomeModal } from "./WelcomeModal";
 export enum ModalType {
   SETTING = "settings-modal-id",
   WELCOME = "welcome-modal-id",
-  INPUT_VALUES = "input-values-modal-id",
   FIXED_COSTS = "fixed-costs-modal-id",
   FIXED_COST_ENTRY = "fixed-costs-entry-modal-id",
   DSL_CHART_CALCULATIONS = "dsl-chart-calculations-modal-id",
@@ -63,7 +61,6 @@ export const Modals = () => {
     <>
       <SettingsModal />
       <WelcomeModal />
-      <InputValuesModal />
       <FixedCostsModal />
       <PendingEntryModal />
       <DSLChartCalculationsModal />
