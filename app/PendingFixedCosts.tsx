@@ -1,4 +1,8 @@
-import { FaQuestionCircle, FaCog, FaCheck } from "react-icons/fa";
+import {
+  FaQuestionCircle,
+  FaCog,
+  FaRegCheckCircle as FaCheckCircle,
+} from "react-icons/fa";
 import { getExplanationModalId, ConceptType, ModalType } from "./modal/Modals";
 import { OpenModalButton } from "./OpenModalButton";
 import { clearPendingEntry } from "./pendingUtils";
@@ -30,21 +34,22 @@ export const PendingFixedCosts = () => {
           </button>
         </div>
       </div>
-      <div className="w-full max-h-32 overflow-y-scroll overflow-x-hidden flex items-center flex-col space-y-2 mt-4 pb-2">
+      <div className="flex items-center gap-1 flex-wrap mt-2">
         {pendingEntries.map((entry) => {
           return (
-            <button
-              key={entry.id}
-              className={`flex flex-row justify-between w-full mr-4`}
-              onClick={() => handleClearEntry(entry.id)}
-            >
-              <div className="flex flex-row items-center justify-between pl-8 pr-4 py-3 w-full bg-white rounded-lg shadow mr-2 ml-6">
-                <p className="">
-                  {entry.value}€ - {entry.label}
+            <div key={entry.id} className={`flex flex-row justify-between`}>
+              <div className="flex flex-row items-center justify-between pl-4 pr-2 py-2 w-full bg-white rounded-full shadow text-xs inline-block">
+                <p className="mr-1 uppercase">
+                  {entry.label} {entry.value}€
                 </p>
-                <FaCheck />
+                <button onClick={() => handleClearEntry(entry.id)}>
+                  <FaCheckCircle
+                    fontSize={16}
+                    className="ml-1 text-slate-600"
+                  />
+                </button>
               </div>
-            </button>
+            </div>
           );
         })}
       </div>
