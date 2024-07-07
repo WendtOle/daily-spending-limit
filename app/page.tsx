@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <main className="flex flex-col justify-start items-center relative mt-8">
       <Gallery entries={Object.values(chartEntries)} defaultSelectedIndex={1} />
-      <div className="flex flex-col justify-center mt-8 space-y-8 w-72">
+      <div className="flex flex-col justify-center mt-4 space-y-4 w-72">
         <AccountBalance />
         <PendingFixedCosts />
       </div>
