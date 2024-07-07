@@ -13,6 +13,10 @@ export const FixedCostsModal = () => {
     popovertarget: ModalType.FIXED_COST_ENTRY,
   };
 
+  const adjustFixedCostsButtonProps = {
+    popovertarget: ModalType.FIXED_COSTS,
+  };
+
   return (
     <Modal fullScreen modalId={ModalType.FIXED_COSTS}>
       <h1 className="text-xl text-center uppercase">Fixed costs</h1>
