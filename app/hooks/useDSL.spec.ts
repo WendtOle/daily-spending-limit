@@ -22,14 +22,14 @@ const testData: TestEntry[] = [
   {
     message: "handles end of month with future expense",
     parameter: {
-      startBudget: 400,
+      startBudget: 232,
       currentBudget: 389,
       offset: 166,
       futureExpenses: 2,
       today: new Date("2024-06-30"),
     },
     expected: {
-      idealDSL: 7.8,
+      idealDSL: 7.7,
       youShouldTargetDSL: 221,
       actualCurrentDSL: 0.4,
       isTense: false,
@@ -38,32 +38,32 @@ const testData: TestEntry[] = [
   {
     message: "handles first day of month",
     parameter: {
-      startBudget: 400,
+      startBudget: 232,
       currentBudget: 386,
       offset: 166,
       futureExpenses: 20,
       today: new Date("2024-06-01"),
     },
     expected: {
-      idealDSL: 7.8,
+      idealDSL: 7.7,
       youShouldTargetDSL: 6.7,
-      actualCurrentDSL: 34,
+      actualCurrentDSL: 32,
       isTense: true,
     },
   },
   {
     message: "handles second day of month",
     parameter: {
-      startBudget: 400,
+      startBudget: 232,
       currentBudget: 386,
       offset: 166,
       futureExpenses: 20,
       today: new Date("2024-06-02"),
     },
     expected: {
-      idealDSL: 7.8,
+      idealDSL: 7.7,
       youShouldTargetDSL: 6.9,
-      actualCurrentDSL: 34,
+      actualCurrentDSL: 32,
       isTense: true,
     },
   },
@@ -71,14 +71,14 @@ const testData: TestEntry[] = [
     message:
       "handles situation in which current budget is higher than start budget",
     parameter: {
-      startBudget: 400,
+      startBudget: 232,
       currentBudget: 500,
       offset: 166,
       futureExpenses: 0,
       today: new Date("2024-06-22"),
     },
     expected: {
-      idealDSL: 7.8,
+      idealDSL: 7.7,
       youShouldTargetDSL: 37.1,
       actualCurrentDSL: 0,
       isTense: false,
@@ -88,16 +88,16 @@ const testData: TestEntry[] = [
     message:
       "another situation in which current budget is higher than start budget",
     parameter: {
-      startBudget: 400,
+      startBudget: 232,
       currentBudget: 656,
       offset: 166,
       futureExpenses: 326,
       today: new Date("2024-06-23"),
     },
     expected: {
-      idealDSL: 7.8,
+      idealDSL: 7.7,
       youShouldTargetDSL: 20.5,
-      actualCurrentDSL: 3.2,
+      actualCurrentDSL: 3.1,
       isTense: false,
     },
   },
