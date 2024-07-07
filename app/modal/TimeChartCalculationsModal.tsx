@@ -1,6 +1,6 @@
 import { Modal } from "../Modal";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
-import { getPeriod } from "../lastDayOfMonth";
+import { getPeriod } from "../calculations";
 import { ModalType } from "./Modals";
 
 export const TimeChartCalculationsModal = () => {
@@ -12,11 +12,14 @@ export const TimeChartCalculationsModal = () => {
     payedFixedCosts,
   } = useLocalstorageValues();
 
-  const { start: startPeriod, end: endPeriod } = getPeriod(new Date());
-  const today = new Date().getDate();
-  const periodLength = endPeriod - startPeriod;
-  const leftPeriod = endPeriod - today + 1;
-  const donePeriod = periodLength - leftPeriod;
+  const {
+    start: startPeriod,
+    end: endPeriod,
+    length: periodLength,
+    today,
+    left: leftPeriod,
+    done: donePeriod,
+  } = getPeriod(new Date());
 
   const getNew = ({ steps, result }: { steps: string[]; result?: string }) => {
     return (
@@ -119,7 +122,7 @@ export const TimeChartCalculationsModal = () => {
           Period left
         </p>
         {getNew({
-          steps: ["End - today + 1", `${endPeriod} - ${today} + 1`],
+          steps: ["End - today", `${endPeriod} - ${today}`],
           result: `${leftPeriod}d`,
         })}
       </div>

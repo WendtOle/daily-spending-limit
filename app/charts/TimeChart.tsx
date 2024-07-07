@@ -1,5 +1,5 @@
 "use client";
-import { getPeriod } from "../lastDayOfMonth";
+import { getPeriod } from "../calculations";
 import { CustomBarChart } from "../CustomBarChart";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ModalType } from "../modal/Modals";
@@ -19,11 +19,7 @@ export default function Chart() {
   if ((Object.keys(history).length < 2 && !start) || !current) {
     return null;
   }
-  const { start: startPeriod, end: endPeriod } = getPeriod(new Date());
-  const today = new Date().getDate();
-  const length = endPeriod - startPeriod;
-  const leftPeriod = endPeriod - today + 1;
-  const donePeriod = length - leftPeriod;
+  const { done: donePeriod, left: leftPeriod } = getPeriod(new Date());
 
   const getMoneyBarChar = () => {
     if (!start) {

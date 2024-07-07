@@ -1,7 +1,7 @@
 import { Modal } from "../Modal";
 import { useDSL } from "../hooks/useDSL";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
-import { getPeriod } from "../lastDayOfMonth";
+import { getPeriod } from "../calculations";
 import { ModalType } from "./Modals";
 
 interface Single {
@@ -37,11 +37,11 @@ export const DSLChartCalculationsModal = () => {
     today: new Date(),
   });
 
-  const { start: startPeriod, end: endPeriod } = getPeriod(new Date());
-  const today = new Date().getDate();
-  const periodLength = endPeriod - startPeriod;
-  const leftPeriod = endPeriod - today + 1;
-  const donePeriod = periodLength - leftPeriod;
+  const {
+    length: periodLength,
+    done: donePeriod,
+    left: leftPeriod,
+  } = getPeriod(new Date());
 
   const explanations: Array<{ label: string; rows: Props[] }> = [
     {

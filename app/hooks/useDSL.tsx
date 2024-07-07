@@ -1,4 +1,5 @@
-import { getPeriod } from "../lastDayOfMonth";
+import { round } from "../calculations";
+import { getPeriod } from "../calculations";
 
 interface UseDSLProps {
   startBudget: number;
@@ -19,32 +20,30 @@ export const useDSL = ({
   payedFixedCosts,
   pendingFixedCosts,
 }: UseDSLProps) => {
-  const { start: startPeriod, end: endPeriod } = getPeriod(todayDate);
-  const today = todayDate.getDate();
-  const periodLength = endPeriod - startPeriod;
-  const leftPeriod = endPeriod - today;
-  const donePeriod = periodLength - leftPeriod;
-
-  const customRound = (value: number) => parseFloat(value.toFixed(1));
+  const {
+    length: periodLength,
+    left: leftPeriod,
+    done: donePeriod,
+  } = getPeriod(todayDate);
 
   const actualCurrentBudget = currentBudget - budgetOffset - futureExpenses;
 
   const actualStartBudget = startBudget;
 
-  const idealDSL = customRound(actualStartBudget / periodLength);
+  const idealDSL = round(actualStartBudget / periodLength);
   if (leftPeriod < 0) {
     throw new Error("leftPeriod is negative");
   }
   const youShouldTargetDSL =
     leftPeriod === 0
       ? actualCurrentBudget
-      : customRound(actualCurrentBudget / (leftPeriod + 1));
+      : round(actualCurrentBudget / (leftPeriod + 1));
   const actualSpendUntilNow =
     actualStartBudget > actualCurrentBudget
       ? actualStartBudget - actualCurrentBudget
       : undefined;
   const actualCurrentDSL = actualSpendUntilNow
-    ? customRound(actualSpendUntilNow / Math.max(donePeriod - 1, 1))
+    ? round(actualSpendUntilNow / Math.max(donePeriod - 1, 1))
     : 0;
 
   const isTense = actualCurrentDSL > idealDSL;
