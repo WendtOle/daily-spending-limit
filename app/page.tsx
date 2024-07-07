@@ -27,10 +27,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col justify-start items-center relative">
-      <h1 className="text-3xl text-center uppercase tracking-tighter py-4">
-        Daily spending limit
-      </h1>
+    <main className="flex flex-col justify-start items-center relative mt-8">
       <Gallery entries={Object.values(chartEntries)} defaultSelectedIndex={1} />
 
       <div className="flex flex-col justify-center mt-8 space-y-2">
