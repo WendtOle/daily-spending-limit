@@ -17,6 +17,9 @@ export default function Home() {
   const adjustValuesButtonProps = {
     popovertarget: ModalType.INPUT_VALUES,
   };
+  const adjustFixedCostsButtonProps = {
+    popovertarget: ModalType.FIXED_COSTS,
+  };
   const buttonClasses = `w-72 bg-slate-100 px-4 py-2 rounded shadow uppercase text-md`;
 
   const openSettingsButtonProps = {
@@ -33,6 +36,9 @@ export default function Home() {
       <div className="flex flex-col justify-center mt-8 space-y-2">
         <button {...adjustValuesButtonProps} className={buttonClasses}>
           Update
+        </button>
+        <button {...adjustFixedCostsButtonProps} className={buttonClasses}>
+          Fixed costs
         </button>
         <button className={buttonClasses} {...openSettingsButtonProps}>
           Settings
