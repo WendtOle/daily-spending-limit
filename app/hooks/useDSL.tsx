@@ -24,8 +24,6 @@ export const useDSL = ({
   today: todayDate,
 }: UseDSLProps) => {
   const { length: periodLength, left, done } = getPeriod(todayDate);
-  const leftWithToday = left + 1;
-  const doneWithoutToday = done - 1;
 
   const ideal = getIdealDSL({ startBudget, periodLength });
   const leftMoney = getLeftMoney({
@@ -36,13 +34,13 @@ export const useDSL = ({
   const spentMoney = getSpentMoney({ startBudget, leftMoney });
 
   const youShouldTarget = getYouShouldTargetDSL({
-    leftWithToday,
+    leftWithToday: left,
     leftMoney,
   });
 
   const current = getCurrentDSL({
     spentMoney,
-    doneWithoutToday,
+    doneWithoutToday: done,
   });
 
   return {

@@ -3,7 +3,7 @@ import { getPeriod as importedGetPeriod } from "./lastDayOfMonth";
 export const round = (value: number) => parseFloat(value.toFixed(1));
 
 export const getPeriod = (date: Date) => {
-  const today = date.getDate();
+  const today = Math.max(date.getDate() - 1, 0);
   const { start: startPeriod, end: endPeriod } = importedGetPeriod(date);
   const periodLength = endPeriod - startPeriod;
   const leftPeriod = endPeriod - today;
