@@ -7,8 +7,6 @@ interface UseDSLProps {
   offset: number;
   futureExpenses: number;
   today: Date;
-  payedFixedCosts: number;
-  pendingFixedCosts: number;
 }
 
 export const useDSL = ({
@@ -17,8 +15,6 @@ export const useDSL = ({
   offset: budgetOffset,
   futureExpenses,
   today: todayDate,
-  payedFixedCosts,
-  pendingFixedCosts,
 }: UseDSLProps) => {
   const {
     length: periodLength,

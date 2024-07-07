@@ -29,8 +29,6 @@ export const DSLChart = () => {
       startBudget ?? 0 + budgetOffset + payedFixedCosts + pendingFixedCosts,
     currentBudget: currentBudget ?? 0,
     offset: budgetOffset,
-    pendingFixedCosts,
-    payedFixedCosts,
     futureExpenses: pendingFixedCosts,
     today: new Date(),
   });

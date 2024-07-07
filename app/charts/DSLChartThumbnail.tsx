@@ -16,8 +16,6 @@ export const DSLChartThumbnail: ThumbnailComponent = ({ grayscale }) => {
     offset,
     futureExpenses: pendingFixedCosts,
     today: new Date(),
-    pendingFixedCosts,
-    payedFixedCosts,
   });
   const color = grayscale
     ? "bg-slate-500"

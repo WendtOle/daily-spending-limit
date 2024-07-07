@@ -19,7 +19,6 @@ export const DSLChartCalculationsModal = () => {
     startBudget,
     currentBudget,
     offset: budgetOffset,
-    payedFixedCosts,
     pendingFixedCosts,
   } = useLocalstorageValues();
 
@@ -32,8 +31,6 @@ export const DSLChartCalculationsModal = () => {
     currentBudget: currentBudget ?? 0,
     offset: budgetOffset,
     futureExpenses: pendingFixedCosts,
-    payedFixedCosts,
-    pendingFixedCosts,
     today: new Date(),
   });
 
