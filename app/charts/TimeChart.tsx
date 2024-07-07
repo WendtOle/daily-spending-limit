@@ -1,5 +1,5 @@
 "use client";
-import { getPeriod } from "../calculations";
+import { getLeftMoney, getPeriod, getSpentMoney } from "../calculations";
 import { CustomBarChart } from "../CustomBarChart";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ModalType } from "../modal/Modals";
@@ -25,13 +25,19 @@ export default function Chart() {
     if (!start) {
       return null;
     }
-    const moneySpent =
-      start + offset + pendingFixedCosts + payedFixedCosts - current;
-    const moneyLeft = current - offset - pendingFixedCosts;
+    const leftMoney = getLeftMoney({
+      currentBudget: current,
+      offset,
+      futureExpenses: pendingFixedCosts,
+    });
+    const spentMoney = getSpentMoney({
+      startBudget: start,
+      leftMoney,
+    });
     return (
       <CustomBarChart
-        left={Math.max(moneySpent, 0)}
-        right={moneyLeft}
+        left={Math.max(spentMoney, 0)}
+        right={leftMoney}
         unit="€"
         legendTop
       />
