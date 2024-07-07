@@ -3,7 +3,8 @@ import {
   getIdealDSL,
   getYouShouldTargetDSL,
   round,
-  getAvailableBudget,
+  getLeftMoney,
+  getSpentMoney,
 } from "../calculations";
 import { getPeriod } from "../calculations";
 
@@ -27,20 +28,20 @@ export const useDSL = ({
   const doneWithoutToday = done - 1;
 
   const ideal = getIdealDSL({ startBudget, periodLength });
-  const available = getAvailableBudget({
+  const leftMoney = getLeftMoney({
     currentBudget,
     offset: budgetOffset,
     futureExpenses,
   });
+  const spentMoney = getSpentMoney({ startBudget, leftMoney });
 
   const youShouldTarget = getYouShouldTargetDSL({
     leftWithToday,
-    availableBudget: available,
+    leftMoney,
   });
 
   const current = getCurrentDSL({
-    startBudget,
-    availableBudget: available,
+    spentMoney,
     doneWithoutToday,
   });
 

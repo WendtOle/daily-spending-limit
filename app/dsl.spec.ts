@@ -14,35 +14,33 @@ describe("different DSL calculations", () => {
     });
   });
   describe("current DSL calculation", () => {
-    it("handles situation available budget < start budget", () => {
+    it("handles situation in which money was spent", () => {
       const current = getCurrentDSL({
-        startBudget: 232,
-        availableBudget: 134,
+        spentMoney: 98,
         doneWithoutToday: 8,
       });
       expect(current).toBeCloseTo(12.25);
     });
-    it("handles situation available budget > start budget", () => {
+    it("handles situation in which earned money instead of spent", () => {
       const current = getCurrentDSL({
-        startBudget: 232,
-        availableBudget: 300,
+        spentMoney: -68,
         doneWithoutToday: 22,
       });
       expect(current).toBeCloseTo(0);
     });
   });
   describe("you should target DSL calculation", () => {
-    it("handles situation where avaible budget is positive", () => {
+    it("handles situation where still some money left", () => {
       const youShouldTarget = getYouShouldTargetDSL({
         leftWithToday: 9,
-        availableBudget: 134,
+        leftMoney: 134,
       });
       expect(youShouldTarget).toBeCloseTo(14.888);
     });
-    it("handles situation where avaible budget is negative", () => {
+    it("handles situation where more money was spent than was available", () => {
       const youShouldTarget = getYouShouldTargetDSL({
         leftWithToday: 9,
-        availableBudget: -16,
+        leftMoney: -16,
       });
       expect(youShouldTarget).toBeCloseTo(-1.777);
     });

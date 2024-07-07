@@ -1,7 +1,7 @@
 import { Modal } from "../Modal";
 import { useDSL } from "../hooks/useDSL";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
-import { getAvailableBudget, getPeriod } from "../calculations";
+import { getLeftMoney, getPeriod } from "../calculations";
 import { ModalType } from "./Modals";
 
 interface Single {
@@ -40,7 +40,7 @@ export const DSLChartCalculationsModal = () => {
     left: leftPeriod,
   } = getPeriod(new Date());
 
-  const availableBudget = getAvailableBudget({
+  const availableBudget = getLeftMoney({
     currentBudget: currentBudget ?? 0,
     offset: budgetOffset,
     futureExpenses: pendingFixedCosts,

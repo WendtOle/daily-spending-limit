@@ -18,44 +18,50 @@ export const getPeriod = (date: Date) => {
   };
 };
 
-interface GetAvailableBudgetProps {
+interface GetLeftMoneyProps {
   currentBudget: number;
   offset: number;
   futureExpenses: number;
 }
 
-export const getAvailableBudget = ({
+export const getLeftMoney = ({
   currentBudget,
   offset,
   futureExpenses,
-}: GetAvailableBudgetProps) => currentBudget - offset - futureExpenses;
+}: GetLeftMoneyProps) => currentBudget - offset - futureExpenses;
+
+interface GetSpentMoneyProps {
+  startBudget: number;
+  leftMoney: number;
+}
+
+export const getSpentMoney = ({ startBudget, leftMoney }: GetSpentMoneyProps) =>
+  startBudget - leftMoney;
 
 interface GetCurrentDSLProps {
-  startBudget: number;
+  spentMoney: number;
   doneWithoutToday: number;
-  availableBudget: number;
 }
 
 export const getCurrentDSL = ({
-  startBudget,
   doneWithoutToday,
-  availableBudget,
+  spentMoney,
 }: GetCurrentDSLProps) => {
-  if (availableBudget >= startBudget) {
+  if (spentMoney < 0) {
     return 0;
   }
-  return (startBudget - availableBudget) / Math.max(doneWithoutToday, 1);
+  return spentMoney / Math.max(doneWithoutToday, 1);
 };
 
 interface GetYouShouldDSLProps {
   leftWithToday: number;
-  availableBudget: number;
+  leftMoney: number;
 }
 
 export const getYouShouldTargetDSL = ({
   leftWithToday,
-  availableBudget,
-}: GetYouShouldDSLProps) => availableBudget / leftWithToday;
+  leftMoney,
+}: GetYouShouldDSLProps) => leftMoney / leftWithToday;
 
 interface GetIdealDSLProps {
   startBudget: number;
