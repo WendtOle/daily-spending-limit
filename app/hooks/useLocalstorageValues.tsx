@@ -46,10 +46,6 @@ export const useLocalstorageValues = () => {
     window.dispatchEvent(new StorageEvent("storage"));
   };
 
-  const pendingTotal = pendingEntries
-    .filter((entry) => !entry.isPayed)
-    .reduce((acc, entry) => acc + entry.value, 0);
-
   const payedFixedCosts = pendingEntries
     .filter((entry) => entry.isPayed)
     .reduce((acc, entry) => acc + entry.value, 0);
@@ -66,7 +62,6 @@ export const useLocalstorageValues = () => {
     setStartBudget: handleStartBudgetChange,
     history,
     pendingEntries,
-    pendingTotal,
     payedFixedCosts,
     pendingFixedCosts,
   };

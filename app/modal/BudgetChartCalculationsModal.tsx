@@ -6,7 +6,7 @@ export const BudgetChartCalculationsModal = () => {
   const {
     currentBudget,
     offset: budgetOffset,
-    pendingFixedCosts: pendingTotal,
+    pendingFixedCosts,
   } = useLocalstorageValues();
 
   const getNew = ({ steps, result }: { steps: string[]; result?: string }) => {
@@ -38,8 +38,10 @@ export const BudgetChartCalculationsModal = () => {
           steps: ["Current budget - Puffer - pending expenses"],
         })}
         {getNew({
-          steps: [`${currentBudget}€ - ${budgetOffset}€ - ${pendingTotal}€`],
-          result: `${(currentBudget ?? 0) - budgetOffset - pendingTotal}€`,
+          steps: [
+            `${currentBudget}€ - ${budgetOffset}€ - ${pendingFixedCosts}€`,
+          ],
+          result: `${(currentBudget ?? 0) - budgetOffset - pendingFixedCosts}€`,
         })}
       </div>
     </Modal>

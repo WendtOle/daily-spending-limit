@@ -19,8 +19,7 @@ const MIN_PERCENTAGE_TO_DISPLAY = 2.5;
 const LABEL_HEIGH = 16;
 
 export const BudgetChart = () => {
-  const { currentBudget, offset, pendingTotal, pendingFixedCosts } =
-    useLocalstorageValues();
+  const { currentBudget, offset, pendingFixedCosts } = useLocalstorageValues();
 
   if (currentBudget === undefined) {
     return null;

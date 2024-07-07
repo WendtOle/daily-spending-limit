@@ -7,7 +7,6 @@ export const DSLChartThumbnail: ThumbnailComponent = ({ grayscale }) => {
     startBudget,
     currentBudget,
     offset,
-    pendingTotal,
     payedFixedCosts,
     pendingFixedCosts,
   } = useLocalstorageValues();
@@ -15,7 +14,7 @@ export const DSLChartThumbnail: ThumbnailComponent = ({ grayscale }) => {
     startBudget: startBudget ?? 0,
     currentBudget: currentBudget ?? 0,
     offset,
-    futureExpenses: pendingTotal,
+    futureExpenses: pendingFixedCosts,
     today: new Date(),
     pendingFixedCosts,
     payedFixedCosts,
