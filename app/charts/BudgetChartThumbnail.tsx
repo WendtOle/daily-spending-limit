@@ -1,4 +1,4 @@
-import { ThumbnailComponent } from "../Gallery";
+import { ThumbnailComponent } from "../components/Gallery";
 
 export const BudgetChartThumbnail: ThumbnailComponent = ({ grayscale }) => {
   const color = grayscale ? "bg-slate-500" : "bg-blue-600";

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { readFromLocalStorage } from "./localstorage";
-import { Gallery } from "./Gallery";
+import { Gallery } from "./components/Gallery";
 import { Modals } from "./modal/Modals";
 import { chartEntries } from "./chartEntries";
 import { PendingFixedCosts } from "./PendingFixedCosts";

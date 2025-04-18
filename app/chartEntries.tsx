@@ -1,4 +1,4 @@
-import { Entry } from "./Gallery";
+import { Entry } from "./components/Gallery";
 import { BudgetChart } from "./charts/BudgetChart";
 import { BudgetChartThumbnail } from "./charts/BudgetChartThumbnail";
 import { DSLChart } from "./charts/DSLChart";

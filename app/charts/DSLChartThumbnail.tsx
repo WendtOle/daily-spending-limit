@@ -1,4 +1,4 @@
-import { ThumbnailComponent } from "../Gallery";
+import { ThumbnailComponent } from "../components/Gallery";
 import { useDSL } from "../hooks/useDSL";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 
