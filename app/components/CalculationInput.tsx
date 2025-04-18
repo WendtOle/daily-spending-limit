@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface InputProps {
   label?: string;
   value: number | undefined;
   setValue: (newValue: number) => void;
-  inlineButton?: () => React.ReactNode;
 }
+
 export default function CalculationInput({
   label,
   value,
   setValue,
-  inlineButton,
 }: InputProps) {
   const [rawValue, setRawValue] = useState<string|undefined>(undefined);
   const [calculatedValue, setCalculatedValue] = useState<number>(value ?? 0);
   const [focused, setFocused] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   
   useEffect(() => {
     if (value === undefined || rawValue !== undefined) {
@@ -71,6 +71,10 @@ export default function CalculationInput({
 
   const handleBlur = () => setFocused(false)
   const handleFocus = () => setFocused(true)
+  const handleSignButtonClick = (sign: string) => {
+    inputRef.current?.focus()
+    return handeInput(rawValue + sign);
+  }
 
   return (
     <div className="flex flex-col mt-3 relative">
@@ -80,6 +84,7 @@ export default function CalculationInput({
         </label>
       )}
       <input
+        ref={inputRef}
         id={label}
         className="text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 text-base text-center shadow"
         value={focused ? rawValue : calculatedValue}
@@ -87,7 +92,10 @@ export default function CalculationInput({
         onBlur={handleBlur}
         onFocus={handleFocus}
       />
-      <div className="absolute right-0 bottom-1">{inlineButton?.()}</div>
+      <div className="flex absolute right-1 bottom-1 space-x-1 flex-row ">
+        <button onClick={() => handleSignButtonClick('+')} className="rounded shadow px-3 py-1 w-full uppercase">+</button>
+        <button onClick={() => handleSignButtonClick('-')} className="rounded shadow px-3 py-1 w-full uppercase">-</button>
+      </div>
     </div>
   );
 }
