@@ -1,8 +1,8 @@
 import { FaQuestionCircle, FaCog } from "react-icons/fa";
-import Input from "./components/Input";
 import { getExplanationModalId, ConceptType, ModalType } from "./modal/Modals";
 import { OpenModalButton } from "./OpenModalButton";
 import { useLocalstorageValues } from "./hooks/useLocalstorageValues";
+import CalculationInput from "./components/CalculationInput";
 
 export const AccountBalance = () => {
   const { currentBudget, setBalance } = useLocalstorageValues();
@@ -26,7 +26,7 @@ export const AccountBalance = () => {
           </button>
         </div>
       </div>
-      <Input value={currentBudget ?? 0} setValue={setBalance} />
+      <CalculationInput value={currentBudget} setValue={setBalance} />
     </div>
   );
 };
