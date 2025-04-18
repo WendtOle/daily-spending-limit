@@ -1,5 +1,5 @@
 import { FaQuestionCircle, FaCog } from "react-icons/fa";
-import Input from "./Input";
+import Input from "./components/Input";
 import { getExplanationModalId, ConceptType, ModalType } from "./modal/Modals";
 import { OpenModalButton } from "./OpenModalButton";
 import { useLocalstorageValues } from "./hooks/useLocalstorageValues";
