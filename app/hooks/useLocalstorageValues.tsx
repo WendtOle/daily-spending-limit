@@ -13,16 +13,19 @@ export const useLocalstorageValues = () => {
   const [startBudget, setStartBudget] = useState<number | undefined>();
   const [history, setHistory] = useState<History>({});
   const [pendingEntries, setPendingEntries] = useState<Pending[]>([]);
+  const [allowPendingEntries, setAllowPendingEntries] = useState<boolean>(false);
 
   useEffect(() => {
     const updateValues = () => {
-      const { currentBudget, budgetOffset, startBudget, history, pending } =
+      const { currentBudget, budgetOffset, startBudget, history, pending, allowPendingEntries
+       } =
         readFromLocalStorage();
       setAccountBalance(currentBudget);
       setOffset(budgetOffset);
       setStartBudget(startBudget);
       setHistory(history);
       setPendingEntries(pending);
+      setAllowPendingEntries(allowPendingEntries);
     };
     window.addEventListener("storage", updateValues);
     updateValues();
@@ -46,6 +49,12 @@ export const useLocalstorageValues = () => {
     window.dispatchEvent(new StorageEvent("storage"));
   };
 
+  const handleAllowPendingEntriesChange = (value: boolean) => {
+    setAllowPendingEntries(value)
+    localStorage.setItem(LocalStorageKey.ALLOW_PENDING_ENTRIES, value ? "true" : "false")
+    window.dispatchEvent(new StorageEvent("storage"))
+  }
+
   const payedFixedCosts = pendingEntries
     .filter((entry) => entry.isPayed)
     .reduce((acc, entry) => acc + entry.value, 0);
@@ -64,5 +73,7 @@ export const useLocalstorageValues = () => {
     pendingEntries,
     payedFixedCosts,
     pendingFixedCosts,
+    allowPendingEntries,
+    setAllowPendingEntries: handleAllowPendingEntriesChange
   };
 };

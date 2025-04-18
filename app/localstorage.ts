@@ -7,6 +7,7 @@ export enum LocalStorageKey {
   BUDGET_OFFSET = "budgetOffset",
   START_BUDGET = "startBudget",
   DISMISSED_WELCOME_MODAL = "dismissedWelcomeModal",
+  ALLOW_PENDING_ENTRIES = "allowPendingEntries",
   FIXED_COSTS = "fixedCosts",
 }
 
@@ -22,6 +23,7 @@ export const readFromLocalStorage = (): {
   budgetOffset: number;
   history: History;
   dismissedWelcomeModal: boolean;
+  allowPendingEntries: boolean;
   pending: Pending[];
 } => {
   const nullableCurrentBudget = localStorage.getItem(
@@ -46,6 +48,9 @@ export const readFromLocalStorage = (): {
   const nullableDismissedWelcomeModal = localStorage.getItem(
     LocalStorageKey.DISMISSED_WELCOME_MODAL
   );
+  const nullableAllowPendingEntries = localStorage.getItem(
+    LocalStorageKey.ALLOW_PENDING_ENTRIES
+  );
 
   return {
     currentBudget: nullableCurrentBudget
@@ -59,6 +64,7 @@ export const readFromLocalStorage = (): {
       : DEFAULT_VALLUES.budgetOffset,
     history,
     dismissedWelcomeModal: nullableDismissedWelcomeModal === "true",
+    allowPendingEntries: nullableAllowPendingEntries === "true",
     pending,
   };
 };
