@@ -33,7 +33,7 @@ export const DSLChart = () => {
     today: new Date(),
   });
 
-  if (!startBudget || !currentBudget) {
+  if (startBudget === undefined || currentBudget === undefined) {
     return null;
   }
 

@@ -16,7 +16,7 @@ export default function Chart() {
     pendingFixedCosts,
   } = useLocalstorageValues();
 
-  if ((Object.keys(history).length < 2 && !start) || !current) {
+  if ((Object.keys(history).length < 2 && !start) || current === undefined) {
     return null;
   }
   const { done: donePeriod, left: leftPeriod } = getPeriod(new Date());
