@@ -30,9 +30,8 @@ export const Gallery = ({ entries, defaultSelectedIndex }: GalleryProps) => {
           <button
             key={label}
             onClick={() => setFocus(index)}
-            className={`${
-              focus === index ? "bg-gray-200" : "bg-gray-100"
-            } text-black rounded shadow text-sm relative transition-colors duration-300`}
+            className={`${focus === index ? "bg-gray-200" : "bg-gray-100"
+              } text-black rounded shadow text-sm relative transition-colors duration-300`}
           >
             {thumbnail({ grayscale: focus !== index })}
             <p className={`absolute bottom-0 left-0 w-full pt-1 px-2 rounded`}>

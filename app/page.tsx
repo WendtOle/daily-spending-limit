@@ -9,7 +9,7 @@ import { AccountBalance } from "./AccountBalance";
 import { useLocalstorageValues } from "./hooks/useLocalstorageValues";
 
 export default function Home() {
-  const {allowPendingEntries} = useLocalstorageValues()
+  const { allowPendingEntries } = useLocalstorageValues()
   useEffect(() => {
     const { dismissedWelcomeModal } = readFromLocalStorage();
     if (!dismissedWelcomeModal) {
