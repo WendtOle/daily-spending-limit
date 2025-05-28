@@ -12,7 +12,6 @@ export default function Chart() {
     startBudget: start,
     currentBudget: current,
     history,
-    payedFixedCosts,
     pendingFixedCosts,
   } = useLocalstorageValues();
 
