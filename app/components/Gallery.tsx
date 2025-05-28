@@ -23,9 +23,9 @@ export const Gallery = ({ entries, defaultSelectedIndex }: GalleryProps) => {
   const { component } = entries[focus];
 
   return (
-    <div className="h-full flex flex-col justify-between">
-      <div className="h-72 flex flex-row items-center">{component}</div>
-      <div className="flex flex-row justify-around">
+    <div className="h-full flex flex-col items-center">
+      <div className="h-72 flex flex-row justify-center items-center">{component}</div>
+      <div className="flex flex-row justify-around w-80 sm:w-96">
         {entries.map(({ label, thumbnail }, index) => (
           <button
             key={label}
