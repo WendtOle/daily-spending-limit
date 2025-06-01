@@ -1,5 +1,5 @@
-import { FaQuestionCircle, FaCog } from "react-icons/fa";
-import { getExplanationModalId, ConceptType, ModalType } from "./modal/Modals";
+import { FaQuestionCircle } from "react-icons/fa";
+import { getExplanationModalId, ConceptType } from "./modal/Modals";
 import { OpenModalButton } from "./OpenModalButton";
 import { useLocalstorageValues } from "./hooks/useLocalstorageValues";
 import CalculationInput from "./components/CalculationInput";
@@ -7,9 +7,6 @@ import CalculationInput from "./components/CalculationInput";
 export const AccountBalance = () => {
   const { currentBudget, setBalance } = useLocalstorageValues();
 
-  const openSettingsButtonProps = {
-    popovertarget: ModalType.SETTING,
-  };
 
   return (
     <div>
@@ -21,9 +18,6 @@ export const AccountBalance = () => {
           >
             <FaQuestionCircle />
           </OpenModalButton>
-          <button {...openSettingsButtonProps}>
-            <FaCog />
-          </button>
         </div>
       </div>
       <CalculationInput value={currentBudget} setValue={setBalance} />
