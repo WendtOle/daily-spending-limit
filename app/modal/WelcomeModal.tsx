@@ -1,11 +1,10 @@
 import { Modal } from "../Modal";
+import { hintDissmissedStore } from "../hintDissmissedStore";
 import { LocalStorageKey } from "../localstorage";
 import { ModalType } from "./Modals";
 
 export const WelcomeModal = () => {
-  const onDismiss = () => {
-    localStorage.setItem(LocalStorageKey.DISMISSED_WELCOME_MODAL, "true");
-  };
+  const dismiss = hintDissmissedStore(({ dismiss }) => dismiss);
 
   const closeButtonProps = {
     popovertarget: ModalType.WELCOME,
@@ -28,7 +27,7 @@ export const WelcomeModal = () => {
       </div>
       <button
         className="p-2 rounded-lg w-full border-gray-300 text-gray-900 shadow"
-        onClick={onDismiss}
+        onClick={dismiss}
         {...closeButtonProps}
       >
         Dismiss
