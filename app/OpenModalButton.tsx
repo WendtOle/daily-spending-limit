@@ -8,7 +8,7 @@ export const OpenModalButton = ({
   children: JSX.Element;
 }) => {
   const props = {
-    popovertarget: id,
+    popoverTarget: id,
   };
   return (
     <button {...props} className={className}>

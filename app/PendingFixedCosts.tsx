@@ -12,7 +12,7 @@ export const PendingFixedCosts = () => {
   const { pendingEntries: allEntries } = useLocalstorageValues();
 
   const adjustFixedCostsButtonProps = {
-    popovertarget: ModalType.FIXED_COSTS,
+    popoverTarget: ModalType.FIXED_COSTS,
   };
 
   const handleClearEntry = (entryId: string) => {

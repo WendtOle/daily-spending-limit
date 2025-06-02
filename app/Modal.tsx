@@ -12,16 +12,14 @@ export const Modal = ({
   bottom?: boolean;
 }): JSX.Element => {
   const borderButtonProps = {
-    popovertarget: modalId,
-    popovertargetaction: "hide",
+    popoverTarget: modalId,
+    popoverTargetAction: "hide",
   };
   return (
     <div
-      className={`${
-        fullScreen ? "w-full h-full sm:w-96 sm:h-fit" : "w-80 sm:w-96"
-      } ${
-        bottom ? "mb-6" : "sm:mt-40"
-      } sm:mx-auto p-8 py-6 shadow-xl modal rounded space-y-4 relative `}
+      className={`${fullScreen ? "w-full h-full sm:w-96 sm:h-fit" : "w-80 sm:w-96"
+        } ${bottom ? "mb-6" : "sm:mt-40"
+        } sm:mx-auto p-8 py-6 shadow-xl modal rounded space-y-4 relative `}
       id={modalId}
       // @ts-ignore
       popover="auto"

@@ -6,7 +6,7 @@ export const Header = () => {
 
 
 	const openSettingsButtonProps = {
-		popovertarget: ModalType.SETTING,
+		popoverTarget: ModalType.SETTING,
 	};
 	return (
 		<div className="border-b-2 h-12 w-full flex justify-center items-center shadow-sm bg-white">

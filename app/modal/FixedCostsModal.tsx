@@ -10,11 +10,11 @@ export const FixedCostsModal = () => {
   const { pendingEntries: fixedCostsEntries } = useLocalstorageValues();
 
   const addPendingEntryButtonProps = {
-    popovertarget: ModalType.FIXED_COST_ENTRY,
+    popoverTarget: ModalType.FIXED_COST_ENTRY,
   };
 
   const adjustFixedCostsButtonProps = {
-    popovertarget: ModalType.FIXED_COSTS,
+    popoverTarget: ModalType.FIXED_COSTS,
   };
 
   return (
@@ -39,9 +39,8 @@ export const FixedCostsModal = () => {
           return (
             <div
               key={entry.id}
-              className={`flex flex-row justify-between border-b-2 border-b-slate-100 w-full mr-4 ${
-                inactive ? "text-slate-300" : ""
-              }`}
+              className={`flex flex-row justify-between border-b-2 border-b-slate-100 w-full mr-4 ${inactive ? "text-slate-300" : ""
+                }`}
             >
               <div className="flex flex-row items-center px-2 py-1 w-full">
                 <button

@@ -7,8 +7,8 @@ export const WelcomeModal = () => {
   const dismiss = hintDissmissedStore(({ dismiss }) => dismiss);
 
   const closeButtonProps = {
-    popovertarget: ModalType.WELCOME,
-    popovertargetaction: "hide",
+    popoverTarget: ModalType.WELCOME,
+    popoverTargetAction: "hide",
   };
 
   return (
