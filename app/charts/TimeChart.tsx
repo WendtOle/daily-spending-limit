@@ -11,11 +11,10 @@ export default function Chart() {
     offset,
     startBudget: start,
     currentBudget: current,
-    history,
     pendingFixedCosts,
   } = useLocalstorageValues();
 
-  if ((Object.keys(history).length < 2 && !start) || current === undefined) {
+  if (!start || !current) {
     return null;
   }
   const { done: donePeriod, left: leftPeriod } = getPeriod(new Date());
