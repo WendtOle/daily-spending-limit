@@ -1,18 +1,13 @@
 "use client";
 import { getLeftMoney, getPeriod, getSpentMoney } from "../calculations";
 import { CustomBarChart } from "../CustomBarChart";
-import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ModalType } from "../modal/Modals";
 import { ChartTypes } from "../chartEntries";
 import { ChartOptionButtons } from "../ChartOptionButtons";
+import { useBudgetStore } from "../budgetStore";
 
 export default function Chart() {
-  const {
-    offset,
-    startBudget: start,
-    currentBudget: current,
-    pendingFixedCosts,
-  } = useLocalstorageValues();
+  const { budgetOffset, startBudget: start, currentBudget: current, pendingFixedCosts } = useBudgetStore()
 
   if (!start || !current) {
     return null;
@@ -25,7 +20,7 @@ export default function Chart() {
     }
     const leftMoney = getLeftMoney({
       currentBudget: current,
-      offset,
+      offset: budgetOffset,
       futureExpenses: pendingFixedCosts,
     });
     const spentMoney = getSpentMoney({

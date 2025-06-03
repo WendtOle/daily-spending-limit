@@ -1,27 +1,22 @@
+import { useBudgetStore } from "../budgetStore";
 import { ThumbnailComponent } from "../components/Gallery";
 import { useDSL } from "../hooks/useDSL";
-import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 
 export const DSLChartThumbnail: ThumbnailComponent = ({ grayscale }) => {
-  const {
-    startBudget,
-    currentBudget,
-    offset,
-    payedFixedCosts,
-    pendingFixedCosts,
-  } = useLocalstorageValues();
+  const { startBudget, currentBudget, pendingFixedCosts, budgetOffset } = useBudgetStore()
+
   const { isTense } = useDSL({
     startBudget: startBudget ?? 0,
     currentBudget: currentBudget ?? 0,
-    offset,
+    offset: budgetOffset,
     futureExpenses: pendingFixedCosts,
     today: new Date(),
   });
   const color = grayscale
     ? "bg-slate-500"
     : isTense
-    ? "bg-red-400"
-    : "bg-green-400";
+      ? "bg-red-400"
+      : "bg-green-400";
   return (
     <div className="w-20 h-20 flex flex-col justify-center items-center">
       <div className="w-16">

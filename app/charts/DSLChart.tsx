@@ -1,8 +1,8 @@
 import { useDSL } from "../hooks/useDSL";
-import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ModalType } from "../modal/Modals";
 import { ChartTypes } from "../chartEntries";
 import { ChartOptionButtons } from "../ChartOptionButtons";
+import { useBudgetStore } from "../budgetStore";
 
 enum DSL {
   IDEAL = "ideal",
@@ -11,14 +11,7 @@ enum DSL {
 }
 
 export const DSLChart = () => {
-  const {
-    startBudget,
-    currentBudget,
-    offset: budgetOffset,
-    pendingFixedCosts,
-    payedFixedCosts,
-  } = useLocalstorageValues();
-
+  const { startBudget, currentBudget, budgetOffset, payedFixedCosts, pendingFixedCosts } = useBudgetStore()
   const {
     idealDSL,
     actualCurrentDSL: actualDSL,
@@ -77,9 +70,8 @@ export const DSLChart = () => {
     const shadow = bottom ? "" : "shadow-lg";
     return (
       <div
-        className={`flex ${alignment} ${
-          bottom ? "flex-col-reverse" : "flex-col"
-        }`}
+        className={`flex ${alignment} ${bottom ? "flex-col-reverse" : "flex-col"
+          }`}
       >
         <div
           className={`px-2 py-1 ${shadow} flex flex-col items-center ${color} z-50`}
@@ -125,9 +117,8 @@ export const DSLChart = () => {
           <div
             className={`rounded-md ${accent} h-full absolute y-0 ${accentRounding} shadow-lg`}
             style={{
-              width: `${
-                (data[smallerDSL].value / data[biggerDSL].value) * 100
-              }%`,
+              width: `${(data[smallerDSL].value / data[biggerDSL].value) * 100
+                }%`,
             }}
           />
         </div>

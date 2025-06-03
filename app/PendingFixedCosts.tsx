@@ -6,10 +6,10 @@ import {
 import { getExplanationModalId, ConceptType, ModalType } from "./modal/Modals";
 import { OpenModalButton } from "./OpenModalButton";
 import { clearPendingEntry } from "./pendingUtils";
-import { useLocalstorageValues } from "./hooks/useLocalstorageValues";
+import { useBudgetStore } from "./budgetStore";
 
 export const PendingFixedCosts = () => {
-  const { pendingEntries: allEntries } = useLocalstorageValues();
+  const { pendingEntries: allEntries } = useBudgetStore();
 
   const adjustFixedCostsButtonProps = {
     popoverTarget: ModalType.FIXED_COSTS,

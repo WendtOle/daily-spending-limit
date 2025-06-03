@@ -1,13 +1,13 @@
 import { clearPendingEntry, deletePendingEntry } from "../pendingUtils";
-import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ConceptType, ModalType, getExplanationModalId } from "./Modals";
 import { Modal } from "../Modal";
 import { FaSquareCheck, FaTrash } from "react-icons/fa6";
 import { OpenModalButton } from "../OpenModalButton";
 import { FaQuestionCircle, FaSquare } from "react-icons/fa";
+import { useBudgetStore } from "../budgetStore";
 
 export const FixedCostsModal = () => {
-  const { pendingEntries: fixedCostsEntries } = useLocalstorageValues();
+  const { pendingEntries: fixedCostsEntries } = useBudgetStore();
 
   const addPendingEntryButtonProps = {
     popoverTarget: ModalType.FIXED_COST_ENTRY,

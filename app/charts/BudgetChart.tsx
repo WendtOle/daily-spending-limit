@@ -1,7 +1,7 @@
-import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ModalType } from "../modal/Modals";
 import { ChartTypes } from "../chartEntries";
 import { ChartOptionButtons } from "../ChartOptionButtons";
+import { useBudgetStore } from "../budgetStore";
 
 enum Section {
   AVAILABLE = "Available",
@@ -19,7 +19,7 @@ const MIN_PERCENTAGE_TO_DISPLAY = 2.5;
 const LABEL_HEIGH = 16;
 
 export const BudgetChart = () => {
-  const { currentBudget, offset, pendingFixedCosts } = useLocalstorageValues();
+  const { currentBudget, budgetOffset: offset, pendingFixedCosts } = useBudgetStore();
 
   if (currentBudget === undefined) {
     return null;
@@ -143,9 +143,8 @@ export const BudgetChart = () => {
         >
           <div className={`${hideLine ? "h-0" : "h-1"} w-10 ${color}`} />
           <div
-            className={`px-2 py-1 ${color} w-36 shadow-lg ${
-              textColor ?? "text-slate-200"
-            } flex justify-between`}
+            className={`px-2 py-1 ${color} w-36 shadow-lg ${textColor ?? "text-slate-200"
+              } flex justify-between`}
           >
             <span>{label}: </span>
             <span>{value}€</span>
@@ -171,15 +170,13 @@ export const BudgetChart = () => {
     absolute?: boolean;
   }) => (
     <div
-      className={`flex flex-row items-center ${
-        absolute && "absolute"
-      } -left-2 ${top}`}
+      className={`flex flex-row items-center ${absolute && "absolute"
+        } -left-2 ${top}`}
     >
       <div className={`h-1 w-8 ${color}`} />
       <div
-        className={`px-2 py-1 ${color} w-36 shadow-lg ${
-          textColor ?? "text-slate-200"
-        } flex justify-between`}
+        className={`px-2 py-1 ${color} w-36 shadow-lg ${textColor ?? "text-slate-200"
+          } flex justify-between`}
       >
         <span>{label}: </span>
         <span>{value}€</span>

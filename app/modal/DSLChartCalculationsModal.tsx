@@ -1,8 +1,8 @@
 import { Modal } from "../Modal";
 import { useDSL } from "../hooks/useDSL";
-import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { getLeftMoney, getPeriod } from "../calculations";
 import { ModalType } from "./Modals";
+import { useBudgetStore } from "../budgetStore";
 
 interface Single {
   upper: string;
@@ -15,13 +15,7 @@ interface Props {
 }
 
 export const DSLChartCalculationsModal = () => {
-  const {
-    startBudget,
-    currentBudget,
-    offset: budgetOffset,
-    pendingFixedCosts,
-  } = useLocalstorageValues();
-
+  const { startBudget, currentBudget, budgetOffset, pendingFixedCosts } = useBudgetStore()
   const {
     idealDSL,
     actualCurrentDSL: actualDSL,

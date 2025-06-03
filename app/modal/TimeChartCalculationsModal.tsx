@@ -1,17 +1,10 @@
 import { Modal } from "../Modal";
-import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { getPeriod } from "../calculations";
 import { ModalType } from "./Modals";
+import { useBudgetStore } from "../budgetStore";
 
 export const TimeChartCalculationsModal = () => {
-  const {
-    startBudget,
-    currentBudget,
-    offset: budgetOffset,
-    pendingFixedCosts,
-    payedFixedCosts,
-  } = useLocalstorageValues();
-
+  const { startBudget, currentBudget, budgetOffset, payedFixedCosts, pendingFixedCosts } = useBudgetStore()
   const {
     start: startPeriod,
     end: endPeriod,
@@ -66,17 +59,15 @@ export const TimeChartCalculationsModal = () => {
         })}
         {getNew({
           steps: [
-            `${startBudget ?? 0}€ + ${budgetOffset}€ + ${
-              pendingFixedCosts + payedFixedCosts
+            `${startBudget ?? 0}€ + ${budgetOffset}€ + ${pendingFixedCosts + payedFixedCosts
             }€ - ${currentBudget ?? 0}€`,
           ],
-          result: `${
-            (startBudget ?? 0) +
+          result: `${(startBudget ?? 0) +
             budgetOffset +
             pendingFixedCosts +
             payedFixedCosts -
             (currentBudget ?? 0)
-          }€`,
+            }€`,
         })}
       </div>
       <div className="p-2 border rounded relative flex flex-col space-y-2 items-center">
@@ -88,16 +79,14 @@ export const TimeChartCalculationsModal = () => {
         })}
         {getNew({
           steps: [
-            `${(currentBudget ?? 0) - budgetOffset - pendingFixedCosts}€ + ${
-              (startBudget ?? 0) +
-              budgetOffset +
-              pendingFixedCosts +
-              payedFixedCosts -
-              (currentBudget ?? 0)
+            `${(currentBudget ?? 0) - budgetOffset - pendingFixedCosts}€ + ${(startBudget ?? 0) +
+            budgetOffset +
+            pendingFixedCosts +
+            payedFixedCosts -
+            (currentBudget ?? 0)
             }€`,
           ],
-          result: `${
-            (currentBudget ?? 0) -
+          result: `${(currentBudget ?? 0) -
             budgetOffset -
             pendingFixedCosts +
             (startBudget ?? 0) +
@@ -105,7 +94,7 @@ export const TimeChartCalculationsModal = () => {
             pendingFixedCosts +
             payedFixedCosts -
             (currentBudget ?? 0)
-          }€`,
+            }€`,
         })}
       </div>
       <div className="p-2 border rounded relative flex flex-col space-y-2 items-center">

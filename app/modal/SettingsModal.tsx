@@ -4,11 +4,12 @@ import { Modal } from "../Modal";
 import { OpenModalButton } from "../OpenModalButton";
 import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
 import { ConceptType, ModalType, getExplanationModalId } from "./Modals";
+import { useBudgetStore, useBudgetsStore } from "../budgetStore";
 
 export const SettingsModal = () => {
   const { allowPendingEntries, setAllowPendingEntries } = useLocalstorageValues();
-  const { offset, setOffset, startBudget, setStartBudget } =
-    useLocalstorageValues();
+  const { startBudget, budgetOffset: offset } = useBudgetStore()
+  const setBudgetById = useBudgetsStore(state => state.setBudget)
 
   const onToggle = () => {
     setAllowPendingEntries(!allowPendingEntries)
@@ -25,7 +26,7 @@ export const SettingsModal = () => {
           <FaQuestionCircle />
         </OpenModalButton>
       </div>
-      <Input value={startBudget ?? 0} setValue={setStartBudget} />
+      <Input value={startBudget} setValue={(newValue: number) => setBudgetById({ startBudget: newValue })} />
       <div className="flex items-center justify-between">
         <div>
           <h4 className="text-base font-medium text-gray-900">Advanced mode</h4>
@@ -53,7 +54,7 @@ export const SettingsModal = () => {
                 <FaQuestionCircle />
               </OpenModalButton>
             </div>
-            <Input value={offset} setValue={setOffset} />
+            <Input value={offset ?? null} setValue={(newValue: number) => setBudgetById({ offset: newValue })} />
           </>}
       </div>
     </Modal>

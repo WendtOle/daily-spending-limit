@@ -1,13 +1,13 @@
 import { Modal } from "../Modal";
-import { useLocalstorageValues } from "../hooks/useLocalstorageValues";
+import { useBudgetStore } from "../budgetStore";
 import { ModalType } from "./Modals";
 
 export const BudgetChartCalculationsModal = () => {
   const {
     currentBudget,
-    offset: budgetOffset,
+    budgetOffset,
     pendingFixedCosts,
-  } = useLocalstorageValues();
+  } = useBudgetStore();
 
   const getNew = ({ steps, result }: { steps: string[]; result?: string }) => {
     return (
