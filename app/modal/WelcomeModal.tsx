@@ -1,6 +1,5 @@
 import { Modal } from "../Modal";
 import { hintDissmissedStore } from "../hintDissmissedStore";
-import { LocalStorageKey } from "../localstorage";
 import { ModalType } from "./Modals";
 
 export const WelcomeModal = () => {
