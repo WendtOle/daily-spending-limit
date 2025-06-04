@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Input from "../components/Input";
-import { addPendingEntry } from "../pendingUtils";
 import { Modal } from "../Modal";
 import { ModalType } from "./Modals";
+import { useBudgetStore } from "../budgetStore";
 
 export const PendingEntryModal = () => {
   const [value, setValue] = useState(0);
   const [label, setLabel] = useState<string>("");
+  const { addPendingEntry } = useBudgetStore()
 
   const handleSave = () => {
     // @ts-ignore

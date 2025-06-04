@@ -1,4 +1,3 @@
-import { clearPendingEntry, deletePendingEntry } from "../pendingUtils";
 import { ConceptType, ModalType, getExplanationModalId } from "./Modals";
 import { Modal } from "../Modal";
 import { FaSquareCheck, FaTrash } from "react-icons/fa6";
@@ -7,7 +6,7 @@ import { FaQuestionCircle, FaSquare } from "react-icons/fa";
 import { useBudgetStore } from "../budgetStore";
 
 export const FixedCostsModal = () => {
-  const { pendingEntries: fixedCostsEntries } = useBudgetStore();
+  const { pendingEntries: fixedCostsEntries, togglePendingEntry, deletePendingEntry } = useBudgetStore();
 
   const addPendingEntryButtonProps = {
     popoverTarget: ModalType.FIXED_COST_ENTRY,
@@ -44,7 +43,7 @@ export const FixedCostsModal = () => {
             >
               <div className="flex flex-row items-center px-2 py-1 w-full">
                 <button
-                  onClick={() => clearPendingEntry(entry.id)}
+                  onClick={() => togglePendingEntry(entry.id)}
                   className="mx-2"
                 >
                   {inactive ? (

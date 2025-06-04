@@ -5,18 +5,13 @@ import {
 } from "react-icons/fa";
 import { getExplanationModalId, ConceptType, ModalType } from "./modal/Modals";
 import { OpenModalButton } from "./OpenModalButton";
-import { clearPendingEntry } from "./pendingUtils";
 import { useBudgetStore } from "./budgetStore";
 
 export const PendingFixedCosts = () => {
-  const { pendingEntries: allEntries } = useBudgetStore();
+  const { pendingEntries: allEntries, togglePendingEntry } = useBudgetStore();
 
   const adjustFixedCostsButtonProps = {
     popoverTarget: ModalType.FIXED_COSTS,
-  };
-
-  const handleClearEntry = (entryId: string) => {
-    clearPendingEntry(entryId);
   };
 
   const pendingEntries = allEntries.filter(({ isPayed }) => !isPayed);
@@ -42,7 +37,7 @@ export const PendingFixedCosts = () => {
                 <p className="mr-1 uppercase">
                   {entry.label} {entry.value}€
                 </p>
-                <button onClick={() => handleClearEntry(entry.id)}>
+                <button onClick={() => togglePendingEntry(entry.id)}>
                   <FaCheckCircle
                     fontSize={16}
                     className="ml-1 text-slate-600"
