@@ -7,6 +7,9 @@ import { useBudgetStore, useBudgetsStore } from "../budgetStore";
 import { useSettingsStore } from "../stores/settings";
 
 export const SettingsModal = () => {
+  const budgets = useBudgetsStore(state => state.budgets)
+  const selectBudget = useBudgetsStore(state => state.selectBudget)
+  const curBudgetId = useBudgetsStore(state => state.currBudgetId)
   const addSeparateBudget = useBudgetsStore(state => state.addBudget)
   const isAdvancedModeEnabled = useSettingsStore(state => state.isAdvancedModeEnabled);
   const toggleAdvacedMode = useSettingsStore(state => state.toggleAdvancedMode)
@@ -25,8 +28,26 @@ export const SettingsModal = () => {
         </OpenModalButton>
       </div>
       <Input value={startBudget} setValue={(newValue: number) => setBudgetById({ startBudget: newValue })} />
-      <div className="flex flex-col space-y-2">
-        <h4 className="text-base font-medium text-gray-900">Budgets</h4>
+      <div className="flex flex-col space-y-3">
+        <div>
+          <h4 className="text-base font-medium text-gray-900">Budgets</h4>
+          <p className="text-sm text-gray-500">Keep an eye on multiple budgets</p>
+        </div>
+        <div className="flex items-center gap-1 flex-wrap mt-2">
+          {Object.entries(budgets).map(([id, budget]) => {
+            return (
+              <button onClick={() => selectBudget(id)}>
+                <div key={id} className={`flex flex-row justify-between`}>
+                  <div className={`flex flex-row items-center justify-between pl-4 pr-2 py-2 w-full bg-white rounded-full shadow text-xs inline-block ${curBudgetId === id ? "bg-slate-600 text-white" : ""}`}>
+                    <p className="mr-1 uppercase">
+                      {budget.currentBudget}€ / {budget.startBudget}€
+                    </p>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
         <button
           onClick={addSeparateBudget}
           className="rounded-xl shadow px-4 py-2 uppercase"

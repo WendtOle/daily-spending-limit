@@ -20,7 +20,9 @@ interface BudgetsStore {
 	currBudgetId: string,
 	setBudget: (budget: Partial<Budget>) => void,
 	setPendingEntries: (setter: (pending: Pending[]) => Pending[]) => void,
-	addBudget: () => void
+	addBudget: () => void,
+	removeBudget: (id: string) => void,
+	selectBudget: (id: string) => void,
 }
 
 const defaultBudgetId = "default-budget-id"
@@ -55,7 +57,20 @@ export const useBudgetsStore = create<BudgetsStore>()(
 			const budgets = { ...state.budgets, [state.currBudgetId]: { ...state.budgets[state.currBudgetId], pendingEntries: setter(existing) } }
 			return { budgets }
 		}
-		)
+		),
+		removeBudget: (idToDelete: string) => set(state => {
+			const filtered = Object.entries(state.budgets).reduce((acc, [id, budget]) => {
+				if (idToDelete === id) {
+					return acc
+				}
+				return { ...acc, [id]: budget }
+			}, {} as Record<string, Budget>)
+			if (idToDelete === state.currBudgetId) {
+				return { budgets: filtered, currBudgetId: Object.keys(filtered)[0] }
+			}
+			return { budgets: filtered }
+		}),
+		selectBudget: (id) => set(state => ({ currBudgetId: id }))
 	}),
 		{
 			name: "budgets"
