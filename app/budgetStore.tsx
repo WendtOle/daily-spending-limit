@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { generateId } from "./generateId";
 
 export interface Pending {
 	label: string;
@@ -19,6 +20,7 @@ interface BudgetsStore {
 	currBudgetId: string,
 	setBudget: (budget: Partial<Budget>) => void,
 	setPendingEntries: (setter: (pending: Pending[]) => Pending[]) => void,
+	addBudget: () => void
 }
 
 const defaultBudgetId = "default-budget-id"
@@ -41,6 +43,13 @@ export const useBudgetsStore = create<BudgetsStore>()(
 				return { budgets: newState }
 			})
 		},
+		addBudget: () => set(state => {
+			const id = generateId()
+			return {
+				budgets: { ...state.budgets, [id]: defaultBudget },
+				currBudgetId: id
+			}
+		}),
 		setPendingEntries: (setter: (before: Pending[]) => Pending[]) => set(state => {
 			const existing = state.budgets[state.currBudgetId].pendingEntries
 			const budgets = { ...state.budgets, [state.currBudgetId]: { ...state.budgets[state.currBudgetId], pendingEntries: setter(existing) } }

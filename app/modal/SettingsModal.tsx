@@ -7,6 +7,7 @@ import { useBudgetStore, useBudgetsStore } from "../budgetStore";
 import { useSettingsStore } from "../stores/settings";
 
 export const SettingsModal = () => {
+  const addSeparateBudget = useBudgetsStore(state => state.addBudget)
   const isAdvancedModeEnabled = useSettingsStore(state => state.isAdvancedModeEnabled);
   const toggleAdvacedMode = useSettingsStore(state => state.toggleAdvancedMode)
   const { startBudget, budgetOffset: offset } = useBudgetStore()
@@ -24,6 +25,16 @@ export const SettingsModal = () => {
         </OpenModalButton>
       </div>
       <Input value={startBudget} setValue={(newValue: number) => setBudgetById({ startBudget: newValue })} />
+      <div className="flex flex-col space-y-2">
+        <h4 className="text-base font-medium text-gray-900">Budgets</h4>
+        <button
+          onClick={addSeparateBudget}
+          className="rounded-xl shadow px-4 py-2 uppercase"
+          aria-checked={isAdvancedModeEnabled}
+        >
+          Create separate budget
+        </button>
+      </div>
       <div className="flex items-center justify-between">
         <div>
           <h4 className="text-base font-medium text-gray-900">Advanced mode</h4>
