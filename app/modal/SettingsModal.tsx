@@ -3,12 +3,14 @@ import Input from "../components/Input";
 import { Modal } from "../Modal";
 import { OpenModalButton } from "../OpenModalButton";
 import { ConceptType, ModalType, getExplanationModalId } from "./Modals";
-import { useBudgetStore, useBudgetsStore } from "../budgetStore";
+import { Budget, useBudgetStore, useBudgetsStore } from "../budgetStore";
 import { useSettingsStore } from "../stores/settings";
+import { FaSquareCheck, FaTrash } from "react-icons/fa6";
 
 export const SettingsModal = () => {
   const budgets = useBudgetsStore(state => state.budgets)
   const selectBudget = useBudgetsStore(state => state.selectBudget)
+  const removeBudget = useBudgetsStore(state => state.removeBudget)
   const curBudgetId = useBudgetsStore(state => state.currBudgetId)
   const addSeparateBudget = useBudgetsStore(state => state.addBudget)
   const isAdvancedModeEnabled = useSettingsStore(state => state.isAdvancedModeEnabled);
@@ -16,6 +18,18 @@ export const SettingsModal = () => {
   const { startBudget, budgetOffset: offset } = useBudgetStore()
   const setBudgetById = useBudgetsStore(state => state.setBudget)
 
+
+  const getBudgetEnry = (id: string, budget: Budget) => (<div key="id" className={`flex flex-row justify-between`}>
+    <div className={`flex flex-row items-center justify-between pl-4 pr-2 py-2 w-full bg-white rounded-full shadow text-xs inline-block ${id === curBudgetId ? "bg-slate-600 text-white" : ""}`}>
+      <p className="mr-1 uppercase">
+        {budget.currentBudget}€ / {budget.startBudget}€
+      </p>
+      {id === curBudgetId && <button onClick={() => removeBudget(id)} className="text-slate-100">
+        <FaTrash color="white" />
+      </button>}
+    </div>
+  </div>
+  )
   return (
     <Modal modalId={ModalType.SETTING} fullScreen>
       <h1 className="text-xl text-center uppercase">Settings</h1>
@@ -33,21 +47,13 @@ export const SettingsModal = () => {
           <h4 className="text-base font-medium text-gray-900">Budgets</h4>
           <p className="text-sm text-gray-500">Keep an eye on multiple budgets</p>
         </div>
-        <div className="flex items-center gap-1 flex-wrap mt-2">
+        {Object.keys(budgets).length > 1 && <div className="flex items-center gap-1 flex-wrap mt-2">
           {Object.entries(budgets).map(([id, budget]) => {
-            return (
-              <button onClick={() => selectBudget(id)}>
-                <div key={id} className={`flex flex-row justify-between`}>
-                  <div className={`flex flex-row items-center justify-between pl-4 pr-2 py-2 w-full bg-white rounded-full shadow text-xs inline-block ${curBudgetId === id ? "bg-slate-600 text-white" : ""}`}>
-                    <p className="mr-1 uppercase">
-                      {budget.currentBudget}€ / {budget.startBudget}€
-                    </p>
-                  </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+            return id === curBudgetId ?
+              getBudgetEnry(id, budget) : <button key="id" onClick={() => selectBudget(id)}> {getBudgetEnry(id, budget)} </button>
+          })
+          }
+        </div>}
         <button
           onClick={addSeparateBudget}
           className="rounded-xl shadow px-4 py-2 uppercase"
