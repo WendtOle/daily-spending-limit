@@ -17,7 +17,7 @@ export default function CalculationInput({
   const inputRef = useRef<HTMLInputElement>(null);
   
   useEffect(() => {
-    if (value === undefined || rawValue !== undefined) {
+    if (calculatedValue === value) {
       return
     }
     setValues(value + "")

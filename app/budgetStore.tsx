@@ -23,8 +23,8 @@ interface BudgetsStore {
 
 const defaultBudgetId = "default-budget-id"
 const defaultBudget: Budget = {
-	currentBudget: undefined,
-	startBudget: undefined,
+	currentBudget: 635,
+	startBudget: 1000,
 	offset: undefined,
 	pendingEntries: []
 }
