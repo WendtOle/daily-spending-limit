@@ -19,7 +19,7 @@ export const SettingsModal = () => {
   const setBudgetById = useBudgetsStore(state => state.setBudget)
 
 
-  const getBudgetEnry = (id: string, budget: Budget) => (<div key="id" className={`flex flex-row justify-between`}>
+  const getBudgetEnry = (id: string, budget: Budget) => (<div key={id} className={`flex flex-row justify-between`}>
     <div className={`flex flex-row items-center justify-between pl-4 pr-2 py-2 w-full bg-white rounded-full shadow text-xs inline-block ${id === curBudgetId ? "bg-slate-600 text-white" : ""}`}>
       <p className="mr-1 uppercase">
         {budget.currentBudget}€ / {budget.startBudget}€
@@ -50,7 +50,7 @@ export const SettingsModal = () => {
         {Object.keys(budgets).length > 1 && <div className="flex items-center gap-1 flex-wrap mt-2">
           {Object.entries(budgets).map(([id, budget]) => {
             return id === curBudgetId ?
-              getBudgetEnry(id, budget) : <button key="id" onClick={() => selectBudget(id)}> {getBudgetEnry(id, budget)} </button>
+              getBudgetEnry(id, budget) : <button key={id} onClick={() => selectBudget(id)}> {getBudgetEnry(id, budget)} </button>
           })
           }
         </div>}
