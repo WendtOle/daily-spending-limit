@@ -1,3 +1,4 @@
+import React from "react"
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -19,7 +20,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " bg-slate-50"}>
-        <Header />
         {children}
       </body>
     </html>
