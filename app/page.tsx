@@ -15,6 +15,7 @@ export default function Home() {
   const budgets = useBudgetsStore(state => state.budgets)
   const setBudgetById = useBudgetsStore(state => state.setBudget)
   const selectBudget = useBudgetsStore(state => state.selectBudget)
+  const selectedBudgetId = useBudgetsStore(state => state.currBudgetId)
 
   const values = Object.entries(budgets).map(([id, { currentBudget, startBudget }]) => {
     if (currentBudget === undefined || startBudget === undefined) {
@@ -26,9 +27,9 @@ export default function Home() {
     return ({ id, value: currentBudget / startBudget })
   })
   return (
-    <main className="flex flex-col justify-around items-center h-screen">
+    <main className="flex flex-col justify-around items-center h-dvh">
       <div className="w-64">
-        <ArcChart values={values} reference={left / length} onReferenceClick={() => console.log("reference clicked")} onValueClick={selectBudget} />
+        <ArcChart values={values} reference={left / length} onReferenceClick={() => console.log("reference clicked")} onValueClick={selectBudget} highlighted={selectedBudgetId} />
       </div>
       <div className="flex flex-col gap-4 w-64">
         <AccountBalance />
