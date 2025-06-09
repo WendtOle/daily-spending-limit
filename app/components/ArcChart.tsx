@@ -66,7 +66,7 @@ export const ArcChart = ({
 	};
 
 	return (
-		<svg viewBox="0 0 120 120">
+		<svg viewBox="0 0 120 125">
 			<defs>
 				<filter id="stroke-shadow" x="-50%" y="-50%" width="200%" height="200%">
 					<feDropShadow dx="2" dy="-2" stdDeviation="2" flood-color="black" flood-opacity="0.5" />
@@ -105,6 +105,11 @@ export const ArcChart = ({
 					filter={highlighted === id ? 'url(#stroke-shadow)' : ''}
 				/>
 			))}
+			<line x1="59" y1="110" x2="59" y2="125" stroke={backgroundColor} stroke-width="2" />
+			<rect x="60" y="115" width="40" height="10" fill={backgroundColor} />
+			<text x="80" y="121" text-anchor="middle" alignment-baseline="middle" font-size="6" fill="black">
+				21 days left
+			</text>
 		</svg>
 	);
 };
