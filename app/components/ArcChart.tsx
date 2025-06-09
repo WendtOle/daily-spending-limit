@@ -106,8 +106,8 @@ export const ArcChart = ({
 				/>
 			))}
 			<line x1="59" y1="110" x2="59" y2="125" stroke={backgroundColor} stroke-width="2" />
-			<rect x="60" y="115" width="40" height="10" fill={backgroundColor} />
-			<text x="80" y="121" text-anchor="middle" alignment-baseline="middle" font-size="6" fill="black">
+			<rect x="20" y="115" width="40" height="10" fill={backgroundColor} />
+			<text x="40" y="121" text-anchor="middle" alignment-baseline="middle" font-size="6" fill="black">
 				21 days left
 			</text>
 		</svg>
