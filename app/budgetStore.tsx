@@ -10,6 +10,7 @@ export interface Pending {
 }
 
 export interface Budget {
+	name: string,
 	currentBudget: number | undefined,
 	startBudget: number | undefined,
 	offset: number | undefined,
@@ -27,6 +28,7 @@ interface BudgetsStore {
 
 const defaultBudgetId = "default-budget-id"
 const defaultBudget: Budget = {
+	name: "Default",
 	currentBudget: 635,
 	startBudget: 1000,
 	offset: undefined,
@@ -78,8 +80,11 @@ export const useBudgetsStore = create<BudgetsStore>()(
 	))
 
 export const useBudgetStore = () => {
-	const { startBudget, currentBudget, offset: budgetOffset, pendingEntries } = useBudgetsStore(state => state.budgets[state.currBudgetId])
+	const budget = useBudgetsStore(state => state.budgets[state.currBudgetId])
 	const setPendingEntries = useBudgetsStore(state => state.setPendingEntries)
+
+	const { startBudget, currentBudget, offset: budgetOffset, pendingEntries: nullablePendingEntries } = budget
+	const pendingEntries = nullablePendingEntries ?? []
 
 	const payedFixedCosts = pendingEntries
 		.filter((entry) => entry.isPayed)

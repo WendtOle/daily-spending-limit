@@ -3,14 +3,17 @@ import React from 'react';
 interface Value {
 	id: string,
 	value: number,
+	title: string
 }
 
 interface ArcChartProps {
 	values: Value[];
-	reference: number;
+	reference: number,
+	referenceTitle: string,
 	onReferenceClick?: () => void,
 	onValueClick?: (id: string) => void,
 	highlighted?: string,
+	innerTitle?: string,
 }
 
 const backgroundColor = "#fef9c2";
@@ -22,9 +25,11 @@ export const ArcChart = ({
 	reference,
 	onReferenceClick,
 	onValueClick,
-	highlighted
+	highlighted,
+	innerTitle,
+	referenceTitle
 }: ArcChartProps) => {
-	const strokeWidth = Math.min(55 * 0.5 / values.length, 18)
+	const strokeWidth = Math.min(55 / 2 / (values.length * ARC_DISTANCE), 20)
 	const outerRadius = 55 - (ARC_DISTANCE * strokeWidth)
 	const props = values.reduce((acc, curr) => {
 		const radius = outerRadius - strokeWidth * ARC_DISTANCE * acc.length;
@@ -37,9 +42,9 @@ export const ArcChart = ({
 		const opacity = highlighted === curr.id ? 1 : 0.4;
 		return [
 			...acc,
-			{ radius, circumference, offset, color, id: curr.id, opacity },
+			{ radius, circumference, offset, color, id: curr.id, opacity, title: curr.title },
 		];
-	}, [] as Array<{ color: string; radius: number; circumference: number; offset: number, id: string, opacity: number }>);
+	}, [] as Array<{ color: string; radius: number; circumference: number; offset: number, id: string, opacity: number, title: string }>);
 
 	const orderedProps = props.sort((left, right) => left.id === highlighted ? 1 : 0)
 	const backgroundWidth =
@@ -59,14 +64,18 @@ export const ArcChart = ({
 	const highlightedBudgetProps = props.find(prop => prop.id === highlighted)
 	const budgetLegendColor = highlightedBudgetProps?.color
 	const budgetLegendLineStart = 65 + (highlightedBudgetProps?.radius ?? 0) - strokeWidth / 2
+	const budgetTitle = highlightedBudgetProps?.title ?? ""
+
 	return (
 		<svg viewBox="0 0 120 130">
 			<defs>
 				<filter id="stroke-shadow" x="-50%" y="-50%" width="200%" height="200%">
-					<feDropShadow dx="2" dy="-2" stdDeviation="2" flood-color="black" flood-opacity="0.5" />
+					<feDropShadow dx="2" dy="-2" stdDeviation="2" floodColor="black" floodOpacity="0.5" />
+				</filter>
+				<filter id="stroke-shadow-normal" x="-50%" y="-50%" width="200%" height="200%">
+					<feDropShadow dx="1" dy="1" stdDeviation="2" floodColor="black" floodOpacity="0.5" />
 				</filter>
 			</defs>
-			<line x1="61" y1="0" x2="61" y2={timeLegendLineEnd} stroke={backgroundColor} stroke-width="2" />
 			<circle
 				key={backgroundProps.circumference}
 				cx="65"
@@ -100,15 +109,17 @@ export const ArcChart = ({
 					filter={highlighted === id ? 'url(#stroke-shadow)' : ''}
 				/>
 			))}
-			<rect x="20" y="0" width="40" height="10" fill={backgroundColor} />
-			<text x="40" y="6" text-anchor="middle" alignment-baseline="middle" font-size="6" fill="black">
-				21 days left
+			<rect x="70" y="0" width="40" height="10" fill={backgroundColor} />
+			<text x="90" y="6" textAnchor="middle" alignmentBaseline="middle" fontSize="6" fill="black">
+				{referenceTitle}
 			</text>
-			<line x1="61" y1={budgetLegendLineStart} x2="61" y2="120" stroke={budgetLegendColor} stroke-width="2" />
-			<rect x="60" y="120" width="40" height="10" fill={budgetLegendColor} />
-			<text x="80" y="126" text-anchor="middle" alignment-baseline="middle" font-size="6" fill="black">
-				First Budget
+			<rect x="10" y="0" width="40" height="10" fill={budgetLegendColor}
+				filter='url(#stroke-shadow-normal)'
+			/>
+			<text x="30" y="6" textAnchor="middle" alignmentBaseline="middle" fontSize="6" fill="black">
+				{budgetTitle}
 			</text>
+			<text x="60" y="65" textAnchor="middle" alignmentBaseline="middle" fontSize="8" fontWeight="bold" fill="black">{innerTitle}</text>
 		</svg>
 	);
 };
