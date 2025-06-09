@@ -1,8 +1,15 @@
 import React from 'react'
 
+interface Value {
+	id: string,
+	value: number,
+}
+
 interface ArcChartProps {
-	percent: number | number[];
-	background: number;
+	values: Value[];
+	reference: number;
+	onReferenceClick?: () => void,
+	onValueClick?: (id: string) => void,
 }
 
 const backgroundColor = "#ffe478";
@@ -22,34 +29,35 @@ const colorPalette = [
 const ARC_DISTANCE = 1.08;
 
 export const ArcChart = ({
-	percent,
-	background,
+	values,
+	reference,
+	onReferenceClick,
+	onValueClick
 }: ArcChartProps) => {
-	const percentArray = Array.isArray(percent) ? percent : [percent];
-	const strokeWidth = 60 * 0.5 / percentArray.length
+	const strokeWidth = 60 * 0.5 / values.length
 	const outerRadius = 60 - (ARC_DISTANCE * strokeWidth)
-	const props = percentArray.reduce((acc, curr) => {
+	const props = values.reduce((acc, curr) => {
 		const radius = outerRadius - strokeWidth * ARC_DISTANCE * acc.length;
 		if (radius <= 0) {
 			throw new Error("input paramets does match");
 		}
 		const circumference = 2 * Math.PI * radius;
-		const offset = (1 - curr) * circumference;
+		const offset = (1 - curr.value) * circumference;
 		return [
 			...acc,
-			{ radius, circumference, offset, color: colorPalette[acc.length] },
+			{ radius, circumference, offset, color: colorPalette[acc.length], id: curr.id },
 		];
-	}, [] as Array<{ color: string; radius: number; circumference: number; offset: number }>);
+	}, [] as Array<{ color: string; radius: number; circumference: number; offset: number, id: string }>);
 
 	const backgroundWidth =
-		strokeWidth * percentArray.length * ARC_DISTANCE * 1.25;
+		strokeWidth * values.length * ARC_DISTANCE * 1.25;
 	const backgroundRadius =
-		outerRadius - ((percentArray.length - 1) * strokeWidth * ARC_DISTANCE) / 2;
+		outerRadius - ((values.length - 1) * strokeWidth * ARC_DISTANCE) / 2;
 	const circumference = 2 * Math.PI * backgroundRadius;
 	const backgroundProps = {
 		radius: backgroundRadius,
 		circumference,
-		offset: (1 - background) * circumference,
+		offset: (1 - reference) * circumference,
 		color: backgroundColor,
 	};
 
@@ -68,10 +76,11 @@ export const ArcChart = ({
 				strokeDashoffset={backgroundProps.offset}
 				strokeLinecap="butt"
 				transform="rotate(-270 60 60)"
+				onClick={onReferenceClick}
 			/>
-			{props.map(({ circumference, offset, radius, color }) => (
+			{props.map(({ circumference, offset, radius, color, id }) => (
 				<circle
-					key={offset}
+					key={id}
 					cx="60"
 					cy="60"
 					r={radius}
@@ -83,6 +92,7 @@ export const ArcChart = ({
 					strokeDashoffset={offset}
 					strokeLinecap="butt"
 					transform="rotate(-270 60 60)"
+					onClick={() => onValueClick?.(id)}
 				/>
 			))}
 		</svg>
