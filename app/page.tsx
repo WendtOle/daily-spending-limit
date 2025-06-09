@@ -26,22 +26,22 @@ export default function Home() {
     return ({ id, value: currentBudget / startBudget })
   })
   return (
-    <main className="flex flex-col justify-center relative items-center h-screen">
+    <main className="flex flex-col justify-around items-center h-screen">
       <div className="w-64">
         <ArcChart values={values} reference={left / length} onReferenceClick={() => console.log("reference clicked")} onValueClick={selectBudget} />
-        <div className="flex flex-col gap-4">
-          <AccountBalance />
-          <div>
-            <div className="flex flex-row justify-between">
-              <p>Spending budget</p>
-              <OpenModalButton
-                id={getExplanationModalId(ConceptType.SPENDING_BUDGET)}
-              >
-                <FaQuestionCircle />
-              </OpenModalButton>
-            </div>
-            <Input value={startBudget} setValue={(newValue: number) => setBudgetById({ startBudget: newValue })} />
+      </div>
+      <div className="flex flex-col gap-4 w-64">
+        <AccountBalance />
+        <div>
+          <div className="flex flex-row justify-between">
+            <p>Spending budget</p>
+            <OpenModalButton
+              id={getExplanationModalId(ConceptType.SPENDING_BUDGET)}
+            >
+              <FaQuestionCircle />
+            </OpenModalButton>
           </div>
+          <Input value={startBudget} setValue={(newValue: number) => setBudgetById({ startBudget: newValue })} />
         </div>
       </div>
     </main>
