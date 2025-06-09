@@ -13,21 +13,9 @@ interface ArcChartProps {
 	highlighted?: string,
 }
 
-const backgroundColor = "#ffe478";
+const backgroundColor = "#fef9c2";
 
-const colorPalette = [
-	"#3B82F6",
-	"#10B981",
-	"#FB923C",
-	"#EF4444",
-	"#EC4899",
-	"#8B5CF6",
-	"#6366F1",
-	"#14B8A6",
-	"#6B7280",
-];
-
-const ARC_DISTANCE = 1.18;
+const ARC_DISTANCE = 1.2;
 
 export const ArcChart = ({
 	values,
@@ -36,7 +24,7 @@ export const ArcChart = ({
 	onValueClick,
 	highlighted
 }: ArcChartProps) => {
-	const strokeWidth = 55 * 0.5 / values.length
+	const strokeWidth = Math.min(55 * 0.5 / values.length, 18)
 	const outerRadius = 55 - (ARC_DISTANCE * strokeWidth)
 	const props = values.reduce((acc, curr) => {
 		const radius = outerRadius - strokeWidth * ARC_DISTANCE * acc.length;
@@ -45,7 +33,7 @@ export const ArcChart = ({
 		}
 		const circumference = 2 * Math.PI * radius;
 		const offset = (1 - curr.value) * circumference;
-		const color = colorPalette[acc.length]
+		const color = curr.value > reference ? "rgb(74 222 128)" : "rgb(248,113,113)"
 		const opacity = highlighted === curr.id ? 1 : 0.4;
 		return [
 			...acc,
@@ -53,6 +41,7 @@ export const ArcChart = ({
 		];
 	}, [] as Array<{ color: string; radius: number; circumference: number; offset: number, id: string, opacity: number }>);
 
+	const orderedProps = props.sort((left, right) => left.id === highlighted ? 1 : 0)
 	const backgroundWidth =
 		strokeWidth * values.length * ARC_DISTANCE * 1.25;
 	const backgroundRadius =
@@ -65,16 +54,22 @@ export const ArcChart = ({
 		color: backgroundColor,
 	};
 
+	const timeLegendLineEnd = reference >= 0.5 ? 65 - (backgroundRadius - backgroundWidth / 2) : 120
+
+	const highlightedBudgetProps = props.find(prop => prop.id === highlighted)
+	const budgetLegendColor = highlightedBudgetProps?.color
+	const budgetLegendLineStart = 65 + (highlightedBudgetProps?.radius ?? 0) - strokeWidth / 2
 	return (
-		<svg viewBox="0 0 120 125">
+		<svg viewBox="0 0 120 130">
 			<defs>
 				<filter id="stroke-shadow" x="-50%" y="-50%" width="200%" height="200%">
 					<feDropShadow dx="2" dy="-2" stdDeviation="2" flood-color="black" flood-opacity="0.5" />
 				</filter>
 			</defs>
+			<line x1="61" y1="0" x2="61" y2={timeLegendLineEnd} stroke={backgroundColor} stroke-width="2" />
 			<circle
 				key={backgroundProps.circumference}
-				cx="60"
+				cx="65"
 				cy="60"
 				r={backgroundProps.radius}
 				stroke={backgroundProps.color}
@@ -87,10 +82,10 @@ export const ArcChart = ({
 				transform="rotate(-270 60 60)"
 				onClick={onReferenceClick}
 			/>
-			{props.map(({ circumference, offset, radius, color, id, opacity }) => (
+			{orderedProps.map(({ circumference, offset, radius, color, id, opacity }) => (
 				<circle
 					key={id}
-					cx="60"
+					cx="65"
 					cy="60"
 					r={radius}
 					stroke={color}
@@ -105,10 +100,14 @@ export const ArcChart = ({
 					filter={highlighted === id ? 'url(#stroke-shadow)' : ''}
 				/>
 			))}
-			<line x1="59" y1="110" x2="59" y2="125" stroke={backgroundColor} stroke-width="2" />
-			<rect x="20" y="115" width="40" height="10" fill={backgroundColor} />
-			<text x="40" y="121" text-anchor="middle" alignment-baseline="middle" font-size="6" fill="black">
+			<rect x="20" y="0" width="40" height="10" fill={backgroundColor} />
+			<text x="40" y="6" text-anchor="middle" alignment-baseline="middle" font-size="6" fill="black">
 				21 days left
+			</text>
+			<line x1="61" y1={budgetLegendLineStart} x2="61" y2="120" stroke={budgetLegendColor} stroke-width="2" />
+			<rect x="60" y="120" width="40" height="10" fill={budgetLegendColor} />
+			<text x="80" y="126" text-anchor="middle" alignment-baseline="middle" font-size="6" fill="black">
+				First Budget
 			</text>
 		</svg>
 	);

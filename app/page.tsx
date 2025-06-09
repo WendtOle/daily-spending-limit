@@ -28,8 +28,8 @@ export default function Home() {
   })
   return (
     <main className="flex flex-col justify-around items-center h-dvh">
-      <div className="w-64">
-        <ArcChart values={values} reference={left / length} onReferenceClick={() => console.log("reference clicked")} onValueClick={selectBudget} highlighted={selectedBudgetId} />
+      <div className="w-80">
+        <ArcChart values={values} reference={0.5} onReferenceClick={() => console.log("reference clicked")} onValueClick={selectBudget} highlighted={selectedBudgetId} />
       </div>
       <div className="flex flex-col gap-4 w-64">
         <AccountBalance />
